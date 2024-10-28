@@ -13,7 +13,6 @@ import 'package:flutter_sixvalley_ecommerce/push_notification/models/notificatio
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
@@ -146,15 +145,28 @@ class SplashScreenState extends State<SplashScreen> {
                     indicatorColor: ColorResources.grey,
                     selectedIndicatorColor: Theme.of(context).primaryColor)));
           } else {
-            if(AppConstants.shouldLoginFirst){
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const AuthScreen()), (route) => false);
-            }else{
-              if(Provider.of<AuthController>(context, listen: false).getGuestToken() != null &&
-                  Provider.of<AuthController>(context, listen: false).getGuestToken() != '1'){
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => const DashBoardScreen()));
-              }else{
-                Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
+            if (AppConstants.shouldLoginFirst) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => const AuthScreen()),
+                  (route) => false);
+            } else {
+              if (Provider.of<AuthController>(context, listen: false)
+                          .getGuestToken() !=
+                      null &&
+                  Provider.of<AuthController>(context, listen: false)
+                          .getGuestToken() !=
+                      '1') {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        const DashBoardScreen()));
+              } else {
+                Provider.of<AuthController>(context, listen: false)
+                    .getGuestIdUrl();
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => const DashBoardScreen()),
+                    (route) => false);
               }
             }
           }
@@ -184,31 +196,32 @@ class SplashScreenState extends State<SplashScreen> {
       backgroundColor: Theme.of(context).primaryColor,
       key: _globalKey,
       body: Provider.of<SplashController>(context).hasConnection
-          ? Center(
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                BouncyWidget(
+          ? Container(
+              padding: const EdgeInsets.all(Dimensions.marginSizeLarge),
+              width: double.maxFinite,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Spacer(flex: 3),
+                  BouncyWidget(
                     duration: const Duration(milliseconds: 2000),
                     lift: 50,
                     ratio: 0.5,
                     pause: 0.25,
-                    child: SizedBox(
-                        width: 150,
-                        child: Image.asset(Images.icon, width: 150.0))),
-                Text(AppConstants.appName,
-                    style: textRegular.copyWith(
-                        fontSize: Dimensions.fontSizeOverLarge,
-                        color: Colors.white)),
-                Padding(
-                    padding:
-                        const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
-                    child: Text(AppConstants.slogan,
-                        style: textRegular.copyWith(
-                            fontSize: Dimensions.fontSizeDefault,
-                            color: Colors.white)))
-              ]),
+                    child: Image.asset(Images.logoImage, width: 250.0),
+                  ),
+                  const Spacer(flex: 2),
+                  SizedBox(
+                    width: 100,
+                    child: Image.asset(Images.icon, width: 150.0),
+                  ),
+                ],
+              ),
             )
           : const NoInternetOrDataScreenWidget(
-              isNoInternet: true, child: SplashScreen()),
+              isNoInternet: true,
+              child: SplashScreen(),
+            ),
     );
   }
 }
