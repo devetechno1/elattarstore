@@ -18,7 +18,7 @@ ThemeData get dark {
       tertiary: Color(0xFF865C0A),
       tertiaryContainer: Color(0xFF6C7A8E),
       surface: Color(0xFF2D2D2D),
-      onPrimary: Color(0xFFB7D7FE),
+      onPrimary: Color(0xFFFEAA00),
       onTertiaryContainer: Color(0xFF0F5835),
       primaryContainer: Color(0xFF208458),
       onSecondaryContainer: Color(0x912A2A2A),
