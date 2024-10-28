@@ -24,6 +24,9 @@ class RecommendedProductWidget extends StatelessWidget {
     final Size size = MediaQuery.sizeOf(context);
     final bool isLtr =
         Provider.of<LocalizationController>(context, listen: false).isLtr;
+    if (!(Provider.of<ProductController>(context).hasData ?? false)) {
+      return const SizedBox.shrink();
+    }
     return Container(
       padding: const EdgeInsets.only(
           top: Dimensions.paddingSizeSmall,
