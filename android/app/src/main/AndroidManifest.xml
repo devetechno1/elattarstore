@@ -31,7 +31,7 @@
     </queries>
 
     <application
-        android:label="العطار"
+        android:label="El Attar"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:networkSecurityConfig="@xml/network_security_config"
