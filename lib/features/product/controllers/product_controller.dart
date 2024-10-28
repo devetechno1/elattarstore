@@ -303,7 +303,8 @@ class ProductController extends ChangeNotifier {
     ApiResponse apiResponse =
         await productServiceInterface!.getRecommendedProduct();
     if (apiResponse.response != null &&
-        apiResponse.response!.statusCode == 200) {
+        apiResponse.response!.statusCode == 200 &&
+        apiResponse.response!.data is Map<String, dynamic>) {
       _recommendedProduct = Product.fromJson(apiResponse.response!.data);
     }
     notifyListeners();

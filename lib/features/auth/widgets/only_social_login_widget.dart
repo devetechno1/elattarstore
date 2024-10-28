@@ -8,7 +8,6 @@ import 'package:flutter_sixvalley_ecommerce/features/auth/screens/otp_registrati
 import 'package:flutter_sixvalley_ecommerce/features/auth/widgets/existing_account_bottom_sheet.dart';
 import 'package:flutter_sixvalley_ecommerce/features/dashboard/screens/dashboard_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/domain/models/profile_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/domain/models/config_model.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/responsive_helper.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
@@ -20,6 +19,8 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:provider/provider.dart';
 
+import '../../dashboard/widgets/app_exit_card_widget.dart';
+
 class OnlySocialLoginWidget extends StatefulWidget {
   final bool fromLogout;
   const OnlySocialLoginWidget({super.key, this.fromLogout = false});
@@ -30,14 +31,13 @@ class OnlySocialLoginWidget extends StatefulWidget {
 
 class _OnlySocialLoginWidgetState extends State<OnlySocialLoginWidget> {
   route(
-      bool isRoute,
-      String? token,
-      String? temporaryToken,
-      ProfileModel? profileModel,
-      String? errorMessage,
-      String? loginMedium) async {
-    final AuthController authProvider =
-        Provider.of<AuthController>(context, listen: false);
+    bool isRoute,
+    String? token,
+    String? temporaryToken,
+    ProfileModel? profileModel,
+    String? errorMessage,
+    String? loginMedium,
+  ) async {
     if (isRoute) {
       if (token != null) {
         Navigator.pushAndRemoveUntil(
@@ -51,10 +51,9 @@ class _OnlySocialLoginWidgetState extends State<OnlySocialLoginWidget> {
                 builder: (_) => OtpRegistrationScreen(
                     tempToken: temporaryToken,
                     userInput: Provider.of<GoogleSignInController>(Get.context!,
-                                listen: false)
-                            .googleAccount!
-                            .email ??
-                        '',
+                            listen: false)
+                        .googleAccount!
+                        .email,
                     userName: Provider.of<GoogleSignInController>(Get.context!,
                                 listen: false)
                             .googleAccount!
@@ -83,8 +82,6 @@ class _OnlySocialLoginWidgetState extends State<OnlySocialLoginWidget> {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final Size size = MediaQuery.of(context).size;
-    final configModel =
-        Provider.of<SplashController>(context, listen: false).configModel;
     // final socialLogin = configModel?.customerLogin?.socialMediaLoginOptions;
 
     final socialLogin =
@@ -113,7 +110,11 @@ class _OnlySocialLoginWidgetState extends State<OnlySocialLoginWidget> {
                       (route) => false);
                 }
               } else {
-                //Navigator.of(context).pop();
+                showModalBottomSheet(
+                  backgroundColor: Colors.transparent,
+                  context: context,
+                  builder: (_) => const AppExitCard(),
+                );
               }
             }
           }
@@ -121,241 +122,238 @@ class _OnlySocialLoginWidgetState extends State<OnlySocialLoginWidget> {
         });
       },
       child: Scaffold(
-        body: SliverToBoxAdapter(
-          child: Column(children: [
-            SizedBox(
-              height: size.height * 0.08,
-            ),
-            Center(
-              child: Container(
-                width: width > 700 ? 450 : width,
-                margin: const EdgeInsets.only(top: Dimensions.paddingSizeLarge),
-                padding: width > 700
-                    ? const EdgeInsets.all(Dimensions.paddingSizeDefault)
-                    : null,
-                decoration: width > 700
-                    ? BoxDecoration(
-                        color: Theme.of(context).canvasColor,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .color!
-                                  .withOpacity(0.07),
-                              blurRadius: 30,
-                              spreadRadius: 0,
-                              offset: const Offset(0, 10)),
-                        ],
-                      )
-                    : null,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: size.height * 0.05),
-                      const Directionality(
-                        textDirection: TextDirection.ltr,
-                        child: CustomAssetImageWidget(
-                          Images.logoWithNameImage,
-                          height: 50,
-                          fit: BoxFit.scaleDown,
-                        ),
+        body: Column(children: [
+          SizedBox(
+            height: size.height * 0.08,
+          ),
+          Center(
+            child: Container(
+              width: width > 700 ? 450 : width,
+              margin: const EdgeInsets.only(top: Dimensions.paddingSizeLarge),
+              padding: width > 700
+                  ? const EdgeInsets.all(Dimensions.paddingSizeDefault)
+                  : null,
+              decoration: width > 700
+                  ? BoxDecoration(
+                      color: Theme.of(context).canvasColor,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .color!
+                                .withOpacity(0.07),
+                            blurRadius: 30,
+                            spreadRadius: 0,
+                            offset: const Offset(0, 10)),
+                      ],
+                    )
+                  : null,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: size.height * 0.05),
+                    const Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: CustomAssetImageWidget(
+                        Images.logoWithNameImage,
+                        height: 50,
+                        fit: BoxFit.scaleDown,
                       ),
-                      SizedBox(
-                        height: size.height * 0.07,
+                    ),
+                    SizedBox(
+                      height: size.height * 0.07,
+                    ),
+                    Text(
+                      "${getTranslated('on_boarding_title_one', context)!} ${AppConstants.appName}",
+                      style: titilliumRegular.copyWith(
+                        fontSize: Dimensions.fontSizeLarge,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
                       ),
-                      Text(
-                        "${getTranslated('on_boarding_title_one', context)!} ${AppConstants.appName}",
-                        style: titilliumRegular.copyWith(
-                          fontSize: Dimensions.fontSizeLarge,
-                          color: Theme.of(context).textTheme.bodyMedium?.color,
-                        ),
-                      ),
-                      const SizedBox(height: Dimensions.paddingSizeExtraLarge),
-                      if (socialLogin?.google == 1) ...[
-                        Row(children: [
-                          Expanded(child: Container()),
-                          Expanded(
-                            flex: 4,
-                            child: Consumer<AuthController>(
-                                builder: (context, authProvider, child) {
-                              return InkWell(
-                                onTap: () => googleLogin(context),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: Dimensions.paddingSizeDefault),
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .hintColor
-                                        .withOpacity(0.08),
-                                    borderRadius: BorderRadius.circular(
-                                        Dimensions.radiusSmall),
-                                    border: Border.all(
+                    ),
+                    const SizedBox(height: Dimensions.paddingSizeExtraLarge),
+                    if (socialLogin.google == 1) ...[
+                      Row(children: [
+                        Expanded(child: Container()),
+                        Expanded(
+                          flex: 4,
+                          child: Consumer<AuthController>(
+                              builder: (context, authProvider, child) {
+                            return InkWell(
+                              onTap: () => googleLogin(context),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: Dimensions.paddingSizeDefault),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .hintColor
+                                      .withOpacity(0.08),
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.radiusSmall),
+                                  border: Border.all(
+                                      color: Theme.of(context)
+                                          .primaryColor
+                                          .withOpacity(0.1)),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      Images.google,
+                                      height: ResponsiveHelper.isTab(context)
+                                          ? 20
+                                          : 15,
+                                      width: ResponsiveHelper.isTab(context)
+                                          ? 20
+                                          : 15,
+                                    ),
+                                    const SizedBox(
+                                        width:
+                                            Dimensions.paddingSizeExtraSmall),
+                                    Text(
+                                      getTranslated(
+                                          "continue_with_google", context)!,
+                                      style: robotoBold.copyWith(
+                                        fontSize: Dimensions.fontSizeDefault,
                                         color: Theme.of(context)
-                                            .primaryColor
-                                            .withOpacity(0.1)),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        Images.google,
-                                        height: ResponsiveHelper.isTab(context)
-                                            ? 20
-                                            : 15,
-                                        width: ResponsiveHelper.isTab(context)
-                                            ? 20
-                                            : 15,
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.color,
                                       ),
-                                      const SizedBox(
-                                          width:
-                                              Dimensions.paddingSizeExtraSmall),
-                                      Text(
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
+                        Expanded(child: Container()),
+                      ]),
+                      const SizedBox(height: Dimensions.paddingSizeLarge),
+                    ],
+                    if (socialLogin.facebook == 1) ...[
+                      Row(children: [
+                        Expanded(child: Container()),
+                        Expanded(
+                          flex: 4,
+                          child: Consumer<AuthController>(
+                              builder: (context, authProvider, child) {
+                            return InkWell(
+                              onTap: () => facebookLogin(context),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: Dimensions.paddingSizeDefault),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .hintColor
+                                      .withOpacity(0.08),
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.radiusSmall),
+                                  border: Border.all(
+                                      color: Theme.of(context)
+                                          .primaryColor
+                                          .withOpacity(0.1)),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      Images.facebook,
+                                      height: ResponsiveHelper.isTab(context)
+                                          ? 20
+                                          : 15,
+                                      width: ResponsiveHelper.isTab(context)
+                                          ? 20
+                                          : 15,
+                                    ),
+                                    const SizedBox(
+                                        width:
+                                            Dimensions.paddingSizeExtraSmall),
+                                    Text(
                                         getTranslated(
-                                            "continue_with_google", context)!,
+                                            "continue_with_facebook", context)!,
                                         style: robotoBold.copyWith(
                                           fontSize: Dimensions.fontSizeDefault,
                                           color: Theme.of(context)
                                               .textTheme
                                               .bodyMedium
                                               ?.color,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                        )),
+                                  ],
                                 ),
-                              );
-                            }),
-                          ),
-                          Expanded(child: Container()),
-                        ]),
-                        const SizedBox(height: Dimensions.paddingSizeLarge),
-                      ],
-                      if (socialLogin?.facebook == 1) ...[
-                        Row(children: [
-                          Expanded(child: Container()),
-                          Expanded(
-                            flex: 4,
-                            child: Consumer<AuthController>(
-                                builder: (context, authProvider, child) {
-                              return InkWell(
-                                onTap: () => facebookLogin(context),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: Dimensions.paddingSizeDefault),
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .hintColor
-                                        .withOpacity(0.08),
-                                    borderRadius: BorderRadius.circular(
-                                        Dimensions.radiusSmall),
-                                    border: Border.all(
-                                        color: Theme.of(context)
-                                            .primaryColor
-                                            .withOpacity(0.1)),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        Images.facebook,
-                                        height: ResponsiveHelper.isTab(context)
-                                            ? 20
-                                            : 15,
-                                        width: ResponsiveHelper.isTab(context)
-                                            ? 20
-                                            : 15,
-                                      ),
-                                      const SizedBox(
-                                          width:
-                                              Dimensions.paddingSizeExtraSmall),
-                                      Text(
-                                          getTranslated(
-                                              "continue_with_facebook",
-                                              context)!,
-                                          style: robotoBold.copyWith(
-                                            fontSize:
-                                                Dimensions.fontSizeDefault,
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium
-                                                ?.color,
-                                          )),
-                                    ],
-                                  ),
+                              ),
+                            );
+                          }),
+                        ),
+                        Expanded(child: Container()),
+                      ]),
+                      const SizedBox(height: Dimensions.paddingSizeLarge),
+                    ],
+                    if (socialLogin.apple == 1 &&
+                        defaultTargetPlatform == TargetPlatform.iOS) ...[
+                      Row(children: [
+                        Expanded(child: Container()),
+                        Expanded(
+                          flex: 4,
+                          child: Consumer<AuthController>(
+                              builder: (context, authProvider, child) {
+                            return InkWell(
+                              onTap: () => appleLogin(context),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: Dimensions.paddingSizeDefault),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .hintColor
+                                      .withOpacity(0.08),
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.radiusSmall),
+                                  border: Border.all(
+                                      color: Theme.of(context)
+                                          .primaryColor
+                                          .withOpacity(0.1)),
                                 ),
-                              );
-                            }),
-                          ),
-                          Expanded(child: Container()),
-                        ]),
-                        const SizedBox(height: Dimensions.paddingSizeLarge),
-                      ],
-                      if (socialLogin?.apple == 1 &&
-                          defaultTargetPlatform == TargetPlatform.iOS) ...[
-                        Row(children: [
-                          Expanded(child: Container()),
-                          Expanded(
-                            flex: 4,
-                            child: Consumer<AuthController>(
-                                builder: (context, authProvider, child) {
-                              return InkWell(
-                                onTap: () => appleLogin(context),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: Dimensions.paddingSizeDefault),
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .hintColor
-                                        .withOpacity(0.08),
-                                    borderRadius: BorderRadius.circular(
-                                        Dimensions.radiusSmall),
-                                    border: Border.all(
-                                        color: Theme.of(context)
-                                            .primaryColor
-                                            .withOpacity(0.1)),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        Images.appleLogo,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.color,
-                                        height: ResponsiveHelper.isTab(context)
-                                            ? 20
-                                            : 15,
-                                        width: ResponsiveHelper.isTab(context)
-                                            ? 20
-                                            : 15,
-                                      ),
-                                      const SizedBox(
-                                          width:
-                                              Dimensions.paddingSizeExtraSmall),
-                                      Text(
-                                          getTranslated(
-                                              "continue_with_apple", context)!,
-                                          style: robotoBold.copyWith(
-                                            fontSize:
-                                                Dimensions.fontSizeDefault,
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium
-                                                ?.color,
-                                          )),
-                                    ],
-                                  ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      Images.appleLogo,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.color,
+                                      height: ResponsiveHelper.isTab(context)
+                                          ? 20
+                                          : 15,
+                                      width: ResponsiveHelper.isTab(context)
+                                          ? 20
+                                          : 15,
+                                    ),
+                                    const SizedBox(
+                                        width:
+                                            Dimensions.paddingSizeExtraSmall),
+                                    Text(
+                                        getTranslated(
+                                            "continue_with_apple", context)!,
+                                        style: robotoBold.copyWith(
+                                          fontSize: Dimensions.fontSizeDefault,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.color,
+                                        )),
+                                  ],
                                 ),
-                              );
-                            }),
-                          ),
-                          Expanded(child: Container()),
-                        ]),
-                        const SizedBox(height: Dimensions.paddingSizeLarge),
-                      ],
+                              ),
+                            );
+                          }),
+                        ),
+                        Expanded(child: Container()),
+                      ]),
+                      const SizedBox(height: Dimensions.paddingSizeLarge),
+                    ],
+                    if (!AppConstants.shouldLoginFirst) ...[
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: Dimensions.paddingSizeDefault),
@@ -425,13 +423,13 @@ class _OnlySocialLoginWidgetState extends State<OnlySocialLoginWidget> {
                           ),
                         ),
                       ),
-                      SizedBox(height: size.height * 0.03),
-                    ]),
-              ),
+                    ],
+                    SizedBox(height: size.height * 0.03),
+                  ]),
             ),
-            if (ResponsiveHelper.isDesktop(context)) const SizedBox(height: 50),
-          ]),
-        ),
+          ),
+          if (ResponsiveHelper.isDesktop(context)) const SizedBox(height: 50),
+        ]),
       ),
     );
   }

@@ -11,6 +11,9 @@ import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/widgets/sign_up_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../splash/controllers/splash_controller.dart';
+import '../../splash/domain/models/config_model.dart';
+import '../widgets/only_social_login_widget.dart';
 import '../widgets/sign_in_widget.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -32,21 +35,39 @@ class _AuthScreenState extends State<AuthScreen>
   }
 
   bool scrolled = false;
+
+  late final ConfigModel configModel =
+      Provider.of<SplashController>(context, listen: false).configModel!;
   @override
   Widget build(BuildContext context) {
+    if (configModel.customerLogin?.loginOption?.manualLogin == 0 &&
+        configModel.customerLogin?.loginOption?.otpLogin == 0) {
+      return const OnlySocialLoginWidget();
+    }
     return PopScope(
       canPop: false,
       onPopInvoked: (val) async {
         Future.delayed(Duration.zero, () {
-          if (Provider.of<AuthController>(context, listen: false).selectedIndex != widget.initIndex) {
-            Provider.of<AuthController>(context, listen: false).updateSelectedIndex(widget.initIndex);
+          if (Provider.of<AuthController>(context, listen: false)
+                  .selectedIndex !=
+              widget.initIndex) {
+            Provider.of<AuthController>(context, listen: false)
+                .updateSelectedIndex(widget.initIndex);
           } else {
             if (widget.fromLogout) {
-              if (!Provider.of<AuthController>(context, listen: false).isLoading) {
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
+              if (!Provider.of<AuthController>(context, listen: false)
+                  .isLoading) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => const DashBoardScreen()),
+                    (route) => false);
               }
             } else {
-              showModalBottomSheet(backgroundColor: Colors.transparent, context: context, builder: (_)=> const AppExitCard());
+              showModalBottomSheet(
+                backgroundColor: Colors.transparent,
+                context: context,
+                builder: (_) => const AppExitCard(),
+              );
             }
           }
           //return val;
@@ -123,28 +144,81 @@ class _AuthScreenState extends State<AuthScreen>
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-
-                                InkWell(onTap: () => authProvider.updateSelectedIndex(0),
-                                    child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                                      Text(getTranslated('login', context)!, style: authProvider.selectedIndex == 0 ?
-                                      textRegular.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge) :
-                                      textRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
-                                      Container(height: 3, width: 35, margin: const EdgeInsets.only(top: 8),
-                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                                            color: authProvider.selectedIndex == 0 ? Theme.of(context).primaryColor : Colors.transparent))])),
-                                const SizedBox(width: Dimensions.paddingSizeExtraLarge),
-
-
-                                InkWell(onTap: () => authProvider.updateSelectedIndex(1),
-                                  child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-
-                                    Text(getTranslated('sign_up', context)!, style: authProvider.selectedIndex == 1 ?
-                                    titleRegular.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeLarge) :
-                                    titleRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
-                                    Container(height: 3, width: 35, margin: const EdgeInsets.only(top: 8),
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                                          color: authProvider.selectedIndex == 1 ? Theme.of(context).primaryColor : Colors.transparent))])),
-                        ])),
+                                InkWell(
+                                    onTap: () =>
+                                        authProvider.updateSelectedIndex(0),
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(getTranslated('login', context)!,
+                                              style: authProvider
+                                                          .selectedIndex ==
+                                                      0
+                                                  ? textRegular.copyWith(
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                      fontSize: Dimensions
+                                                          .fontSizeLarge)
+                                                  : textRegular.copyWith(
+                                                      fontSize: Dimensions
+                                                          .fontSizeLarge)),
+                                          Container(
+                                              height: 3,
+                                              width: 35,
+                                              margin:
+                                                  const EdgeInsets.only(top: 8),
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius
+                                                      .circular(Dimensions
+                                                          .paddingSizeSmall),
+                                                  color: authProvider
+                                                              .selectedIndex ==
+                                                          0
+                                                      ? Theme.of(context)
+                                                          .primaryColor
+                                                      : Colors.transparent))
+                                        ])),
+                                const SizedBox(
+                                    width: Dimensions.paddingSizeExtraLarge),
+                                InkWell(
+                                    onTap: () =>
+                                        authProvider.updateSelectedIndex(1),
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                              getTranslated(
+                                                  'sign_up', context)!,
+                                              style: authProvider
+                                                          .selectedIndex ==
+                                                      1
+                                                  ? titleRegular.copyWith(
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                      fontSize: Dimensions
+                                                          .fontSizeLarge)
+                                                  : titleRegular.copyWith(
+                                                      fontSize: Dimensions
+                                                          .fontSizeLarge)),
+                                          Container(
+                                              height: 3,
+                                              width: 35,
+                                              margin:
+                                                  const EdgeInsets.only(top: 8),
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius
+                                                      .circular(Dimensions
+                                                          .paddingSizeSmall),
+                                                  color: authProvider
+                                                              .selectedIndex ==
+                                                          1
+                                                      ? Theme.of(context)
+                                                          .primaryColor
+                                                      : Colors.transparent))
+                                        ])),
+                              ])),
                     ],
                   ),
                 ),
@@ -152,7 +226,9 @@ class _AuthScreenState extends State<AuthScreen>
               Expanded(
                   child: SingleChildScrollView(
                 padding: EdgeInsets.zero,
-                child: authProvider.selectedIndex == 0 ? SignInWidget(fromLogout: widget.fromLogout) : const SignUpWidget(),
+                child: authProvider.selectedIndex == 0
+                    ? SignInWidget(fromLogout: widget.fromLogout)
+                    : const SignUpWidget(),
                 // child: SignUpWidget(),
               )),
             ],

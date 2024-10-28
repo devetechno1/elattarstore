@@ -37,7 +37,13 @@ class LogoutCustomBottomSheetWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(
                 vertical: Dimensions.paddingSizeDefault),
-            child: SizedBox(width: 60, child: Image.asset(Images.exitIcon)),
+            child: SizedBox(
+                width: 60,
+                child: Image.asset(
+                  Images.exitIcon,
+                  colorBlendMode: BlendMode.srcIn,
+                  color: Theme.of(context).primaryColor,
+                )),
           ),
           const SizedBox(
             height: Dimensions.paddingSizeExtraSmall,
@@ -80,13 +86,28 @@ class LogoutCustomBottomSheetWidget extends StatelessWidget {
                         child: CustomButton(
                             buttonText: '${getTranslated('sign_out', context)}',
                             onTap: () {
-                              Provider.of<AuthController>(context, listen: false).logOut().then((condition) {
+                              Provider.of<AuthController>(context,
+                                      listen: false)
+                                  .logOut()
+                                  .then((condition) {
                                 // Navigator.pop(context);
-                                Provider.of<AuthController>(context,listen: false).clearSharedData();
-                                Provider.of<ProfileController>(context,listen: false).clearProfileData();
-                                Provider.of<AuthController>(context,listen: false).getGuestIdUrl();
+                                Provider.of<AuthController>(context,
+                                        listen: false)
+                                    .clearSharedData();
+                                Provider.of<ProfileController>(context,
+                                        listen: false)
+                                    .clearProfileData();
+                                Provider.of<AuthController>(context,
+                                        listen: false)
+                                    .getGuestIdUrl();
                                 // Provider.of<AddressController>(context, listen: false).getAddressList();
-                                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const AuthScreen(fromLogout: !AppConstants.shouldLoginFirst)),(route) => false);});
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) => const AuthScreen(
+                                            fromLogout: !AppConstants
+                                                .shouldLoginFirst)),
+                                    (route) => false);
+                              });
                             })))
               ]))
         ],

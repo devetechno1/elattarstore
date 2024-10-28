@@ -431,9 +431,11 @@ class _ShopInfoWidgetState extends State<ShopInfoWidget> {
                                           Dimensions.paddingSizeExtraSmall),
                                   child: SizedBox(
                                       width: 20,
-                                      child: Image.asset(Images.storeIcon,
-                                          color:
-                                              Theme.of(context).primaryColor))),
+                                      child: Image.asset(
+                                        Images.storeIcon,
+                                        colorBlendMode: BlendMode.srcIn,
+                                        color: Theme.of(context).primaryColor,
+                                      ))),
                               Text(
                                 getTranslated('visit_store', context)!,
                                 style: titleRegular.copyWith(
