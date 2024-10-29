@@ -24,7 +24,7 @@ class RecommendedProductWidget extends StatelessWidget {
     final Size size = MediaQuery.sizeOf(context);
     final bool isLtr =
         Provider.of<LocalizationController>(context, listen: false).isLtr;
-    if (!(Provider.of<ProductController>(context).hasData ?? false)) {
+    if (Provider.of<ProductController>(context).recommendedProduct == null) {
       return const SizedBox.shrink();
     }
     return Container(
@@ -42,7 +42,7 @@ class RecommendedProductWidget extends StatelessWidget {
                   ? recommended.recommendedProduct!.rating![0].average
                   : "0";
 
-              return recommended.recommendedProduct != null
+              return !recommended.recommendedProductLoading
                   ? InkWell(
                       onTap: () {
                         Navigator.push(
