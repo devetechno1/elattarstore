@@ -130,6 +130,7 @@ class SignInWidgetState extends State<SignInWidget> {
                       CustomTextFieldWidget(
                         countryDialCode: countryCode,
                         showCodePicker: true,
+                        hintText: getTranslated('enter_mobile_number', context),
                         onCountryChanged: (CountryCode value) {
                           countryCode = value.dialCode;
                         },
