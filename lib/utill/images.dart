@@ -221,4 +221,7 @@ class Images {
   static const String onBoarding1 = 'assets/images/onboarding_image_one.png';
   static const String onBoarding2 = 'assets/images/onboarding_image_two.png';
   static const String onBoarding3 = 'assets/images/onboarding_image_three.png';
+  static const String onBoarding4 = 'assets/images/onboarding_image_four.png';
+  static const String onBoarding5 = 'assets/images/onboarding_image_five.png';
+  static const String onBoarding6 = 'assets/images/onboarding_image_six.png';
 }
