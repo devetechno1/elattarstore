@@ -286,9 +286,14 @@ class SignInWidgetState extends State<SignInWidget> {
                                   String type = 'phone';
 
                                   await authProvider
-                                      .login(userInput, password, type,
-                                          FromPage.login)
+                                      .login(
+                                    userInput,
+                                    password,
+                                    type,
+                                    FromPage.login,
+                                  )
                                       .then((status) async {
+                                    await authProvider.clearUserData();
                                     if (status.isSuccess) {
                                       if (authProvider.isActiveRememberMe) {
                                         authProvider.saveUserEmailAndPassword(
@@ -298,8 +303,6 @@ class SignInWidgetState extends State<SignInWidget> {
                                           email: null,
                                           password: password,
                                         ));
-                                      } else {
-                                        // TODO : sharedPreferences!.removeKey(AppConstants.userLogData) and in master
                                       }
                                       Navigator.pushAndRemoveUntil(
                                           context,

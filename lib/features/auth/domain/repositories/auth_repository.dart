@@ -366,6 +366,11 @@ class AuthRepository implements AuthRepoInterface {
   }
 
   @override
+  Future<bool> clearUserData() {
+    return sharedPreferences!.remove(AppConstants.userLogData);
+  }
+
+  @override
   String getUserPassword() {
     return sharedPreferences!.getString(AppConstants.userPassword) ?? "";
   }

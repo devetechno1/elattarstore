@@ -27,6 +27,8 @@ abstract class AuthServiceInterface {
 
   String? getUserEmail();
 
+  Future<bool> clearUserData();
+
   String getUserPassword();
 
   Future<bool> clearUserEmailAndPassword();

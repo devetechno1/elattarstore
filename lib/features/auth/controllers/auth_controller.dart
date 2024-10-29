@@ -967,6 +967,10 @@ class AuthController with ChangeNotifier {
     return await authServiceInterface.clearGuestId();
   }
 
+  Future<bool> clearUserData() async {
+    return await authServiceInterface.clearUserData();
+  }
+
   void saveUserEmailAndPassword(UserLogData userLogData) {
     authServiceInterface
         .saveUserEmailAndPassword(jsonEncode(userLogData.toJson()));

@@ -41,6 +41,11 @@ class AuthService implements AuthServiceInterface {
   }
 
   @override
+  Future<bool> clearUserData() {
+    return authRepoInterface.clearUserData();
+  }
+
+  @override
   String getUserPassword() {
     return authRepoInterface.getUserPassword();
   }

@@ -28,6 +28,8 @@ abstract class AuthRepoInterface<T> implements RepositoryInterface {
 
   String? getUserEmail();
 
+  Future<bool> clearUserData();
+
   String getUserPassword();
 
   Future<bool> clearUserEmailAndPassword();
