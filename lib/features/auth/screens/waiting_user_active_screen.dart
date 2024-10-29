@@ -34,9 +34,12 @@ class WaitingUserActiveScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.displayMedium,
               ),
               const SizedBox(height: Dimensions.marginSizeAuthSmall),
-              Image.asset(
-                Images.waitingImage,
-                fit: BoxFit.cover,
+              Center(
+                child: Image.asset(
+                  Images.waitingImage,
+                  fit: BoxFit.cover,
+                  width: MediaQuery.sizeOf(context).shortestSide,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(Dimensions.marginSizeAuthSmall),
