@@ -14,7 +14,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/not_loggedin_widge
 import 'package:provider/provider.dart';
 
 class SupportTicketScreen extends StatefulWidget {
-  const SupportTicketScreen({super.key});
+  const SupportTicketScreen({super.key, this.openBottomSheetWhenOpen = false});
+  final bool openBottomSheetWhenOpen;
   @override
   State<SupportTicketScreen> createState() => _SupportTicketScreenState();
 }
@@ -25,6 +26,17 @@ class _SupportTicketScreenState extends State<SupportTicketScreen> {
     if (Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
       Provider.of<SupportTicketController>(context, listen: false)
           .getSupportTicketList();
+
+      if (widget.openBottomSheetWhenOpen) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (con) => const SupportTicketTypeWidget(),
+          );
+        });
+      }
     }
     super.initState();
   }

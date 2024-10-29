@@ -48,6 +48,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:provider/provider.dart';
 
 import '../../category/widgets/sub_categories/all_sub_categories_widget.dart';
+import '../../support/screens/support_ticket_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -138,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                 centerTitle: false,
                 automaticallyImplyLeading: false,
                 backgroundColor: Theme.of(context).highlightColor,
-                title: Image.asset(Images.logoWithNameImage, height: 35),
+                title: Image.asset(Images.logoWithNameImageWhite, height: 35),
               ),
               SliverToBoxAdapter(
                 child: Provider.of<SplashController>(context, listen: false)
@@ -302,6 +303,20 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: Dimensions.paddingSizeDefault),
                     const FeaturedProductWidget(),
                     const SizedBox(height: Dimensions.paddingSizeDefault),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SupportTicketScreen(),
+                            ),
+                          );
+                        },
+                        child: Image.asset(Images.supportTicketBanner),
+                      ),
+                    ),
                     singleVendor
                         ? const SizedBox()
                         : Consumer<ShopController>(
