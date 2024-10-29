@@ -818,5 +818,10 @@
   "download_invoice": "تنزيل فاتورة",
   "you_cant_place_order_of_digital_product_without_billing_address": "لا يمكنك تقديم طلب للمنتج الرقمي فقط دون عنوان الفواتير",
   "maintenance_title": "نحن نعمل على شيء خاص!",
+  "thankYou": "شكراً لك",
+  "waitingForActivation": "في انتظار التفعيل",
+  "pleaseWait": "يرجى الانتظار بينما نقوم بتفعيل حسابك",
+  "thisMayTakeFewMinutes": "قد يستغرق هذا بضع دقائق. حاول تسجيل الدخول مرة أخرى بعد بضع دقائق",
+  "backToLogIn": "العودة لتسجيل الدخول",
   "maintenance_body": "ونحن نعتذر عن أي إزعاج. للحصول على مساعدة فورية، يرجى الاتصال بفريق الدعم لدينا"
 }

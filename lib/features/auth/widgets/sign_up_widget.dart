@@ -55,8 +55,8 @@ class SignUpWidgetState extends State<SignUpWidget> {
     var authController = Provider.of<AuthController>(context, listen: false);
     var profileController =
         Provider.of<ProfileController>(context, listen: false);
-    String phone =
-        authController.countryDialCode + _phoneController.text.removeZerosInFirst;
+    String phone = authController.countryDialCode +
+        _phoneController.text.removeZerosInFirst;
     if (isRoute) {
       if (splashController.configModel!.emailVerification!) {
         authController
@@ -276,9 +276,9 @@ class SignUpWidgetState extends State<SignUpWidget> {
                                   String lastName =
                                       _lastNameController.text.trim();
                                   String email = _emailController.text.trim();
-                                  String phoneNumber =
-                                      authProvider.countryDialCode +
-                                          _phoneController.text.removeZerosInFirst;
+                                  String phoneNumber = authProvider
+                                          .countryDialCode +
+                                      _phoneController.text.removeZerosInFirst;
                                   String password =
                                       _passwordController.text.trim();
 
@@ -293,44 +293,50 @@ class SignUpWidgetState extends State<SignUpWidget> {
                                         _referController.text.trim();
                                     authProvider.registration(
                                         register, route, config!);
+                                    _firstNameController.clear();
+                                    _lastNameController.clear();
+                                    _emailController.clear();
+                                    _phoneController.clear();
+                                    _passwordController.clear();
+                                    _referController.clear();
                                   }
                                 }
                               : null,
                           buttonText: getTranslated('sign_up', context),
                         ),
                       )),
-                      if(!authProvider.isLoading )
-                        if(!AppConstants.shouldLoginFirst)
-                          Center(
-                            child: Padding(
-                            padding: const EdgeInsets.only(
-                                bottom: Dimensions.paddingSizeExtraLarge),
-                            child: InkWell(
-                              onTap: () {
-                                authProvider.getGuestIdUrl();
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => const DashBoardScreen()));
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(getTranslated('skip_for_now', context)!,
-                                      style: titilliumRegular.copyWith(
-                                          fontSize: Dimensions.fontSizeDefault,
-                                          color: ColorResources.getPrimary(
-                                              context))),
-                                  Icon(
-                                    Icons.arrow_forward,
-                                    size: 15,
-                                    color: Theme.of(context).primaryColor,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ))
+                  if (!authProvider.isLoading)
+                    if (!AppConstants.shouldLoginFirst)
+                      Center(
+                          child: Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: Dimensions.paddingSizeExtraLarge),
+                        child: InkWell(
+                          onTap: () {
+                            authProvider.getGuestIdUrl();
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const DashBoardScreen()));
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(getTranslated('skip_for_now', context)!,
+                                  style: titilliumRegular.copyWith(
+                                      fontSize: Dimensions.fontSizeDefault,
+                                      color:
+                                          ColorResources.getPrimary(context))),
+                              Icon(
+                                Icons.arrow_forward,
+                                size: 15,
+                                color: Theme.of(context).primaryColor,
+                              )
+                            ],
+                          ),
+                        ),
+                      ))
                 ],
               ),
             );

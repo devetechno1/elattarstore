@@ -28,6 +28,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakba
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
+import '../screens/waiting_user_active_screen.dart';
+
 class AuthController with ChangeNotifier {
   final AuthServiceInterface authServiceInterface;
   AuthController({required this.authServiceInterface});
@@ -185,7 +187,10 @@ class AuthController with ChangeNotifier {
   }
 
   Future registration(
-      RegisterModel register, Function callback, ConfigModel config) async {
+    RegisterModel register,
+    Function callback,
+    ConfigModel config,
+  ) async {
     _isLoading = true;
     notifyListeners();
     ApiResponse apiResponse =
@@ -207,10 +212,10 @@ class AuthController with ChangeNotifier {
       if (token != null && token.isNotEmpty) {
         authServiceInterface.saveUserToken(token);
         await authServiceInterface.updateDeviceToken();
-        Navigator.pushAndRemoveUntil(
-            Get.context!,
-            MaterialPageRoute(builder: (_) => const DashBoardScreen()),
-            (route) => false);
+        Navigator.push(
+          Get.context!,
+          MaterialPageRoute(builder: (_) => const WaitingUserActiveScreen()),
+        );
       } else if (tempToken != null && tempToken.isNotEmpty) {
         String type;
         if (config.customerVerification?.firebase == 1) {
@@ -220,7 +225,6 @@ class AuthController with ChangeNotifier {
         } else {
           type = 'email';
         }
-        print("Type : $type");
         sendVerificationCode(
             config, SignUpModel(email: register.email, phone: register.phone),
             type: type, fromPage: FromPage.login);

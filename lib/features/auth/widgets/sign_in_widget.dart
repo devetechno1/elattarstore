@@ -299,7 +299,7 @@ class SignInWidgetState extends State<SignInWidget> {
                                           password: password,
                                         ));
                                       } else {
-                                        // authProvider.clearUserLogData();
+                                        // TODO : sharedPreferences!.removeKey(AppConstants.userLogData) and in master
                                       }
                                       Navigator.pushAndRemoveUntil(
                                           context,

@@ -118,8 +118,10 @@ class Images {
   static const String freeCoupon = 'assets/images/free_coupon.png';
   static const String firstOrder = 'assets/images/first_order.png';
   static const String icon = 'assets/images/icon.png';
+  static const String waitingLogo = 'assets/images/waiting_logo.png';
   static const String username = 'assets/images/username.png';
   static const String loginBg = 'assets/images/login_bg.png';
+  static const String waitingImage = 'assets/images/waiting_image.png';
   static const String left = 'assets/images/left.png';
   static const String right = 'assets/images/right.png';
   static const String pass = 'assets/images/pass.png';
