@@ -12,6 +12,7 @@ class Category {
   List<Category>? _childes;
   bool? isSelected;
   bool? _showSubInHome;
+  bool _allChildesWithoutImage = true;
   ImageFullUrl? _imageFullUrl;
 
   Category(
@@ -49,6 +50,7 @@ class Category {
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
   List<Category>? get childes => _childes;
+  bool get allChildesWithoutImage => _allChildesWithoutImage;
   bool? get showSubInHome => _showSubInHome;
   ImageFullUrl? get imageFullUrl => _imageFullUrl;
 
@@ -65,7 +67,9 @@ class Category {
     if (json['childes'] != null) {
       _childes = [];
       json['childes'].forEach((v) {
-        _childes!.add(Category.fromJson(v));
+        final cat = Category.fromJson(v);
+        _childes!.add(cat);
+        if (cat.imageFullUrl != null) _allChildesWithoutImage = false;
       });
     }
     _imageFullUrl = json['icon_full_url'] != null

@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 
 import '../../../common/basewidget/custom_image_widget.dart';
 import '../../../di_container.dart';
-import '../../../localization/controllers/localization_controller.dart';
 import '../../../localization/language_constrants.dart';
 import '../../../utill/color_resources.dart';
 import '../../../utill/custom_themes.dart';
@@ -179,8 +178,9 @@ class _CategoryProductScreenState extends State<_CategoryProductScreen> {
 
   Container categoryRow(CategoryProductController controller) {
     final List<Category> subCategories = controller.subCategories ?? [];
+    final bool catWithImage = !widget.category.allChildesWithoutImage;
     return Container(
-      height: 54 + MediaQuery.sizeOf(context).width / 6.5,
+      height: catWithImage ? (54 + MediaQuery.sizeOf(context).width / 6.5) : 54,
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(width: 0.5, color: Colors.grey)),
       ),
@@ -191,36 +191,60 @@ class _CategoryProductScreenState extends State<_CategoryProductScreen> {
         ),
         children: [
           Align(
-            child: OutlinedButton(
-              onPressed: controller.pressViewAll,
-              style: OutlinedButton.styleFrom(
-                backgroundColor: controller.currentIndex == -1
-                    ? Theme.of(context).primaryColor.withOpacity(0.1)
-                    : null,
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                fixedSize: Size.square(MediaQuery.sizeOf(context).width / 6),
-                alignment: Alignment.center,
-                side: controller.currentIndex == -1
-                    ? BorderSide(color: Theme.of(context).primaryColor)
-                    : const BorderSide(width: 0.3),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(500),
-                ),
-              ),
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  getTranslated("VIEW_ALL", context) ?? 'All',
-                  style: controller.currentIndex == -1
-                      ? null
-                      : textRegular.copyWith(
-                          color: ColorResources.getTextTitle(
-                            context,
-                          ),
-                        ),
-                ),
-              ),
-            ),
+            child: catWithImage
+                ? OutlinedButton(
+                    onPressed: controller.pressViewAll,
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: controller.currentIndex == -1
+                          ? Theme.of(context).primaryColor.withOpacity(0.1)
+                          : null,
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      fixedSize:
+                          Size.square(MediaQuery.sizeOf(context).width / 6),
+                      alignment: Alignment.center,
+                      side: controller.currentIndex == -1
+                          ? BorderSide(color: Theme.of(context).primaryColor)
+                          : const BorderSide(width: 0.3),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(500),
+                      ),
+                    ),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        getTranslated("VIEW_ALL", context) ?? 'All',
+                        style: controller.currentIndex == -1
+                            ? null
+                            : textRegular.copyWith(
+                                color: ColorResources.getTextTitle(
+                                  context,
+                                ),
+                              ),
+                      ),
+                    ),
+                  )
+                : TextButton(
+                    onPressed: controller.pressViewAll,
+                    style: controller.currentIndex == -1
+                        ? TextButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).primaryColor.withOpacity(0.1),
+                          )
+                        : null,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        getTranslated("VIEW_ALL", context) ?? 'All',
+                        style: controller.currentIndex == -1
+                            ? null
+                            : textRegular.copyWith(
+                                color: ColorResources.getTextTitle(
+                                  context,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ),
           ),
           ...List.generate(
             subCategories.length,
@@ -229,7 +253,8 @@ class _CategoryProductScreenState extends State<_CategoryProductScreen> {
               return CatWidget(
                 isSelected: controller.currentIndex == index,
                 name: subCat.name ?? '',
-                fullURL: '${subCat.imageFullUrl?.path}',
+                catWithImage: catWithImage,
+                fullURL: subCat.imageFullUrl?.path,
                 index: index,
                 length: subCategories.length,
                 onTap: () => controller.getProductsCatAndSubIndex(
@@ -248,9 +273,10 @@ class _CategoryProductScreenState extends State<_CategoryProductScreen> {
 
 class CatWidget extends StatelessWidget {
   final String name;
-  final String fullURL;
+  final String? fullURL;
   final int index;
   final int length;
+  final bool catWithImage;
   final bool isSelected;
   final void Function() onTap;
   const CatWidget({
@@ -259,73 +285,94 @@ class CatWidget extends StatelessWidget {
     required this.index,
     required this.fullURL,
     required this.length,
+    this.catWithImage = true,
     required this.isSelected,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+    return Center(
       child: Padding(
-        padding: EdgeInsets.only(
-          left:
-              Provider.of<LocalizationController>(context, listen: false).isLtr
-                  ? Dimensions.homePagePadding
-                  : 0,
-          right: index + 1 == length
-              ? Dimensions.paddingSizeDefault
-              : Provider.of<LocalizationController>(context, listen: false)
-                      .isLtr
-                  ? 0
-                  : Dimensions.homePagePadding,
+        padding: const EdgeInsetsDirectional.only(
+          start: Dimensions.homePagePadding,
         ),
-        child: Column(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.width / 6.5,
-              width: MediaQuery.of(context).size.width / 6.5,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      color: isSelected
-                          ? Theme.of(context).primaryColor
-                          : Theme.of(context).primaryColor.withOpacity(.125),
-                      width: isSelected ? 1 : .25),
-                  borderRadius:
-                      BorderRadius.circular(Dimensions.paddingSizeSmall),
-                  color: Theme.of(context).primaryColor.withOpacity(.125)),
-              child: ClipRRect(
-                borderRadius:
-                    BorderRadius.circular(Dimensions.paddingSizeSmall),
-                child: CustomImageWidget(image: fullURL),
-              ),
-            ),
-            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-            Center(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width / 6.5,
-                child: Text(
-                  name,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: isSelected
-                      ? textRegular.copyWith(
-                          fontSize: Dimensions.fontSizeDefault,
-                          color: Theme.of(context).primaryColor,
-                        )
-                      : textRegular.copyWith(
-                          fontSize: isSelected
-                              ? Dimensions.fontSizeDefault
-                              : Dimensions.fontSizeSmall,
-                          color: ColorResources.getTextTitle(context),
+        child: catWithImage && fullURL?.isNotEmpty == true
+            ? InkWell(
+                onTap: onTap,
+                borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.width / 6.5,
+                      width: MediaQuery.of(context).size.width / 6.5,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: isSelected
+                                  ? Theme.of(context).primaryColor
+                                  : Theme.of(context)
+                                      .primaryColor
+                                      .withOpacity(.125),
+                              width: isSelected ? 1 : .25),
+                          borderRadius: BorderRadius.circular(
+                              Dimensions.paddingSizeSmall),
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(.125)),
+                      child: ClipRRect(
+                        borderRadius:
+                            BorderRadius.circular(Dimensions.paddingSizeSmall),
+                        child: CustomImageWidget(image: fullURL!),
+                      ),
+                    ),
+                    const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                    Center(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width / 6.5,
+                        child: Text(
+                          name,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: isSelected
+                              ? textRegular.copyWith(
+                                  fontSize: Dimensions.fontSizeDefault,
+                                  color: Theme.of(context).primaryColor,
+                                )
+                              : textRegular.copyWith(
+                                  fontSize: isSelected
+                                      ? Dimensions.fontSizeDefault
+                                      : Dimensions.fontSizeSmall,
+                                  color: ColorResources.getTextTitle(context),
+                                ),
                         ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : TextButton(
+                onPressed: onTap,
+                style: isSelected
+                    ? TextButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).primaryColor.withOpacity(0.1),
+                      )
+                    : null,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    name,
+                    style: isSelected
+                        ? null
+                        : textRegular.copyWith(
+                            color: ColorResources.getTextTitle(
+                              context,
+                            ),
+                          ),
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
       ),
     );
   }
