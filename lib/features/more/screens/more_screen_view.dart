@@ -30,6 +30,7 @@ import 'package:flutter_sixvalley_ecommerce/features/setting/screens/settings_sc
 import 'package:provider/provider.dart';
 import '../../auth/screens/auth_screen.dart';
 import '../../blog/screens/blog_screen.dart';
+import '../../profile/widgets/delete_account_bottom_sheet_widget.dart';
 import 'faq_screen_view.dart';
 import 'package:flutter_sixvalley_ecommerce/features/more/widgets/title_button_widget.dart';
 
@@ -372,7 +373,11 @@ class _MoreScreenState extends State<MoreScreen> {
                                             listen: false)
                                         .configModel!
                                         .aboutUs,
-                                  ))
+                                  )),
+                              if (Provider.of<AuthController>(context,
+                                      listen: false)
+                                  .isLoggedIn())
+                                const _DeleteAccountTile(),
                             ]))),
                     ListTile(
                         leading: SizedBox(
@@ -393,7 +398,8 @@ class _MoreScreenState extends State<MoreScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const AuthScreen(initIndex: 0,fromLogout: true)));
+                                    builder: (context) => const AuthScreen(
+                                        initIndex: 0, fromLogout: true)));
                           } else {
                             showModalBottomSheet(
                                 backgroundColor: Colors.transparent,
@@ -418,6 +424,30 @@ class _MoreScreenState extends State<MoreScreen> {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class _DeleteAccountTile extends StatelessWidget {
+  const _DeleteAccountTile();
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(
+        Icons.delete,
+        color: Theme.of(context).primaryColor.withOpacity(.6),
+      ),
+      title: Text(getTranslated("delete_account", context) ?? 'Delete Account',
+          style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
+      onTap: () => showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (_) => DeleteAccountBottomSheet(
+          customerId:
+              Provider.of<ProfileController>(context, listen: false).userID,
+        ),
       ),
     );
   }
