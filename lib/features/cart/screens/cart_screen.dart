@@ -502,19 +502,23 @@ class CartScreenState extends State<CartScreen> {
                                           borderRadius: BorderRadius.circular(
                                               Dimensions.paddingSizeSmall)),
                                       child: Center(
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal:
-                                                  Dimensions.paddingSizeSmall,
-                                              vertical:
-                                                  Dimensions.fontSizeSmall),
-                                          child: Text(
-                                              getTranslated(
-                                                  'checkout', context)!,
-                                              style: titilliumSemiBold.copyWith(
-                                                  fontSize: Dimensions
-                                                      .fontSizeDefault,
-                                                  color: Colors.white)),
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal:
+                                                    Dimensions.paddingSizeSmall,
+                                                vertical:
+                                                    Dimensions.fontSizeSmall),
+                                            child: Text(
+                                                getTranslated(
+                                                    'checkout', context)!,
+                                                style:
+                                                    titilliumSemiBold.copyWith(
+                                                        fontSize: Dimensions
+                                                            .fontSizeDefault,
+                                                        color: Colors.white)),
+                                          ),
                                         ),
                                       ),
                                     ),

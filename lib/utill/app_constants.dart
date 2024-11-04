@@ -244,6 +244,7 @@ class AppConstants {
   static bool showBlog = false;
   static const bool inboxReplacedByBlog = true;
   static const bool shouldLoginFirst = true;
+  static const bool useUserEmail = false;
 
   static List<LanguageModel> languages = [
     LanguageModel(

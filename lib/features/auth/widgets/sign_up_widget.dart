@@ -149,28 +149,33 @@ class SignUpWidgetState extends State<SignUpWidget> {
                           labelText: getTranslated('last_name', context),
                           focusNode: _lNameFocus,
                           prefixIcon: Images.username,
-                          nextFocus: _emailFocus,
+                          nextFocus: AppConstants.useUserEmail
+                              ? _emailFocus
+                              : _phoneFocus,
                           required: true,
                           capitalization: TextCapitalization.words,
                           controller: _lastNameController,
                           validator: (value) => ValidateCheck.validateEmptyText(
                               value, "last_name_field_is_required"))),
-                  Container(
-                      margin: const EdgeInsets.only(
-                          left: Dimensions.marginSizeDefault,
-                          right: Dimensions.marginSizeDefault,
-                          top: Dimensions.marginSizeSmall),
-                      child: CustomTextFieldWidget(
-                          hintText: getTranslated('enter_your_email', context),
-                          labelText: getTranslated('enter_your_email', context),
-                          focusNode: _emailFocus,
-                          nextFocus: _phoneFocus,
-                          required: true,
-                          inputType: TextInputType.emailAddress,
-                          controller: _emailController,
-                          prefixIcon: Images.email,
-                          validator: (value) =>
-                              ValidateCheck.validateEmail(value))),
+                  if (AppConstants.useUserEmail)
+                    Container(
+                        margin: const EdgeInsets.only(
+                            left: Dimensions.marginSizeDefault,
+                            right: Dimensions.marginSizeDefault,
+                            top: Dimensions.marginSizeSmall),
+                        child: CustomTextFieldWidget(
+                            hintText:
+                                getTranslated('enter_your_email', context),
+                            labelText:
+                                getTranslated('enter_your_email', context),
+                            focusNode: _emailFocus,
+                            nextFocus: _phoneFocus,
+                            required: true,
+                            inputType: TextInputType.emailAddress,
+                            controller: _emailController,
+                            prefixIcon: Images.email,
+                            validator: (value) =>
+                                ValidateCheck.validateEmail(value))),
                   Container(
                       margin: const EdgeInsets.only(
                           left: Dimensions.marginSizeDefault,
@@ -275,10 +280,13 @@ class SignUpWidgetState extends State<SignUpWidget> {
                                       _firstNameController.text.trim();
                                   String lastName =
                                       _lastNameController.text.trim();
-                                  String email = _emailController.text.trim();
                                   String phoneNumber = authProvider
                                           .countryDialCode +
                                       _phoneController.text.removeZerosInFirst;
+                                  String email = AppConstants.useUserEmail
+                                      ? _emailController.text.trim()
+                                      : "$phoneNumber@phone.com";
+
                                   String password =
                                       _passwordController.text.trim();
 
@@ -293,12 +301,6 @@ class SignUpWidgetState extends State<SignUpWidget> {
                                         _referController.text.trim();
                                     authProvider.registration(
                                         register, route, config!);
-                                    _firstNameController.clear();
-                                    _lastNameController.clear();
-                                    _emailController.clear();
-                                    _phoneController.clear();
-                                    _passwordController.clear();
-                                    _referController.clear();
                                   }
                                 }
                               : null,

@@ -176,7 +176,7 @@ class MyApp extends StatelessWidget {
             ? dark
             : light(
                 primaryColor: themeController.selectedPrimaryColor,
-                secondaryColor: themeController.selectedPrimaryColor,
+                secondaryColor: themeController.selectedSecondaryColor,
               ),
         locale: Provider.of<LocalizationController>(context).locale,
         localizationsDelegates: [

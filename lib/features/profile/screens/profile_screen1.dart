@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
@@ -13,7 +14,11 @@ import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile
 import 'package:flutter_sixvalley_ecommerce/features/profile/domain/models/profile_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/widgets/delete_account_bottom_sheet_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/helper/number_checker_helper.dart';
+import 'package:flutter_sixvalley_ecommerce/helper/string_helper.dart';
+import 'package:flutter_sixvalley_ecommerce/helper/velidate_check.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
+import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
@@ -33,7 +38,6 @@ class _ProfileScreen1State extends State<ProfileScreen1> {
   final FocusNode _lNameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _phoneFocus = FocusNode();
-  final FocusNode _addressFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _confirmPasswordFocus = FocusNode();
 
@@ -49,10 +53,13 @@ class _ProfileScreen1State extends State<ProfileScreen1> {
   bool isPhoneChanged = false;
   bool isFirstTime = false;
 
+  late String? countryCode =
+      Provider.of<SplashController>(context, listen: false)
+          .configModel
+          ?.countryCode;
+
   File? file;
   final picker = ImagePicker();
-  final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
-      GlobalKey<ScaffoldMessengerState>();
 
   void _choose() async {
     final pickedFile = await picker.pickImage(
@@ -74,7 +81,8 @@ class _ProfileScreen1State extends State<ProfileScreen1> {
     String firstName = _firstNameController.text.trim();
     String lastName = _lastNameController.text.trim();
     String email = _emailController.text.trim();
-    String phoneNumber = _phoneController.text.trim();
+    // String phoneNumber =
+    //     "$countryCode${_phoneController.text.removeZerosInFirst}";
     String password = _passwordController.text.trim();
     String confirmPassword = _confirmPasswordController.text.trim();
 
@@ -95,7 +103,7 @@ class _ProfileScreen1State extends State<ProfileScreen1> {
           getTranslated('last_name_is_required', context), context);
     } else if (email.isEmpty) {
       showCustomSnackBar(getTranslated('email_is_required', context), context);
-    } else if (phoneNumber.isEmpty) {
+    } else if (_phoneController.text.removeZerosInFirst.isEmpty) {
       showCustomSnackBar(
           getTranslated('phone_must_be_required', context), context);
     } else if ((password.isNotEmpty && password.length < 8) ||
@@ -111,7 +119,8 @@ class _ProfileScreen1State extends State<ProfileScreen1> {
       updateUserInfoModel.method = 'put';
       updateUserInfoModel.fName = _firstNameController.text;
       updateUserInfoModel.lName = _lastNameController.text;
-      updateUserInfoModel.phone = _phoneController.text;
+      updateUserInfoModel.phone =
+          "$countryCode${_phoneController.text.removeZerosInFirst}";
       updateUserInfoModel.email = _emailController.text;
       String pass = _passwordController.text;
 
@@ -145,8 +154,6 @@ class _ProfileScreen1State extends State<ProfileScreen1> {
   Widget build(BuildContext context) {
     final splashProvider =
         Provider.of<SplashController>(context, listen: false);
-    bool isGuestMode =
-        !Provider.of<AuthController>(context, listen: false).isLoggedIn();
     final config = splashProvider.configModel;
 
     return PopScope(
@@ -182,7 +189,11 @@ class _ProfileScreen1State extends State<ProfileScreen1> {
               _firstNameController.text = profile.userInfoModel!.fName ?? '';
               _lastNameController.text = profile.userInfoModel!.lName ?? '';
               _emailController.text = profile.userInfoModel!.email ?? '';
-              _phoneController.text = profile.userInfoModel!.phone ?? '';
+              countryCode = NumberCheckerHelper.getCountryCode(
+                  profile.userInfoModel!.phone);
+              _phoneController.text = NumberCheckerHelper.getPhoneNumber(
+                      profile.userInfoModel!.phone ?? '', countryCode ?? '') ??
+                  '';
               isFirstTime = true;
             }
             return Column(
@@ -317,65 +328,81 @@ class _ProfileScreen1State extends State<ProfileScreen1> {
                             hintText: profile.userInfoModel!.lName,
                             controller: _lastNameController),
                         const SizedBox(height: Dimensions.paddingSizeLarge),
-                        CustomTextFieldWidget(
-                          //isEnabled: profile.userInfoModel?.emailVerifiedAt == null,
-                          labelText: getTranslated('email', context),
-                          inputType: TextInputType.emailAddress,
-                          focusNode: _emailFocus,
-                          //readOnly : false,
-                          nextFocus: _phoneFocus,
-                          hintText: profile.userInfoModel!.email ?? '',
-                          controller: _emailController,
-                          isToolTipSuffix: (isMailChanged ||
-                                  (config?.customerVerification?.email == 0))
-                              ? false
-                              : true,
-                          suffixIcon: (isMailChanged ||
-                                  (config?.customerVerification?.email == 0))
-                              ? null
-                              : (config?.customerVerification?.email == 1 &&
-                                      profile.userInfoModel?.emailVerifiedAt ==
-                                          null)
-                                  ? Images.notVerifiedSvg
-                                  : Images.verifiedSvg,
-                          toolTipMessage: (config
-                                          ?.customerVerification?.email ==
-                                      1 &&
-                                  profile.userInfoModel?.emailVerifiedAt ==
-                                      null)
-                              ? getTranslated('email_not_verified', context)!
-                              : '',
-                          toolTipKey: emailToolTipKey,
-                          suffixOnTap: () {
-                            if (profile.userInfoModel?.emailVerifiedAt ==
-                                null) {
-                              SignUpModel signUpModel = SignUpModel(
-                                email: _emailController.text.trim(),
-                              );
-                              authController.sendVerificationCode(
-                                  config!, signUpModel,
-                                  type: 'email', fromPage: FromPage.profile);
-                            }
-                          },
-                          onChanged: (value) {
-                            if (profile.userInfoModel!.email != value) {
-                              setState(() => isMailChanged = true);
-                            } else if (isMailChanged &&
-                                profile.userInfoModel!.email == value) {
-                              setState(() => isMailChanged = false);
-                            }
-                          },
-                        ),
-                        const SizedBox(height: Dimensions.paddingSizeLarge),
+                        if (AppConstants.useUserEmail) ...[
+                          CustomTextFieldWidget(
+                            //isEnabled: profile.userInfoModel?.emailVerifiedAt == null,
+                            labelText: getTranslated('email', context),
+                            inputType: TextInputType.emailAddress,
+                            focusNode: _emailFocus,
+                            //readOnly : false,
+                            nextFocus: _phoneFocus,
+                            hintText: profile.userInfoModel!.email ?? '',
+                            controller: _emailController,
+                            isToolTipSuffix: (isMailChanged ||
+                                    (config?.customerVerification?.email == 0))
+                                ? false
+                                : true,
+                            suffixIcon: (isMailChanged ||
+                                    (config?.customerVerification?.email == 0))
+                                ? null
+                                : (config?.customerVerification?.email == 1 &&
+                                        profile.userInfoModel
+                                                ?.emailVerifiedAt ==
+                                            null)
+                                    ? Images.notVerifiedSvg
+                                    : Images.verifiedSvg,
+                            toolTipMessage: (config
+                                            ?.customerVerification?.email ==
+                                        1 &&
+                                    profile.userInfoModel?.emailVerifiedAt ==
+                                        null)
+                                ? getTranslated('email_not_verified', context)!
+                                : '',
+                            toolTipKey: emailToolTipKey,
+                            suffixOnTap: () {
+                              if (profile.userInfoModel?.emailVerifiedAt ==
+                                  null) {
+                                SignUpModel signUpModel = SignUpModel(
+                                  email: _emailController.text.trim(),
+                                );
+                                authController.sendVerificationCode(
+                                    config!, signUpModel,
+                                    type: 'email', fromPage: FromPage.profile);
+                              }
+                            },
+                            onChanged: (value) {
+                              if (profile.userInfoModel!.email != value) {
+                                setState(() => isMailChanged = true);
+                              } else if (isMailChanged &&
+                                  profile.userInfoModel!.email == value) {
+                                setState(() => isMailChanged = false);
+                              }
+                            },
+                          ),
+                          const SizedBox(height: Dimensions.paddingSizeLarge),
+                        ],
                         CustomTextFieldWidget(
                           isEnabled:
                               profile.userInfoModel?.isPhoneVerified == 0,
-                          labelText: getTranslated('phone', context),
-                          inputType: TextInputType.phone,
-                          focusNode: _phoneFocus,
-                          hintText: profile.userInfoModel!.phone ?? "",
-                          nextFocus: _addressFocus,
+                          hintText:
+                              getTranslated('enter_mobile_number', context),
+                          labelText:
+                              getTranslated('enter_mobile_number', context),
                           controller: _phoneController,
+                          focusNode: _phoneFocus,
+                          nextFocus: _passwordFocus,
+                          required: true,
+                          showCodePicker: true,
+                          countryDialCode: countryCode,
+                          onCountryChanged: (CountryCode newCountryCode) {
+                            _phoneFocus.requestFocus();
+                            countryCode = newCountryCode.dialCode!;
+                          },
+                          isAmount: true,
+                          validator: (value) => ValidateCheck.validateEmptyText(
+                              value, "phone_must_be_required"),
+                          inputAction: TextInputAction.next,
+                          inputType: TextInputType.phone,
                           toolTipKey: phoneToolTipKey,
                           isToolTipSuffix: (isPhoneChanged ||
                                   (config?.customerVerification?.phone == 0))
@@ -387,14 +414,6 @@ class _ProfileScreen1State extends State<ProfileScreen1> {
                                   ? getTranslated(
                                       'phone_number_not_verified', context)!
                                   : '',
-                          suffixIcon: (isPhoneChanged ||
-                                  (config?.customerVerification?.phone == 0))
-                              ? null
-                              : config?.customerVerification?.phone == 1 &&
-                                      profile.userInfoModel?.isPhoneVerified ==
-                                          0
-                                  ? Images.notVerifiedSvg
-                                  : Images.verifiedSvg,
                           suffixOnTap: () {
                             if (profile.userInfoModel?.isPhoneVerified == 0) {
                               final configModel = Provider.of<SplashController>(
@@ -402,14 +421,14 @@ class _ProfileScreen1State extends State<ProfileScreen1> {
                                       listen: false)
                                   .configModel;
                               SignUpModel signUpModel = SignUpModel(
-                                phone: _phoneController.text.trim(),
+                                phone:
+                                    "$countryCode${_phoneController.text.removeZerosInFirst}",
                               );
                               authController.sendVerificationCode(
                                   configModel!, signUpModel,
                                   type: 'phone', fromPage: FromPage.profile);
                             }
                           },
-                          isAmount: true,
                           onChanged: (value) {
                             if (profile.userInfoModel!.phone != value) {
                               setState(() => isPhoneChanged = true);
