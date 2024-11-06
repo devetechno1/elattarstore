@@ -22,7 +22,6 @@ import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dar
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/title_row_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/shop/widgets/shop_product_view_list.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -211,6 +210,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                               padding: const EdgeInsets.all(
                                                   Dimensions.paddingSizeSmall),
                                               child: ProductSpecificationWidget(
+                                                title: getTranslated('product_specification', context) ?? '',
                                                 productSpecification: details
                                                         .productDetailsModel!
                                                         .details ??

@@ -10,9 +10,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ProductSpecificationWidget extends StatelessWidget {
   final String productSpecification;
+  final String title;
 
-  const ProductSpecificationWidget(
-      {super.key, required this.productSpecification});
+  const ProductSpecificationWidget({
+    super.key,
+    required this.productSpecification,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +27,7 @@ class ProductSpecificationWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(getTranslated('product_specification', context) ?? '',
-                style: textMedium),
+            Text(title, style: textMedium),
             const SizedBox(height: Dimensions.paddingSizeExtraSmall),
             Column(children: [
               Stack(children: [

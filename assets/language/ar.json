@@ -289,6 +289,7 @@
   "no_address_available": "لا يوجد عنوان متاح",
   "select_location": "اختر موقعا",
   "select_a_billing_address": "حدد عنوان الفواتير",
+  "post_details": "تفاصيل المنشور",
   "billing_address": "عنوان وصول الفواتير",
   "order_note": "ملاحظة النظام",
   "enter_note": "أدخل ملاحظة",

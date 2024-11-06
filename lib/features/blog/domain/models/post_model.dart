@@ -1,3 +1,5 @@
+import '../../../../data/model/image_full_url.dart';
+
 class PostModel {
   int id;
   String addedBy;
@@ -20,7 +22,7 @@ class PostModel {
   DateTime updatedAt;
   int status;
   ThumbnailFullUrl thumbnailFullUrl;
-  List<ImagesFullUrl> imagesFullUrl;
+  List<ImageFullUrl> imagesFullUrl;
   List<Tag> tags;
 
   PostModel({
@@ -73,7 +75,7 @@ class PostModel {
       status: json['status'],
       thumbnailFullUrl: ThumbnailFullUrl.fromJson(json['thumbnail_full_url']),
       imagesFullUrl: (json['images_full_url'] as List)
-          .map((i) => ImagesFullUrl.fromJson(i))
+          .map((i) => ImageFullUrl.fromJson(i))
           .toList(),
       tags: (json['tags'] as List).map((i) => Tag.fromJson(i)).toList(),
     );
@@ -118,30 +120,6 @@ class ThumbnailFullUrl {
 
   factory ThumbnailFullUrl.fromJson(Map<String, dynamic> json) {
     return ThumbnailFullUrl(
-      key: json['key'],
-      path: json['path'],
-      status: json['status'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'key': key,
-      'path': path,
-      'status': status,
-    };
-  }
-}
-
-class ImagesFullUrl {
-  String key;
-  String path;
-  int status;
-
-  ImagesFullUrl({required this.key, required this.path, required this.status});
-
-  factory ImagesFullUrl.fromJson(Map<String, dynamic> json) {
-    return ImagesFullUrl(
       key: json['key'],
       path: json['path'],
       status: json['status'],
