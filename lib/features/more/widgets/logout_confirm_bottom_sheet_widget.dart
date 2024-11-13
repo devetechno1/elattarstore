@@ -103,7 +103,7 @@ class LogoutCustomBottomSheetWidget extends StatelessWidget {
                                 // Provider.of<AddressController>(context, listen: false).getAddressList();
                                 Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
-                                        builder: (context) => const AuthScreen(
+                                        builder: (context) => AuthScreen(
                                             fromLogout: !AppConstants
                                                 .shouldLoginFirst)),
                                     (route) => false);

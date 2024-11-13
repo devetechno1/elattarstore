@@ -59,6 +59,7 @@ class SplashController extends ChangeNotifier {
           .subscribeToTopic(AppConstants.maintenanceModeTopic);
 
       AppConstants.showBlog = configModel?.showBlog ?? AppConstants.showBlog;
+      AppConstants.shouldLoginFirst = configModel?.shouldLogin ?? AppConstants.shouldLoginFirst;
 
       themeController.setThemeColor(
         primaryColor: _configModel?.primaryColor,

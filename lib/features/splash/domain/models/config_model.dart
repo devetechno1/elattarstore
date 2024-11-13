@@ -81,10 +81,12 @@ class ConfigModel {
   int? refundDayLimit;
   int? otpResendTime;
   bool? showBlog;
+  bool? shouldLogin;
   ConfigModel(
       {this.brandSetting,
       this.primaryColor,
       this.showBlog,
+      this.shouldLogin,
       this.secondaryColor,
       this.digitalProductSetting,
       this.systemDefaultCurrency,
@@ -163,6 +165,7 @@ class ConfigModel {
 
   ConfigModel.fromJson(Map<String, dynamic> json) {
     showBlog = (json['blog_module'] as int?) == 1;
+    shouldLogin = (json['should_login'] as int?) == 1;
     primaryColor = ColorHelper.hexCodeToColor(json['primary_color'] as String?);
     secondaryColor =
         ColorHelper.hexCodeToColor(json['secondary_color'] as String?);

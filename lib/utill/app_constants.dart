@@ -238,13 +238,13 @@ class AppConstants {
   static const String demoTopic = 'demo_reset';
   static const String userAddress = 'user_address';
 
-  // * settings app ui
+  // * settings
+  static const bool useUserEmail = false;
   static const bool isCategoriesGrid = true;
   static const bool isSubCategoriesGrid = false;
-  static bool showBlog = false;
   static const bool inboxReplacedByBlog = true;
-  static const bool shouldLoginFirst = true;
-  static const bool useUserEmail = false;
+  static bool shouldLoginFirst = false;
+  static bool showBlog = false;
 
   static List<LanguageModel> languages = [
     LanguageModel(
