@@ -19,7 +19,7 @@ class _BlogScreenState extends State<BlogScreen>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
-    Provider.of<BlogController>(context, listen: false).getBlogs(false);
+    Provider.of<BlogController>(context, listen: false).getBlogs(true);
     super.initState();
   }
 
