@@ -30,6 +30,9 @@ class OnBoardingScreen extends StatelessWidget {
 
     double height = MediaQuery.of(context).size.height;
 
+    double imageSize =
+        MediaQuery.sizeOf(context).width - Dimensions.paddingSizeDefault;
+
     return Scaffold(
       body: Center(
         child: SizedBox(
@@ -70,7 +73,8 @@ class OnBoardingScreen extends StatelessWidget {
                                           child: Image.asset(
                                             onBoardingList
                                                 .onBoardingList[index].imageUrl,
-                                            width: double.maxFinite,
+                                            width: imageSize,
+                                            height: imageSize,
                                             alignment: Alignment.bottomCenter,
                                             fit: BoxFit.contain,
                                           ),
