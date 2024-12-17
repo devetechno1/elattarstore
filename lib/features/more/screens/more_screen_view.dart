@@ -146,17 +146,19 @@ class _MoreScreenState extends State<MoreScreen> {
                                     ? Colors.white.withOpacity(.05)
                                     : Theme.of(context).cardColor),
                             child: Column(children: [
-                              MenuButtonWidget(
-                                  image: Images.trackOrderIcon,
-                                  title: getTranslated('TRACK_ORDER', context),
-                                  navigateTo: const GuestTrackOrderScreen()),
                               if (Provider.of<AuthController>(context,
                                       listen: false)
                                   .isLoggedIn())
                                 MenuButtonWidget(
                                     image: Images.user,
                                     title: getTranslated('profile', context),
-                                    navigateTo: const ProfileScreen1()),
+                                    navigateTo: const ProfileScreen1())
+                              else
+                                MenuButtonWidget(
+                                    image: Images.trackOrderIcon,
+                                    title:
+                                        getTranslated('TRACK_ORDER', context),
+                                    navigateTo: const GuestTrackOrderScreen()),
                               MenuButtonWidget(
                                   image: Images.address,
                                   title: getTranslated('addresses', context),

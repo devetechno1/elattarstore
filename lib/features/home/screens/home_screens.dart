@@ -47,8 +47,11 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:provider/provider.dart';
 
+import '../../../utill/color_resources.dart';
+import '../../cart/screens/cart_screen.dart';
 import '../../category/widgets/sub_categories/all_sub_categories_widget.dart';
 import '../../support/screens/support_ticket_screen.dart';
+import '../../wishlist/screens/wishlist_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -136,8 +139,10 @@ class _HomePageState extends State<HomePage> {
               SliverAppBar(
                 floating: true,
                 elevation: 0,
-                centerTitle: false,
-                automaticallyImplyLeading: false,
+                centerTitle: true,
+                leadingWidth: 80,
+                leading: const CartButtonWidget(),
+                actions: const [WishListIconButton()],
                 backgroundColor: Theme.of(context).highlightColor,
                 title: Image.asset(Images.logoWithNameImageWhite, height: 35),
               ),
@@ -592,6 +597,78 @@ class _HomePageState extends State<HomePage> {
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class WishListIconButton extends StatelessWidget {
+  const WishListIconButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 70,
+      child: Center(
+        child: IconButton(
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const WishListScreen()),
+          ),
+          icon: Image.asset(
+            Images.wishlist,
+            color: Theme.of(context).primaryColor,
+            width: Dimensions.menuIconSize,
+            height: Dimensions.menuIconSize,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CartButtonWidget extends StatelessWidget {
+  const CartButtonWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: IconButton(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const CartScreen()),
+        ),
+        icon: Stack(
+          children: [
+            Image.asset(
+              Images.cartArrowDownImage,
+              color: Theme.of(context).primaryColor,
+              width: Dimensions.menuIconSize,
+              height: Dimensions.menuIconSize,
+            ),
+            Positioned.fill(
+                child: Container(
+              transform: Matrix4.translationValues(5, -3, 0),
+              child: Align(
+                alignment: Alignment.topRight,
+                child:
+                    Consumer<CartController>(builder: (context, cart, child) {
+                  return CircleAvatar(
+                    radius: ResponsiveHelper.isTab(context) ? 10 : 7,
+                    backgroundColor: ColorResources.red,
+                    child: Text(
+                      cart.cartList.length.toString(),
+                      style: titilliumSemiBold.copyWith(
+                        color: ColorResources.white,
+                        fontSize: Dimensions.fontSizeExtraSmall,
+                      ),
+                    ),
+                  );
+                }),
+              ),
+            )),
+          ],
         ),
       ),
     );
