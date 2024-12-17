@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/dashboard/screens/dashboard_screen.dart';
@@ -41,10 +42,10 @@ class OnBoardingScreen extends StatelessWidget {
                 Consumer<OnBoardingController>(
                   builder: (context, onBoardingList, child) => ListView(
                     children: [
-                      SizedBox(height: height * 0.01),
+                      SizedBox(height: height * 0.04),
                       Center(
                         child: Image.asset(
-                          Images.waitingLogo,
+                          Images.logoWithNameImageWhite,
                           width: 250,
                         ),
                       ),
@@ -56,32 +57,48 @@ class OnBoardingScreen extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.all(
-                                      Dimensions.paddingSizeDefault),
+                                    Dimensions.paddingSizeDefault,
+                                  ),
                                   child: Column(
-                                    mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Flexible(
-                                        child: Image.asset(
-                                          onBoardingList
-                                              .onBoardingList[index].imageUrl,
+                                      Expanded(
+                                        child: Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: Image.asset(
+                                            onBoardingList
+                                                .onBoardingList[index].imageUrl,
+                                            width: double.maxFinite,
+                                            alignment: Alignment.bottomCenter,
+                                            fit: BoxFit.contain,
+                                          ),
                                         ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical:
-                                                Dimensions.paddingSizeDefault),
-                                        child: Text(
-                                          onBoardingList
-                                              .onBoardingList[index].text,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineLarge,
-                                          textAlign: TextAlign.center,
+                                          horizontal: 28,
+                                        ),
+                                        child: Html(
+                                          shrinkWrap: true,
+                                          data: onBoardingList
+                                              .onBoardingList[index].html,
                                         ),
                                       ),
+                                      // Padding(
+                                      //   padding: const EdgeInsets.symmetric(
+                                      //       vertical:
+                                      //           Dimensions.paddingSizeDefault),
+                                      //   child: Text(
+                                      //     onBoardingList
+                                      //         .onBoardingList[index].text,
+                                      //     style: Theme.of(context)
+                                      //         .textTheme
+                                      //         .headlineLarge,
+                                      //     textAlign: TextAlign.center,
+                                      //   ),
+                                      // ),
                                       const SizedBox(
                                           height:
                                               Dimensions.paddingSizeDefault),
@@ -158,88 +175,7 @@ class OnBoardingScreen extends StatelessWidget {
                                           }
                                         },
                                       ))))
-                          : Padding(
-                              padding: const EdgeInsets.all(
-                                  Dimensions.paddingSizeExtraLarge),
-                              child: Stack(children: [
-                                if (onBoardingList.onBoardingList.isNotEmpty)
-                                  Center(
-                                      child: SizedBox(
-                                          height: 50,
-                                          width: 50,
-                                          child: CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      Theme.of(context)
-                                                          .primaryColor
-                                                          .withOpacity(.6)),
-                                              value: (onBoardingList
-                                                          .selectedIndex +
-                                                      1) /
-                                                  onBoardingList
-                                                      .onBoardingList.length,
-                                              backgroundColor: Theme.of(context)
-                                                  .primaryColor
-                                                  .withOpacity(.125)))),
-                                Align(
-                                    alignment: Alignment.center,
-                                    child: GestureDetector(
-                                        onTap: () {
-                                          if (onBoardingList.selectedIndex ==
-                                              onBoardingList
-                                                      .onBoardingList.length -
-                                                  1) {
-                                            if (AppConstants.shouldLoginFirst) {
-                                              Navigator.pushAndRemoveUntil(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (_) =>
-                                                          const AuthScreen()),
-                                                  (route) => false);
-                                            } else {
-                                              Provider.of<SplashController>(
-                                                      context,
-                                                      listen: false)
-                                                  .disableIntro();
-                                              Provider.of<AuthController>(
-                                                      context,
-                                                      listen: false)
-                                                  .getGuestIdUrl();
-                                              Navigator.pushAndRemoveUntil(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (_) =>
-                                                          const DashBoardScreen()),
-                                                  (route) => false);
-                                            }
-                                          } else {
-                                            _pageController.nextPage(
-                                                duration: const Duration(
-                                                    milliseconds: 500),
-                                                curve: Curves.easeIn);
-                                          }
-                                        },
-                                        child: Container(
-                                            height: 40,
-                                            width: 40,
-                                            margin:
-                                                const EdgeInsets.only(top: 5),
-                                            decoration: const BoxDecoration(
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: Icon(
-                                                onBoardingList.selectedIndex ==
-                                                        onBoardingList
-                                                                .onBoardingList
-                                                                .length -
-                                                            1
-                                                    ? Icons.check
-                                                    : Icons.navigate_next,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                                size: 30)))),
-                              ]),
-                            )
+                          : linearIndicator(onBoardingList)
                     ],
                   ),
                 ),
@@ -284,6 +220,88 @@ class OnBoardingScreen extends StatelessWidget {
             );
           }),
         ),
+      ),
+    );
+  }
+
+  Widget linearIndicator(OnBoardingController onBoardingList) {
+    if (onBoardingList.onBoardingList.isEmpty) return const SizedBox();
+
+    final double value = (onBoardingList.selectedIndex + 1) /
+        onBoardingList.onBoardingList.length;
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        vertical: Dimensions.paddingSizeExtraLarge,
+        horizontal: Dimensions.paddingSizeExtraLarge + 28,
+      ),
+      height: 50,
+      child: LayoutBuilder(
+        builder: (context, constrained) {
+          final double onePart =
+              (constrained.maxWidth / onBoardingList.onBoardingList.length);
+          return Stack(
+            children: [
+              Positioned.fill(
+                child: Center(
+                  child: LinearProgressIndicator(
+                    value: value,
+                    minHeight: 20,
+                    borderRadius: BorderRadius.circular(16),
+                    color: Theme.of(context).colorScheme.secondary,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              ),
+              PositionedDirectional(
+                start: (constrained.maxWidth * value) - onePart,
+                child: GestureDetector(
+                  onTap: () {
+                    if (onBoardingList.selectedIndex ==
+                        onBoardingList.onBoardingList.length - 1) {
+                      if (AppConstants.shouldLoginFirst) {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const AuthScreen()),
+                            (route) => false);
+                      } else {
+                        Provider.of<SplashController>(context, listen: false)
+                            .disableIntro();
+                        Provider.of<AuthController>(context, listen: false)
+                            .getGuestIdUrl();
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const DashBoardScreen()),
+                            (route) => false);
+                      }
+                    } else {
+                      _pageController.nextPage(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeIn);
+                    }
+                  },
+                  child: Container(
+                    height: 50,
+                    width: onePart,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    child: Icon(
+                      onBoardingList.selectedIndex ==
+                              onBoardingList.onBoardingList.length - 1
+                          ? Icons.check
+                          : Icons.arrow_forward,
+                      color: Theme.of(context).primaryColor,
+                      size: 30,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

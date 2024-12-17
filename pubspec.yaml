@@ -1,10 +1,10 @@
 name: flutter_sixvalley_ecommerce
 description: A new Flutter setup application for starting a project.
 
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.1+2
 environment:
-  sdk: '>=3.2.1 <4.0.0'
+  sdk: ">=3.2.1 <4.0.0"
 
 dependencies:
   flutter:
@@ -75,14 +75,12 @@ dependencies:
   audioplayers: ^6.0.0
   syncfusion_flutter_pdfviewer: ^26.2.8
   firebase_auth: ^5.1.4
-
+  flutter_html: ^3.0.0-beta.2
 
 dev_dependencies:
   flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
-
-
 
 flutter:
   uses-material-design: true
@@ -93,11 +91,23 @@ flutter:
     - assets/svg/
 
   fonts:
-    - family: SF-Pro-Rounded-Regular
+    - family: Alexandria
       fonts:
-        - asset: assets/fonts/ubuntu/SF-Pro-Rounded-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/ubuntu/SF-Pro-Rounded-Regular.ttf
-          weight: 500
-        - asset: assets/fonts/ubuntu/SF-Pro-Rounded-Regular.ttf
+        - asset: assets/fonts/Alexandria-Black.ttf
+          weight: 900
+        - asset: assets/fonts/Alexandria-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Alexandria-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Alexandria-SemiBold.ttf
           weight: 600
+        - asset: assets/fonts/Alexandria-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Alexandria-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Alexandria-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Alexandria-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Alexandria-Thin.ttf
+          weight: 100

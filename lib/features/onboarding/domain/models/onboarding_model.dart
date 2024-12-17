@@ -1,9 +1,9 @@
 class OnboardingModel {
   final String _imageUrl;
-  final String? _text;
+  final String? _html;
 
   get imageUrl => _imageUrl;
-  get text => _text;
+  get html => _html;
 
-  OnboardingModel(this._imageUrl, this._text);
+  OnboardingModel(this._imageUrl, this._html);
 }

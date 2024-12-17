@@ -8,7 +8,7 @@ ThemeData light({
   secondaryColor ??= const Color(0xFF003366);
 
   return ThemeData(
-    fontFamily: 'TitilliumWeb',
+    fontFamily: 'Alexandria',
     primaryColor: primaryColor,
     brightness: Brightness.light,
     highlightColor: Colors.white,

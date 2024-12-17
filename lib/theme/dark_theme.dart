@@ -4,7 +4,7 @@ ThemeData get dark {
   const Color primary = Color(0xFFF1AB1F);
   const Color secondary = Color(0xFF0052A3);
   return ThemeData(
-    fontFamily: 'TitilliumWeb',
+    fontFamily: 'Alexandria',
     primaryColor: primary,
     brightness: Brightness.dark,
     highlightColor: const Color(0xFF252525),

@@ -1,11 +1,11 @@
 {
-  "on_boarding_title_one": "Why El Attar",
-  "on_boarding_title_two": "Because everything related to mobile spare parts is just a click away",
-  "on_boarding_title_three": "To track all product prices and specifications",
-  "on_boarding_title_four": "To see 100% accurate compatibility for spare parts",
-  "on_boarding_title_five": "To order products and have them delivered to you in record time",
-  "on_boarding_title_six": "To showcase your products or tools for sale through us",
-  "search_hint": "Search Product...",
+  "on_boarding_title_one": "<p><span style=\"font-size: 30px; color: #003366; font-weight: 300;\">Why </span><strong style=\"font-size: 30px; color: #003366; font-weight: 500;\">Al Attar</strong><span style=\"font-size: 30px; color: #003366; font-weight: 300;\"> ?</span></p>",
+  "on_boarding_title_two": "<p style=\"font-size: 30px; color: #003366; text-align: justify; font-weight: 300;\">Because everything related to mobile spare parts <strong style=\"font-size: 30px; color: #003366; font-weight: 500;\">is just a button press away</strong></p>",
+  "on_boarding_title_three": "<p style=\"font-size: 30px; color: #003366; text-align: justify; font-weight: 300;\">Because you can track all <strong style=\"font-size: 30px; color: #003366; font-weight: 500;\">product prices</strong> and specifications</p>",
+  "on_boarding_title_four": "<p style=\"font-size: 30px; color: #003366; text-align: justify; font-weight: 300;\">Because you can see the <strong style=\"font-size: 30px; color: #003366; font-weight: 500;\">correct spare part compatibility</strong> 100%</p>",
+  "on_boarding_title_five": "<p style=\"font-size: 30px; color: #003366; text-align: justify; font-weight: 300;\">Because you can order products and have them delivered to you in <strong style=\"font-size: 30px; color: #003366; font-weight: 500;\">record time</strong></p>",
+  "on_boarding_title_six": "<p style=\"font-size: 30px; color: #003366; text-align: justify; font-weight: 300;\">Because you can <strong style=\"font-size: 30px; color: #003366; font-weight: 500;\">list your products or tools</strong> for sale through us</p>"
+,  "search_hint": "Search Product...",
   "WISH_LIST_SEARCH": "Wish List Search",
   "CATEGORY": "Categories",
   "VIEW_ALL": "View All",
