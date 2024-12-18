@@ -84,7 +84,8 @@ class NotificationHelper {
           Provider.of<AddressController>(Get.context!, listen: false)
               .getAddressList();
           Navigator.of(Get.context!).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => const AuthScreen(initIndex: 0)),
+              MaterialPageRoute(
+                  builder: (context) => const AuthScreen(initIndex: 0)),
               (route) => false);
         }
       }
@@ -383,6 +384,7 @@ Future<dynamic> myBackgroundMessageHandler(RemoteMessage message) async {
   if (kDebugMode) {
     print(
         "onBackground: ${message.notification!.title}/${message.notification!.body}/${message.notification!.titleLocKey}");
+    print("onBackground: ${message.toMap()}");
   }
   // var androidInitialize = new AndroidInitializationSettings('notification_icon');
   // var iOSInitialize = new IOSInitializationSettings();
