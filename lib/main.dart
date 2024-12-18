@@ -51,17 +51,19 @@ import 'package:flutter_sixvalley_ecommerce/theme/dark_theme.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/light_theme.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'di_container.dart' as di;
 import 'features/blog/controllers/posts_search_controller.dart';
 import 'helper/custom_delegate.dart';
 import 'localization/app_localization.dart';
+import 'utill/images.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
-  if(kDebugMode) HttpOverrides.global = MyHttpOverrides();
+  if (kDebugMode) HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
 
   if (Firebase.apps.isEmpty) {
@@ -100,9 +102,9 @@ Future<void> main() async {
 
   runApp(MultiProvider(
     providers: [
-      
       ChangeNotifierProvider(create: (context) => di.sl<BlogController>()),
-      ChangeNotifierProvider(create: (context) => di.sl<PostsSearchController>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<PostsSearchController>()),
       ChangeNotifierProvider(create: (context) => di.sl<CategoryController>()),
       ChangeNotifierProvider(create: (context) => di.sl<ShopController>()),
       ChangeNotifierProvider(create: (context) => di.sl<FlashDealController>()),
@@ -187,10 +189,40 @@ class MyApp extends StatelessWidget {
           FallbackLocalizationDelegate()
         ],
         builder: (context, child) {
+          child = Stack(
+            children: [
+              child!,
+              if (Provider.of<SplashController>(context, listen: false)
+                      .configModel
+                      ?.companyPhone !=
+                  null)
+                PositionedDirectional(
+                  bottom: 80,
+                  end: 20,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      final String url =
+                          "https://wa.me/${Provider.of<SplashController>(Get.context!, listen: false).configModel!.companyPhone!.replaceAll('+', '')}";
+                      launchUrl(
+                        Uri.parse(url),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    },
+                    heroTag: "whatsapp",
+                    backgroundColor: const Color(0xff2ea218),
+                    child: SizedBox.square(
+                      dimension: 35,
+                      child: Image.asset(Images.whatsapp),
+                    ),
+                  ),
+                )
+            ],
+          );
           return MediaQuery(
-              data: MediaQuery.of(context)
-                  .copyWith(textScaler: TextScaler.noScaling),
-              child: child!);
+            data: MediaQuery.of(context)
+                .copyWith(textScaler: TextScaler.noScaling),
+            child: child,
+          );
         },
         supportedLocales: locals,
         home: SplashScreen(
