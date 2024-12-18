@@ -14,8 +14,9 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/not_loggedin_widge
 import 'package:provider/provider.dart';
 
 class SupportTicketScreen extends StatefulWidget {
-  const SupportTicketScreen({super.key, this.openBottomSheetWhenOpen = false});
+  const SupportTicketScreen({super.key, this.openBottomSheetWhenOpen = false, this.showBackButton = true});
   final bool openBottomSheetWhenOpen;
+  final bool showBackButton;
   @override
   State<SupportTicketScreen> createState() => _SupportTicketScreenState();
 }
@@ -44,7 +45,7 @@ class _SupportTicketScreenState extends State<SupportTicketScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: getTranslated('support_ticket', context)),
+      appBar: CustomAppBar(title: getTranslated('support_ticket', context), isBackButtonExist: widget.showBackButton),
       bottomNavigationBar: Provider.of<AuthController>(context, listen: false)
               .isLoggedIn()
           ? SizedBox(

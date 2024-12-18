@@ -14,7 +14,8 @@ import 'package:provider/provider.dart';
 import '../../product/screens/category_product_screen.dart';
 
 class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({super.key});
+  const CategoryScreen({super.key, this.showBackButton = true});
+  final bool showBackButton;
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
@@ -62,7 +63,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: getTranslated('CATEGORY', context)),
+      appBar: CustomAppBar(title: getTranslated('CATEGORY', context), isBackButtonExist: widget.showBackButton),
       body: Consumer<CategoryController>(
         builder: (context, categoryProvider, child) {
           return categoryProvider.categoryList.isNotEmpty

@@ -18,10 +18,11 @@ import 'package:flutter_sixvalley_ecommerce/features/home/screens/aster_theme_ho
 import 'package:flutter_sixvalley_ecommerce/features/home/screens/fashion_theme_home_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/home/screens/home_screens.dart';
 import 'package:flutter_sixvalley_ecommerce/features/more/screens/more_screen_view.dart';
-import 'package:flutter_sixvalley_ecommerce/features/order/screens/order_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../blog/screens/blog_screen.dart';
+import '../../category/screens/category_screen.dart';
+import '../../support/screens/support_ticket_screen.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
@@ -93,9 +94,15 @@ class DashBoardScreenState extends State<DashBoardScreen> {
       //     screen: const CartScreen(showBackButton: false),
       //     showCartIcon: true),
       NavigationModel(
-          name: 'orders',
-          icon: Images.shoppingImage,
-          screen: const OrderScreen(isBacButtonExist: false)),
+        name: 'info_inquiry',
+        icon: Images.buySell,
+        screen: const SupportTicketScreen(showBackButton: false),
+      ),
+      NavigationModel(
+        name: 'CATEGORY',
+        icon: Images.categoryUnselect,
+        screen: const CategoryScreen(showBackButton: false),
+      ),
       NavigationModel(
           name: 'more', icon: Images.moreImage, screen: const MoreScreen()),
     ];

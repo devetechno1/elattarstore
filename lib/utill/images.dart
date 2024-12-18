@@ -80,6 +80,8 @@ class Images {
   static const String refundPolicy = 'assets/images/refund_policy.png';
   static const String faq = 'assets/images/faq.png';
   static const String category = 'assets/images/category.png';
+  static const String categoryUnselect = 'assets/images/category_unselect.png';
+  static const String buySell = 'assets/images/buy_sell.png';
   static const String logout = 'assets/images/logout.png';
   static const String myOrder = 'assets/images/my_order.png';
   static const String support = 'assets/images/support.png';
