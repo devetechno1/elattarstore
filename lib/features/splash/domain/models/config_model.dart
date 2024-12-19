@@ -164,6 +164,7 @@ class ConfigModel {
       this.otpResendTime});
 
   ConfigModel.fromJson(Map<String, dynamic> json) {
+    print("social_medias : ${json['social_medias']}");
     showBlog = (json['blog_module'] as int?) == 1;
     shouldLogin = (json['should_login'] as int?) == 1;
     primaryColor = ColorHelper.hexCodeToColor(json['primary_color'] as String?);

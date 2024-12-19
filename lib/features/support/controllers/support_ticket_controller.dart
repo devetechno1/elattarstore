@@ -117,14 +117,14 @@ class SupportTicketController extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<String> priority = ['urgent', 'high', 'medium', 'low'];
+  List<String> priority = ['purchase', 'sale'];
   int selectedPriorityIndex = -1;
   String selectedPriority =
       getTranslated('select_priority', Get.context!) ?? '';
   void setSelectedPriority(int index, {bool reload = true}) {
     selectedPriorityIndex = index;
     selectedPriority =
-        getTranslated(priority[selectedPriorityIndex], Get.context!) ?? 'High';
+        getTranslated(priority[selectedPriorityIndex], Get.context!) ?? 'purchase';
     notifyListeners();
   }
 

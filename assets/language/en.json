@@ -695,6 +695,8 @@
   "medium": "Medium",
   "low": "Low",
   "select_priority": "Select Priority",
+  "purchase":"Purchase",
+  "sale":"Sale",
   "description_is_required": "Description is required",
   "priority_is_required": "Priority is required",
   "priority": "Priority",

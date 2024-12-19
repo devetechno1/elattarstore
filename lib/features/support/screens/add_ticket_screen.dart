@@ -117,7 +117,7 @@ class AddTicketScreenState extends State<AddTicketScreen> {
                   required: true,
                   focusNode: _descriptionNode,
                   inputAction: TextInputAction.newline,
-                  hintText: getTranslated('issue_description', context),
+                  hintText: getTranslated('description', context),
                   inputType: TextInputType.multiline,
                   controller: _descriptionController,
                   labelText: '${getTranslated('description', context)}',

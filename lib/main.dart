@@ -189,34 +189,9 @@ class MyApp extends StatelessWidget {
           FallbackLocalizationDelegate()
         ],
         builder: (context, child) {
-          child = Stack(
-            children: [
-              child!,
-              if (Provider.of<SplashController>(context, listen: false)
-                      .configModel
-                      ?.companyPhone !=
-                  null)
-                PositionedDirectional(
-                  bottom: 80,
-                  end: 20,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      final String url =
-                          "https://wa.me/${Provider.of<SplashController>(Get.context!, listen: false).configModel!.companyPhone!.replaceAll('+', '')}";
-                      launchUrl(
-                        Uri.parse(url),
-                        mode: LaunchMode.externalApplication,
-                      );
-                    },
-                    heroTag: "whatsapp",
-                    backgroundColor: const Color(0xff2ea218),
-                    child: SizedBox.square(
-                      dimension: 35,
-                      child: Image.asset(Images.whatsapp),
-                    ),
-                  ),
-                )
-            ],
+          child = Scaffold(
+            body: child,
+            floatingActionButton: whatsappButton(context),
           );
           return MediaQuery(
             data: MediaQuery.of(context)
@@ -230,6 +205,34 @@ class MyApp extends StatelessWidget {
         ),
       );
     });
+  }
+
+  Widget? whatsappButton(BuildContext context) {
+    if (Provider.of<SplashController>(context, listen: false)
+            .configModel
+            ?.companyPhone !=
+        null) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 60),
+        child: FloatingActionButton(
+          onPressed: () {
+            final String url =
+                "https://wa.me/${Provider.of<SplashController>(Get.context!, listen: false).configModel!.companyPhone!.replaceAll('+', '')}";
+            launchUrl(
+              Uri.parse(url),
+              mode: LaunchMode.externalApplication,
+            );
+          },
+          heroTag: "whatsapp",
+          backgroundColor: const Color(0xff2ea218),
+          child: SizedBox.square(
+            dimension: 35,
+            child: Image.asset(Images.whatsapp),
+          ),
+        ),
+      );
+    }
+    return null;
   }
 }
 
