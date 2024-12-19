@@ -386,55 +386,57 @@ class _MoreScreenState extends State<MoreScreen> {
                                   .isLoggedIn())
                                 const _DeleteAccountTile(),
                             ]))),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                          Dimensions.paddingSizeDefault,
-                          Dimensions.paddingSizeDefault,
-                          Dimensions.paddingSizeDefault,
-                          0),
-                      child: Text(
-                        getTranslated('social_media', context) ?? '',
-                        style: textRegular.copyWith(
-                          fontSize: Dimensions.fontSizeExtraLarge,
-                          color: Theme.of(context).colorScheme.onPrimary,
+                    if (configModel?.socialMedias?.isNotEmpty == true) ...[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                            Dimensions.paddingSizeDefault,
+                            Dimensions.paddingSizeDefault,
+                            Dimensions.paddingSizeDefault,
+                            0),
+                        child: Text(
+                          getTranslated('social_media', context) ?? '',
+                          style: textRegular.copyWith(
+                            fontSize: Dimensions.fontSizeExtraLarge,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      margin:
-                          const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                      padding:
-                          const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            Dimensions.fontSizeExtraSmall,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Theme.of(context)
-                                    .hintColor
-                                    .withOpacity(.05),
-                                blurRadius: 1,
-                                spreadRadius: 1,
-                                offset: const Offset(0, 1))
+                      Container(
+                        margin:
+                            const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                        padding:
+                            const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              Dimensions.fontSizeExtraSmall,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Theme.of(context)
+                                      .hintColor
+                                      .withOpacity(.05),
+                                  blurRadius: 1,
+                                  spreadRadius: 1,
+                                  offset: const Offset(0, 1))
+                            ],
+                            color:
+                                Provider.of<ThemeController>(context).darkTheme
+                                    ? Colors.white.withOpacity(.05)
+                                    : Theme.of(context).cardColor),
+                        child: Column(
+                          children: [
+                            for (SocialMediaModel e
+                                in configModel!.socialMedias!)
+                              MenuButtonWidget(
+                                image: '',
+                                icon: e.icon,
+                                title: getTranslated(e.name, context),
+                                onTap: () => launchUrl(Uri.parse(e.link ?? '')),
+                              )
                           ],
-                          color: Provider.of<ThemeController>(context).darkTheme
-                              ? Colors.white.withOpacity(.05)
-                              : Theme.of(context).cardColor),
-                      child: Column(
-                        children: [
-                          for (SocialMediaModel e
-                              in configModel?.socialMedias ??
-                                  <SocialMediaModel>[])
-                            MenuButtonWidget(
-                              image: '',
-                              icon: e.icon,
-                              title: getTranslated(e.name, context),
-                              onTap: () => launchUrl(Uri.parse(e.link ?? '')),
-                            )
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                     ListTile(
                         leading: SizedBox(
                             width: 30,
@@ -443,11 +445,12 @@ class _MoreScreenState extends State<MoreScreen> {
                               color: Theme.of(context).primaryColor,
                             )),
                         title: Text(
-                            isGuestMode
-                                ? getTranslated('sign_in', context)!
-                                : getTranslated('sign_out', context)!,
-                            style: titilliumRegular.copyWith(
-                                fontSize: Dimensions.fontSizeLarge)),
+                          isGuestMode
+                              ? getTranslated('sign_in', context)!
+                              : getTranslated('sign_out', context)!,
+                          style: titilliumRegular.copyWith(
+                              fontSize: Dimensions.fontSizeLarge),
+                        ),
                         onTap: () {
                           if (isGuestMode) {
                             // Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthScreen()));
