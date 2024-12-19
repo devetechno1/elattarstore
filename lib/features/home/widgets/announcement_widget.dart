@@ -16,7 +16,8 @@ class AnnouncementWidget extends StatelessWidget {
     String textColor = announcement!.textColor!.replaceAll('#', '0xff');
     return Container(
         decoration: BoxDecoration(color: Color(int.parse(color))),
-        padding: const EdgeInsetsDirectional.only(start: Dimensions.paddingSizeSmall),
+        padding: const EdgeInsetsDirectional.only(
+            start: Dimensions.paddingSizeSmall),
         child: Row(
           children: [
             Expanded(
@@ -30,8 +31,7 @@ class AnnouncementWidget extends StatelessWidget {
                             (announcement!.announcement!.length * .15).ceil()),
                     pauseDuration: const Duration(seconds: 0),
                     child: Text(announcement?.announcement ?? '',
-                        style: TextStyle(
-                            color: Color(int.parse(textColor)))))),
+                        style: TextStyle(color: Color(int.parse(textColor)))))),
             Container(
               width: 40,
               padding: const EdgeInsets.all(10),

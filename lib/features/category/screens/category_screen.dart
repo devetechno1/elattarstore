@@ -63,7 +63,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: getTranslated('CATEGORY', context), isBackButtonExist: widget.showBackButton),
+      appBar: CustomAppBar(
+          title: getTranslated('CATEGORY', context),
+          isBackButtonExist: widget.showBackButton),
       body: Consumer<CategoryController>(
         builder: (context, categoryProvider, child) {
           return categoryProvider.categoryList.isNotEmpty

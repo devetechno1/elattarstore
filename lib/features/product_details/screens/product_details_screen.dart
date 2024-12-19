@@ -210,7 +210,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                                               padding: const EdgeInsets.all(
                                                   Dimensions.paddingSizeSmall),
                                               child: ProductSpecificationWidget(
-                                                title: getTranslated('product_specification', context) ?? '',
+                                                title: getTranslated(
+                                                        'product_specification',
+                                                        context) ??
+                                                    '',
                                                 productSpecification: details
                                                         .productDetailsModel!
                                                         .details ??

@@ -51,7 +51,7 @@ class SettingsScreen extends StatelessWidget {
                       style: titilliumRegular.copyWith(
                           fontSize: Dimensions.fontSizeLarge)),
                 ),
-                if(AppConstants.languages.length > 1)
+                if (AppConstants.languages.length > 1)
                   TitleButton(
                       image: Images.language,
                       title: getTranslated('choose_language', context),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/image_full_url.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/color_helper.dart';
 
+import '../../../../data/model/social_media_model/social_media_model.dart';
+
 class ConfigModel {
   Color? primaryColor;
   Color? secondaryColor;
@@ -82,9 +84,11 @@ class ConfigModel {
   int? otpResendTime;
   bool? showBlog;
   bool? shouldLogin;
+  List<SocialMediaModel>? socialMedias;
   ConfigModel(
       {this.brandSetting,
       this.primaryColor,
+      this.socialMedias,
       this.showBlog,
       this.shouldLogin,
       this.secondaryColor,
@@ -164,7 +168,13 @@ class ConfigModel {
       this.otpResendTime});
 
   ConfigModel.fromJson(Map<String, dynamic> json) {
-    print("social_medias : ${json['social_medias']}");
+    if (json['social_medias'] != null) {
+      socialMedias = [];
+      for (Map<String, dynamic> e in json['social_medias'] as List) {
+        socialMedias!.add(SocialMediaModel.fromMap(e));
+      }
+    }
+
     showBlog = (json['blog_module'] as int?) == 1;
     shouldLogin = (json['should_login'] as int?) == 1;
     primaryColor = ColorHelper.hexCodeToColor(json['primary_color'] as String?);

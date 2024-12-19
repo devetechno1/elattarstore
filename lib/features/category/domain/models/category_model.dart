@@ -69,7 +69,9 @@ class Category {
       json['childes'].forEach((v) {
         final cat = Category.fromJson(v);
         _childes!.add(cat);
-        if (cat.imageFullUrl != null && cat.imageFullUrl?.path?.trim().isNotEmpty == true) _allChildesWithoutImage = false;
+        if (cat.imageFullUrl != null &&
+            cat.imageFullUrl?.path?.trim().isNotEmpty == true)
+          _allChildesWithoutImage = false;
       });
     }
     _imageFullUrl = json['icon_full_url'] != null

@@ -92,8 +92,8 @@ class DeleteAccountBottomSheet extends StatelessWidget {
                                   .clearSharedData();
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const AuthScreen(fromLogout: true,initIndex: 0)),
+                                      builder: (context) => const AuthScreen(
+                                          fromLogout: true, initIndex: 0)),
                                   (route) => false);
                             }
                           });

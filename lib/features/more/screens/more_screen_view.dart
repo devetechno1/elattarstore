@@ -27,7 +27,10 @@ import 'package:flutter_sixvalley_ecommerce/features/notification/screens/notifi
 import 'package:flutter_sixvalley_ecommerce/features/address/screens/address_list_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/refer_and_earn/screens/refer_and_earn_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/setting/screens/settings_screen.dart';
+
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../../data/model/social_media_model/social_media_model.dart';
 import '../../auth/screens/auth_screen.dart';
 import '../../blog/screens/blog_screen.dart';
 import '../../profile/widgets/delete_account_bottom_sheet_widget.dart';
@@ -207,17 +210,19 @@ class _MoreScreenState extends State<MoreScreen> {
                                   navigateTo: const SettingsScreen())
                             ]))),
                     Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                            Dimensions.paddingSizeDefault,
-                            Dimensions.paddingSizeDefault,
-                            Dimensions.paddingSizeDefault,
-                            0),
-                        child: Text(
-                            getTranslated('help_and_support', context) ?? '',
-                            style: textRegular.copyWith(
-                                fontSize: Dimensions.fontSizeExtraLarge,
-                                color:
-                                    Theme.of(context).colorScheme.onPrimary))),
+                      padding: const EdgeInsets.fromLTRB(
+                          Dimensions.paddingSizeDefault,
+                          Dimensions.paddingSizeDefault,
+                          Dimensions.paddingSizeDefault,
+                          0),
+                      child: Text(
+                        getTranslated('help_and_support', context) ?? '',
+                        style: textRegular.copyWith(
+                          fontSize: Dimensions.fontSizeExtraLarge,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                    ),
                     Padding(
                         padding:
                             const EdgeInsets.all(Dimensions.paddingSizeDefault),
@@ -381,6 +386,55 @@ class _MoreScreenState extends State<MoreScreen> {
                                   .isLoggedIn())
                                 const _DeleteAccountTile(),
                             ]))),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                          Dimensions.paddingSizeDefault,
+                          Dimensions.paddingSizeDefault,
+                          Dimensions.paddingSizeDefault,
+                          0),
+                      child: Text(
+                        getTranslated('social_media', context) ?? '',
+                        style: textRegular.copyWith(
+                          fontSize: Dimensions.fontSizeExtraLarge,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin:
+                          const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                      padding:
+                          const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            Dimensions.fontSizeExtraSmall,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Theme.of(context)
+                                    .hintColor
+                                    .withOpacity(.05),
+                                blurRadius: 1,
+                                spreadRadius: 1,
+                                offset: const Offset(0, 1))
+                          ],
+                          color: Provider.of<ThemeController>(context).darkTheme
+                              ? Colors.white.withOpacity(.05)
+                              : Theme.of(context).cardColor),
+                      child: Column(
+                        children: [
+                          for (SocialMediaModel e
+                              in configModel?.socialMedias ??
+                                  <SocialMediaModel>[])
+                            MenuButtonWidget(
+                              image: '',
+                              icon: e.icon,
+                              title: getTranslated(e.name, context),
+                              onTap: () => launchUrl(Uri.parse(e.link ?? '')),
+                            )
+                        ],
+                      ),
+                    ),
                     ListTile(
                         leading: SizedBox(
                             width: 30,

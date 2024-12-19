@@ -76,6 +76,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^26.2.8
   firebase_auth: ^5.1.4
   flutter_html: ^3.0.0-beta.2
+  font_awesome_flutter: ^10.8.0
 
 dev_dependencies:
   flutter_lints: ^3.0.1

@@ -4,21 +4,27 @@ import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class MenuButtonWidget extends StatelessWidget {
   final String image;
   final String? title;
-  final Widget navigateTo;
+  final Widget? navigateTo;
   final bool isNotification;
   final bool isProfile;
-  const MenuButtonWidget(
-      {super.key,
-      required this.image,
-      required this.title,
-      required this.navigateTo,
-      this.isNotification = false,
-      this.isProfile = false});
+  final IconData? icon;
+  final void Function()? onTap;
+  const MenuButtonWidget({
+    super.key,
+    required this.image,
+    required this.title,
+    this.navigateTo,
+    this.isNotification = false,
+    this.isProfile = false,
+    this.icon,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,17 +60,30 @@ class MenuButtonWidget extends StatelessWidget {
                                 fontSize: Dimensions.fontSizeSmall)));
                   })
                 : const SizedBox(),
-        leading: Image.asset(
-          image,
-          width: 25,
-          height: 25,
-          fit: BoxFit.fill,
-          color: Theme.of(context).primaryColor.withOpacity(.6),
-        ),
+        leading: image.isEmpty && icon != null
+            ? FaIcon(
+                icon,
+                size: 25,
+                color: Theme.of(context).primaryColor.withOpacity(.7),
+              )
+            : Image.asset(
+                image,
+                width: 25,
+                height: 25,
+                fit: BoxFit.fill,
+                color: Theme.of(context).primaryColor.withOpacity(.7),
+              ),
         title: Text(title!,
             style:
                 titilliumRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
-        onTap: () => Navigator.push(
-            context, MaterialPageRoute(builder: (_) => navigateTo)));
+        onTap: () {
+          onTap?.call();
+          if (navigateTo != null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => navigateTo!),
+            );
+          }
+        });
   }
 }
