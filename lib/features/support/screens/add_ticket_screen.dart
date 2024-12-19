@@ -32,8 +32,12 @@ class AddTicketScreen extends StatefulWidget {
 
 class AddTicketScreenState extends State<AddTicketScreen> {
   final TextEditingController _subjectController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _areaController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final FocusNode _subjectNode = FocusNode();
+  final FocusNode _phoneNode = FocusNode();
+  final FocusNode _areaNode = FocusNode();
   final FocusNode _descriptionNode = FocusNode();
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
       GlobalKey<ScaffoldMessengerState>();
@@ -125,12 +129,32 @@ class AddTicketScreenState extends State<AddTicketScreen> {
                               ]))))),
               CustomTextFieldWidget(
                 focusNode: _subjectNode,
-                nextFocus: _descriptionNode,
+                nextFocus: _phoneNode,
                 required: true,
                 inputAction: TextInputAction.next,
                 labelText: '${getTranslated('item_name', context)}',
                 hintText: getTranslated('item_name', context),
                 controller: _subjectController,
+              ),
+              const SizedBox(height: Dimensions.paddingSizeLarge),
+              CustomTextFieldWidget(
+                required: true,
+                focusNode: _phoneNode,
+                nextFocus: _areaNode,
+                hintText: getTranslated('PHONE_NO', context),
+                inputType: TextInputType.phone,
+                controller: _phoneController,
+                labelText: '${getTranslated('phone', context)}',
+              ),
+              const SizedBox(height: Dimensions.paddingSizeLarge),
+              CustomTextFieldWidget(
+                required: true,
+                focusNode: _areaNode,
+                nextFocus: _descriptionNode,
+                hintText: getTranslated('area', context),
+                inputType: TextInputType.streetAddress,
+                controller: _areaController,
+                labelText: '${getTranslated('area', context)}',
               ),
               const SizedBox(height: Dimensions.paddingSizeLarge),
               CustomTextFieldWidget(
@@ -269,7 +293,15 @@ class AddTicketScreenState extends State<AddTicketScreen> {
                       onTap: () {
                         if (_subjectController.text.isEmpty) {
                           showCustomSnackBar(
-                              getTranslated('subject_is_required', context),
+                              getTranslated('item_name_is_required', context),
+                              context);
+                        } else if (_phoneController.text.isEmpty) {
+                          showCustomSnackBar(
+                              getTranslated('phone_is_required', context),
+                              context);
+                        } else if (_areaController.text.isEmpty) {
+                          showCustomSnackBar(
+                              getTranslated('area_is_required', context),
                               context);
                         } else if (_descriptionController.text.isEmpty) {
                           showCustomSnackBar(
@@ -282,11 +314,15 @@ class AddTicketScreenState extends State<AddTicketScreen> {
                               getTranslated('priority_is_required', context),
                               context);
                         } else {
-                          SupportTicketBody supportTicketModel = SupportTicketBody(
-                              '${getTranslated(widget.ticketModel.title, context)}',
-                              _subjectController.text,
-                              _descriptionController.text,
-                              supportTicketProvider.selectedPriority);
+                          final String description =
+                              "${getTranslated('phone', context)}: ${_phoneController.text.trim()}\n${getTranslated('area', context)}: ${_areaController.text.trim()}\n${getTranslated('description', context)}: ${_descriptionController.text.trim()}";
+                          SupportTicketBody supportTicketModel =
+                              SupportTicketBody(
+                            widget.ticketModel.title,
+                            _subjectController.text,
+                            description,
+                            supportTicketProvider.selectedPriority,
+                          );
                           supportTicketProvider
                               .createSupportTicket(supportTicketModel);
                         }

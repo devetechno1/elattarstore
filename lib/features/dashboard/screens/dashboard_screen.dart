@@ -89,11 +89,6 @@ class DashBoardScreenState extends State<DashBoardScreen> {
             name: 'inbox',
             icon: Images.messageImage,
             screen: const InboxScreen(isBackButtonExist: false)),
-      // NavigationModel(
-      //     name: 'cart',
-      //     icon: Images.cartArrowDownImage,
-      //     screen: const CartScreen(showBackButton: false),
-      //     showCartIcon: true),
 
       NavigationModel(
         name: 'info_inquiry',

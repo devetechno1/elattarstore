@@ -66,13 +66,13 @@ class SupportTicketWidget extends StatelessWidget {
                 SizedBox(
                   width: 15,
                   child: Image.asset(
-                    supportTicketModel.type?.toLowerCase() == 'website problem'
+                    supportTicketModel.type?.toLowerCase() == 'website_problem'
                         ? Images.websiteProblem
-                        : supportTicketModel.type == 'Complaint'
+                        : supportTicketModel.type == 'complaint'
                             ? Images.complaint
-                            : supportTicketModel.type == 'Partner request'
+                            : supportTicketModel.type == 'partner_request'
                                 ? Images.partnerRequest
-                                : Images.infoQuery,
+                                : Images.buySellColor,
                   ),
                 ),
                 const SizedBox(
@@ -80,7 +80,8 @@ class SupportTicketWidget extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    supportTicketModel.type!,
+                    getTranslated(supportTicketModel.type!, context) ??
+                        supportTicketModel.type!,
                     style: textBold.copyWith(
                       color: Theme.of(context)
                           .textTheme
