@@ -43,9 +43,9 @@ class AddTicketScreenState extends State<AddTicketScreen> {
   @override
   void initState() {
     if (widget.type == 'info_inquiry') {
-      c.initData(['purchase', 'sale']);
+      c.initData(['purchase', 'sale'], 'select_sale_purchase');
     } else {
-      c.initData(['urgent', 'high', 'medium', 'low']);
+      c.initData(['urgent', 'high', 'medium', 'low'], 'select_priority');
     }
     super.initState();
   }

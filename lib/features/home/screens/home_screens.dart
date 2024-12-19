@@ -318,7 +318,7 @@ class _HomePageState extends State<HomePage> {
                             MaterialPageRoute(
                               builder: (context) => AddTicketScreen(
                                 ticketModel:
-                                    TicketModel(Images.buySell, 'info_inquiry'),
+                                    TicketModel(Images.buySellColor, 'info_inquiry'),
                                 type: 'info_inquiry',
                               ),
                             ),

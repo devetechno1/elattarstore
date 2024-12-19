@@ -82,6 +82,7 @@ class Images {
   static const String category = 'assets/images/category.png';
   static const String categoryUnselect = 'assets/images/category_unselect.png';
   static const String buySell = 'assets/images/buy_sell.png';
+  static const String buySellColor = 'assets/images/buy_sell_color.png';
   static const String logout = 'assets/images/logout.png';
   static const String myOrder = 'assets/images/my_order.png';
   static const String support = 'assets/images/support.png';

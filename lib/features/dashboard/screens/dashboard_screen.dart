@@ -99,7 +99,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
         name: 'info_inquiry',
         icon: Images.buySell,
         screen: AddTicketScreen(
-          ticketModel: TicketModel(Images.buySell, 'info_inquiry'),
+          ticketModel: TicketModel(Images.buySellColor, 'info_inquiry'),
           isBackButtonExist: false,
           type: 'info_inquiry',
         ),

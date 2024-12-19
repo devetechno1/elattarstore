@@ -18,7 +18,7 @@ class _SupportTicketTypeWidgetState extends State<SupportTicketTypeWidget> {
     TicketModel(Images.websiteProblem, 'website_problem'),
     TicketModel(Images.partnerRequest, 'partner_request'),
     TicketModel(Images.complaint, 'complaint'),
-    TicketModel(Images.buySell, 'info_inquiry'),
+    TicketModel(Images.buySellColor, 'info_inquiry'),
   ];
 
   @override
