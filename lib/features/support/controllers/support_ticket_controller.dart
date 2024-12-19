@@ -117,15 +117,24 @@ class SupportTicketController extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<String> priority = ['purchase', 'sale'];
+  // List<String> priority = ['purchase', 'sale'];
+  List<String> priority = [];
+
+  void initData(List<String> priority) {
+    this.priority.clear();
+    this.priority.addAll(priority);
+    selectedPriorityIndex = -1;
+    selectedPriority = 'select_priority';
+    _pickedImageFiles.clear();
+  }
+
   int selectedPriorityIndex = -1;
-  String selectedPriority =
-      getTranslated('select_priority', Get.context!) ?? '';
+  String selectedPriority = 'select_priority';
   void setSelectedPriority(int index, {bool reload = true}) {
     selectedPriorityIndex = index;
-    selectedPriority =
-        getTranslated(priority[selectedPriorityIndex], Get.context!) ??
-            'purchase';
+    selectedPriority = priority[selectedPriorityIndex];
+    // getTranslated(priority[selectedPriorityIndex], Get.context!) ??
+    //     'purchase';
     notifyListeners();
   }
 

@@ -50,7 +50,8 @@ import 'package:provider/provider.dart';
 import '../../../utill/color_resources.dart';
 import '../../cart/screens/cart_screen.dart';
 import '../../category/widgets/sub_categories/all_sub_categories_widget.dart';
-import '../../support/screens/support_ticket_screen.dart';
+import '../../support/screens/add_ticket_screen.dart';
+import '../../support/widgets/support_ticket_type_widget.dart';
 import '../../wishlist/screens/wishlist_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -315,7 +316,11 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SupportTicketScreen(),
+                              builder: (context) => AddTicketScreen(
+                                ticketModel:
+                                    TicketModel(Images.buySell, 'info_inquiry'),
+                                type: 'info_inquiry',
+                              ),
                             ),
                           );
                         },

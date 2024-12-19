@@ -22,7 +22,8 @@ import 'package:provider/provider.dart';
 
 import '../../blog/screens/blog_screen.dart';
 import '../../category/screens/category_screen.dart';
-import '../../support/screens/support_ticket_screen.dart';
+import '../../support/screens/add_ticket_screen.dart';
+import '../../support/widgets/support_ticket_type_widget.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
@@ -93,10 +94,15 @@ class DashBoardScreenState extends State<DashBoardScreen> {
       //     icon: Images.cartArrowDownImage,
       //     screen: const CartScreen(showBackButton: false),
       //     showCartIcon: true),
+
       NavigationModel(
         name: 'info_inquiry',
         icon: Images.buySell,
-        screen: const SupportTicketScreen(showBackButton: false),
+        screen: AddTicketScreen(
+          ticketModel: TicketModel(Images.buySell, 'info_inquiry'),
+          isBackButtonExist: false,
+          type: 'info_inquiry',
+        ),
       ),
       NavigationModel(
         name: 'CATEGORY',

@@ -15,18 +15,16 @@ class SupportTicketTypeWidget extends StatefulWidget {
 
 class _SupportTicketTypeWidgetState extends State<SupportTicketTypeWidget> {
   List<TicketModel> issueTypeList = [
-    // TicketModel(Images.websiteProblem, 'website_problem'),
-    // TicketModel(Images.partnerRequest, 'partner_request'),
-    // TicketModel(Images.complaint, 'complaint'),
-    TicketModel(Images.infoQuery, 'info_inquiry'),
+    TicketModel(Images.websiteProblem, 'website_problem'),
+    TicketModel(Images.partnerRequest, 'partner_request'),
+    TicketModel(Images.complaint, 'complaint'),
+    TicketModel(Images.buySell, 'info_inquiry'),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: issueTypeList.length > 2
-          ? MediaQuery.of(context).size.height / 2
-          : MediaQuery.of(context).size.height / 3,
+      height: MediaQuery.of(context).size.height / 2,
       decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: const BorderRadius.only(
@@ -64,29 +62,37 @@ class _SupportTicketTypeWidgetState extends State<SupportTicketTypeWidget> {
                     horizontal: Dimensions.paddingSizeLarge,
                     vertical: Dimensions.paddingSizeExtraSmall),
                 itemCount: issueTypeList.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => AddTicketScreen(
-                                    ticketModel: issueTypeList[index])));
-                      },
-                      child: TypeButton(
-                          icon: issueTypeList[index].icon,
-                          title: issueTypeList[index].title));
-                },
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: issueTypeList.length > 2 ? 2 : 1,
+                itemBuilder: (context, i) => _tileWidget(context, i),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
-                  childAspectRatio: issueTypeList.length > 2 ? 2 / 1.5 : 3,
+                  childAspectRatio: 2 / 1.5,
                 ),
               ),
             )
           ],
         ),
+      ),
+    );
+  }
+
+  InkWell _tileWidget(BuildContext context, int index) {
+    return InkWell(
+      onTap: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => AddTicketScreen(
+              ticketModel: issueTypeList[index],
+              type: issueTypeList[index].title,
+            ),
+          ),
+        );
+      },
+      child: TypeButton(
+        icon: issueTypeList[index].icon,
+        title: issueTypeList[index].title,
       ),
     );
   }
@@ -124,7 +130,7 @@ class TypeButton extends StatelessWidget {
         padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 20, child: Image.asset(icon!)),

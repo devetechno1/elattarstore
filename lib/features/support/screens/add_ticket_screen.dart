@@ -17,7 +17,14 @@ import 'package:provider/provider.dart';
 
 class AddTicketScreen extends StatefulWidget {
   final TicketModel ticketModel;
-  const AddTicketScreen({super.key, required this.ticketModel});
+  final String type;
+  final bool isBackButtonExist;
+  const AddTicketScreen({
+    super.key,
+    required this.ticketModel,
+    required this.type,
+    this.isBackButtonExist = true,
+  });
 
   @override
   AddTicketScreenState createState() => AddTicketScreenState();
@@ -31,8 +38,15 @@ class AddTicketScreenState extends State<AddTicketScreen> {
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
       GlobalKey<ScaffoldMessengerState>();
 
+  late final c = Provider.of<SupportTicketController>(context, listen: false);
+
   @override
   void initState() {
+    if (widget.type == 'info_inquiry') {
+      c.initData(['purchase', 'sale']);
+    } else {
+      c.initData(['urgent', 'high', 'medium', 'low']);
+    }
     super.initState();
   }
 
@@ -41,6 +55,7 @@ class AddTicketScreenState extends State<AddTicketScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         title: getTranslated('add_new_ticket', context),
+        isBackButtonExist: widget.isBackButtonExist,
       ),
       body: Consumer<SupportTicketController>(
           builder: (context, supportTicketProvider, _) {
@@ -95,7 +110,12 @@ class AddTicketScreenState extends State<AddTicketScreen> {
                               child: Row(children: [
                                 Expanded(
                                     child: Text(
-                                        supportTicketProvider.selectedPriority,
+                                        getTranslated(
+                                                supportTicketProvider
+                                                    .selectedPriority,
+                                                context) ??
+                                            supportTicketProvider
+                                                .selectedPriority,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: textRegular.copyWith(
