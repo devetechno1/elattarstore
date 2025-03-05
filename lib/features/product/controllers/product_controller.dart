@@ -19,7 +19,7 @@ class ProductController extends ChangeNotifier {
   List<Product>? get lProductList => _lProductList;
   List<Product>? _featuredProductList;
 
-  ProductType _productType = ProductType.newArrival;
+  ProductType _productType = ProductType.bestSelling;
   String? _title = '${getTranslated('best_selling', Get.context!)}';
 
   bool _filterIsLoading = false;
