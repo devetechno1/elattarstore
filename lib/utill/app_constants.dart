@@ -2,7 +2,7 @@ import 'package:flutter_sixvalley_ecommerce/localization/models/language_model.d
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 
 class AppConstants {
-  static const String appName = 'متجر العطار';
+  static const String appName = 'El 3attar Store';
   static const String slogan = 'E-Commerce Marketplace';
   static const String appVersion = '14.8';
 
@@ -247,18 +247,18 @@ class AppConstants {
   static bool showBlog = false;
 
   static List<LanguageModel> languages = [
-    LanguageModel(
-      imageUrl: Images.ar,
-      languageName: 'عربي',
-      countryCode: 'EG',
-      languageCode: 'ar',
-    ),
     // LanguageModel(
-    //   imageUrl: Images.en,
-    //   languageName: 'English',
-    //   countryCode: 'US',
-    //   languageCode: 'en',
+    //   imageUrl: Images.ar,
+    //   languageName: 'عربي',
+    //   countryCode: 'EG',
+    //   languageCode: 'ar',
     // ),
+    LanguageModel(
+      imageUrl: Images.en,
+      languageName: 'English',
+      countryCode: 'US',
+      languageCode: 'en',
+    ),
     // LanguageModel(imageUrl: Images.hi, languageName: 'Hindi', countryCode: 'IN', languageCode: 'hi'),
     // LanguageModel(imageUrl: Images.bn, languageName: 'Bangla', countryCode: 'BD', languageCode: 'bn'),
     // LanguageModel(imageUrl: Images.es, languageName: 'Spanish', countryCode: 'ES', languageCode: 'es'),
