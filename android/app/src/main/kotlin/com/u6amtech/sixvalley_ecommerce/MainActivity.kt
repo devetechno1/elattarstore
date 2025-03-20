@@ -1,4 +1,4 @@
-package com.elattarstore.el3attar
+package com.elattarstore.storeapp
 
 import io.flutter.embedding.android.FlutterActivity
 
