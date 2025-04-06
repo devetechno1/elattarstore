@@ -247,12 +247,12 @@ class AppConstants {
   static bool showBlog = false;
 
   static List<LanguageModel> languages = [
-    // LanguageModel(
-    //   imageUrl: Images.ar,
-    //   languageName: 'عربي',
-    //   countryCode: 'EG',
-    //   languageCode: 'ar',
-    // ),
+    LanguageModel(
+      imageUrl: Images.ar,
+      languageName: 'عربي',
+      countryCode: 'EG',
+      languageCode: 'ar',
+    ),
     LanguageModel(
       imageUrl: Images.en,
       languageName: 'English',
