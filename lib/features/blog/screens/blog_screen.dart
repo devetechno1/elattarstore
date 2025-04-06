@@ -37,7 +37,7 @@ class _BlogScreenState extends State<BlogScreen>
       },
       child: Scaffold(
         appBar: CustomAppBar(
-            title: getTranslated('blog', context),
+            title: getTranslated('compatibility', context),
             isBackButtonExist: widget.isBackButtonExist,
             onBackPressed: () {
               if (Navigator.of(context).canPop()) {

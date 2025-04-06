@@ -44,6 +44,10 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 SwitchListTile(
                   value: Provider.of<ThemeController>(context).darkTheme,
+                  activeColor: Theme.of(context).colorScheme.primary,
+                  activeTrackColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                  thumbColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.primary),
+                  trackOutlineColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onPrimaryContainer),
                   onChanged: (bool isActive) =>
                       Provider.of<ThemeController>(context, listen: false)
                           .toggleTheme(),
