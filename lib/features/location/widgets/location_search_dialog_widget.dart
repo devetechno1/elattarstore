@@ -7,14 +7,24 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-class LocationSearchDialogWidget extends StatelessWidget {
+class LocationSearchDialogWidget extends StatefulWidget {
   final GoogleMapController? mapController;
   const LocationSearchDialogWidget({super.key, required this.mapController});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController controller = TextEditingController();
+  State<LocationSearchDialogWidget> createState() => _LocationSearchDialogWidgetState();
+}
 
+class _LocationSearchDialogWidgetState extends State<LocationSearchDialogWidget> {
+  final TextEditingController controller = TextEditingController();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 80),
       alignment: Alignment.topCenter,
@@ -23,8 +33,11 @@ class LocationSearchDialogWidget extends StatelessWidget {
         child: SizedBox(
             width: 1170,
             child: TypeAheadField(
-              textFieldConfiguration: TextFieldConfiguration(
+              controller: controller,
+              builder: (context, controller, focusNode) {
+                return TextField(
                   controller: controller,
+                  focusNode: focusNode,
                   textInputAction: TextInputAction.search,
                   autofocus: true,
                   textCapitalization: TextCapitalization.words,
@@ -45,7 +58,9 @@ class LocationSearchDialogWidget extends StatelessWidget {
                       fillColor: Theme.of(context).cardColor),
                   style: Theme.of(context).textTheme.displayMedium!.copyWith(
                       color: Theme.of(context).textTheme.bodyLarge!.color,
-                      fontSize: Dimensions.fontSizeLarge)),
+                      fontSize: Dimensions.fontSizeLarge)
+                );
+              },
               suggestionsCallback: (pattern) async {
                 return await Provider.of<LocationController>(context,
                         listen: false)
@@ -72,10 +87,10 @@ class LocationSearchDialogWidget extends StatelessWidget {
                   ]),
                 );
               },
-              onSuggestionSelected: (PredictionModel suggestion) {
+              onSelected: (PredictionModel suggestion) {
                 Provider.of<LocationController>(context, listen: false)
                     .setLocation(suggestion.placeId, suggestion.description,
-                        mapController);
+                        widget.mapController);
                 Navigator.pop(context);
               },
             )),
