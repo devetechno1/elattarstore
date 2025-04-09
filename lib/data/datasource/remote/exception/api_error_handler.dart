@@ -52,7 +52,7 @@ class ApiErrorHandler {
                       .clearSharedData();
                   break;
                 case 404:
-                case 403:
+                // case 403:
                   if (error.response!.data['error_type'] != null) {
                     errorDescription = error.response!.data['message'];
                   }

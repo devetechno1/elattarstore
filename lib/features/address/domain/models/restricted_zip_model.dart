@@ -1,11 +1,12 @@
-class RestrictedZipModel {
-  int? id;
-  String? zipcode;
-  RestrictedZipModel({this.id, this.zipcode});
+import 'package:equatable/equatable.dart';
 
-  RestrictedZipModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    zipcode = json['zipcode'];
+class RestrictedZipModel extends Equatable {
+  final int? id;
+  final String? zipcode;
+  const RestrictedZipModel({this.id, this.zipcode});
+
+  factory RestrictedZipModel.fromJson(Map<String, dynamic> json) {
+    return RestrictedZipModel(id: json['id'], zipcode: json['zipcode']);
   }
 
   Map<String, dynamic> toJson() {
@@ -14,4 +15,7 @@ class RestrictedZipModel {
     data['zipcode'] = zipcode;
     return data;
   }
+  
+  @override
+  List<Object?> get props => [id, zipcode];
 }

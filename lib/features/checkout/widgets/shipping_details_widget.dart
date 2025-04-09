@@ -16,12 +16,14 @@ class ShippingDetailsWidget extends StatefulWidget {
   final bool hasPhysical;
   final bool billingAddress;
   final GlobalKey<FormState> passwordFormKey;
+  final void Function() onChooseAddress;
 
   const ShippingDetailsWidget(
       {super.key,
       required this.hasPhysical,
       required this.billingAddress,
-      required this.passwordFormKey});
+      required this.passwordFormKey, 
+      required this.onChooseAddress});
 
   @override
   State<ShippingDetailsWidget> createState() => _ShippingDetailsWidgetState();
@@ -78,10 +80,10 @@ class _ShippingDetailsWidgetState extends State<ShippingDetailsWidget> {
                                                       .fontSizeLarge)))
                                     ])),
                                     InkWell(
-                                      onTap: () => Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  const SavedAddressListScreen())),
+                                      onTap: ()async {
+                                        await Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => const SavedAddressListScreen()));
+                                        widget.onChooseAddress();
+                                      },
                                       child: SizedBox(
                                           width: 20,
                                           child: Image.asset(

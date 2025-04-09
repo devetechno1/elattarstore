@@ -193,14 +193,11 @@ class ShippingMethodBottomSheetWidgetState
                                                         widget.sellerIndex);
                                                 ShippingMethodModel shipping =
                                                     ShippingMethodModel();
-                                                shipping.id = shippingController
-                                                    .shippingList![
-                                                        widget.sellerIndex]
-                                                    .shippingMethodList![
-                                                        selectedIndex]
-                                                    .id;
-                                                shipping.duration =
-                                                    widget.groupId;
+
+                                                    shipping = shipping.copyWith(
+                                                      id: shippingController.shippingList![widget.sellerIndex].shippingMethodList![selectedIndex].id,
+                                                      duration: widget.groupId,
+                                                    );
                                                 shippingController.isLoading
                                                     ? const Center(
                                                         child:

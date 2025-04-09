@@ -274,7 +274,7 @@ Future<void> init() async {
   sl.registerFactory(() => ThemeController(sharedPreferences: sl()));
   sl.registerFactory(() => GoogleSignInController());
   sl.registerFactory(() => FacebookLoginController());
-  sl.registerFactory(() => AddressController(addressServiceInterface: sl()));
+  sl.registerFactory(() => AddressController(addressServiceInterface: sl(),shippingServiceInterface: sl()));
   sl.registerFactory(() => WalletController(walletServiceInterface: sl()));
   sl.registerFactory(() => CompareController(compareServiceInterface: sl()));
   sl.registerFactory(

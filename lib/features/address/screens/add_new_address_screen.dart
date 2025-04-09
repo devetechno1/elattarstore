@@ -1,9 +1,7 @@
-import 'dart:developer';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/domain/models/address_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/widgets/code_picker_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/controllers/checkout_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/location/controllers/location_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/location/screens/select_location_screen.dart';
@@ -17,7 +15,6 @@ import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/controllers/address_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
@@ -31,6 +28,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../shipping/domain/models/shipping_method_model.dart';
+import '../domain/models/restricted_zip_model.dart';
+
 class AddNewAddressScreen extends StatefulWidget {
   final bool isEnableUpdate;
   final bool fromCheckout;
@@ -41,7 +41,8 @@ class AddNewAddressScreen extends StatefulWidget {
       this.isEnableUpdate = false,
       this.address,
       this.fromCheckout = false,
-      this.isBilling});
+      this.isBilling,
+    });
 
   @override
   State<AddNewAddressScreen> createState() => _AddNewAddressScreenState();
@@ -54,15 +55,13 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
       TextEditingController();
   final TextEditingController _contactPersonNumberController =
       TextEditingController();
-  final TextEditingController _cityController = TextEditingController();
-  final TextEditingController _zipCodeController = TextEditingController();
-  final TextEditingController _countryCodeController = TextEditingController();
+  late final TextEditingController _cityController = TextEditingController(text: getTranslated('city', context)!);
+  late final TextEditingController _zipCodeController = TextEditingController(text: getTranslated('governorate', context)!);
+  late final TextEditingController _countryCodeController = TextEditingController(text: getTranslated('country', context)!);
   final FocusNode _addressNode = FocusNode();
   final FocusNode _nameNode = FocusNode();
   final FocusNode _emailNode = FocusNode();
   final FocusNode _numberNode = FocusNode();
-  final FocusNode _cityNode = FocusNode();
-  final FocusNode _zipNode = FocusNode();
   GoogleMapController? _controller;
   CameraPosition? _cameraPosition;
   bool _updateAddress = true;
@@ -71,6 +70,9 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
   late LatLng _defaut;
 
   final GlobalKey<FormState> _addressFormKey = GlobalKey();
+  Iterable<ShippingMethodModel> cities = {};
+  RestrictedZipModel? selectedGovernorate;
+  ShippingMethodModel? selectedCity;
 
   @override
   void initState() {
@@ -106,7 +108,31 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
     Provider.of<AddressController>(context, listen: false)
         .getRestrictedDeliveryCountryList();
     Provider.of<AddressController>(context, listen: false)
-        .getRestrictedDeliveryZipList();
+        .getRestrictedDeliveryZipList().then((value) {
+          if(!mounted) return;
+
+          for (RestrictedZipModel e in Provider.of<AddressController>(context, listen: false).restrictedZipList) {
+            if(e.zipcode ==  _zipCodeController.text){
+              selectedGovernorate = e;
+
+              cities = Provider.of<AddressController>(context, listen: false).cities(selectedGovernorate?.id);
+              for (ShippingMethodModel e in cities) {
+                if(e.id ==  int.tryParse(widget.address?.city ?? '-15') ){
+                  selectedCity = e;
+                  _cityController.text = e.title ?? getTranslated('city', context)!;
+                  break;
+                }
+              }
+
+              setState(() {});
+              break;
+            }
+          }
+
+          if(selectedGovernorate != null && mounted){
+            
+          }
+        },);
 
     _checkPermission(
         () => Provider.of<LocationController>(context, listen: false)
@@ -137,7 +163,6 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
       _countryCodeController.text = '${widget.address?.country}';
       _contactPersonEmailController.text = '${widget.address?.email}';
       // _contactPersonNumberController.text = '${widget.address?.phone}';
-      _cityController.text = '${widget.address?.city}';
       _zipCodeController.text = '${widget.address?.zip}';
       if (widget.address!.addressType == 'Home') {
         Provider.of<AddressController>(context, listen: false)
@@ -551,302 +576,81 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                               inputAction: TextInputAction.next,
                               focusNode: _addressNode,
                               prefixIcon: Images.address,
+                              isEnabled: false,
                               required: true,
-                              nextFocus: _cityNode,
                               controller: locationController.locationController,
                               validator: (value) =>
                                   ValidateCheck.validateEmptyText(
                                       value, "address_is_required"),
                             ),
-                            const SizedBox(
-                                height: Dimensions.paddingSizeDefaultAddress),
-                            ...[
-                              Text(getTranslated('country', context)!,
-                                  style: textRegular.copyWith(
-                                    color: Theme.of(context).hintColor,
-                                    fontSize: Dimensions.fontSizeSmall,
-                                  )),
-                              const SizedBox(
-                                  height: Dimensions.paddingSizeExtraSmall),
-                              SizedBox(
-                                  height: 60,
-                                  child: Consumer<AddressController>(
-                                      builder: (context, addressController, _) {
-                                    return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Provider.of<SplashController>(context,
-                                                          listen: false)
-                                                      .configModel!
-                                                      .deliveryCountryRestriction ==
-                                                  1
-                                              ? Container(
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  decoration: BoxDecoration(
-                                                      color: Theme.of(context)
-                                                          .cardColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                      border: Border.all(
-                                                          width: .1,
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .hintColor
-                                                                  .withOpacity(
-                                                                      0.1))),
-                                                  child:
-                                                      DropdownButtonFormField2<
-                                                          String>(
-                                                    isExpanded: true,
-                                                    isDense: true,
-                                                    decoration: InputDecoration(
-                                                        contentPadding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                vertical: 0),
-                                                        border: OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5))),
-                                                    hint: Row(
-                                                      children: [
-                                                        Image.asset(
-                                                            Images.country),
-                                                        const SizedBox(
-                                                            width: Dimensions
-                                                                .paddingSizeSmall),
-                                                        Text(
-                                                            _countryCodeController
-                                                                .text,
-                                                            style: textRegular.copyWith(
-                                                                fontSize: Dimensions
-                                                                    .fontSizeDefault,
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .textTheme
-                                                                    .bodyLarge!
-                                                                    .color)),
-                                                      ],
-                                                    ),
-                                                    items: addressController
-                                                        .restrictedCountryList
-                                                        .map((item) => DropdownMenuItem<
-                                                                String>(
-                                                            value: item,
-                                                            child: Text(item,
-                                                                style: textRegular
-                                                                    .copyWith(
-                                                                        fontSize:
-                                                                            Dimensions.fontSizeSmall))))
-                                                        .toList(),
-                                                    onChanged: (value) {
-                                                      _countryCodeController
-                                                          .text = value!;
-                                                    },
-                                                    buttonStyleData:
-                                                        const ButtonStyleData(
-                                                      padding: EdgeInsets.only(
-                                                          right: 8),
-                                                    ),
-                                                    iconStyleData: IconStyleData(
-                                                        icon: Icon(
-                                                            Icons
-                                                                .arrow_drop_down,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .hintColor),
-                                                        iconSize: 24),
-                                                    dropdownStyleData:
-                                                        DropdownStyleData(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5),
-                                                      ),
-                                                    ),
-                                                    menuItemStyleData:
-                                                        const MenuItemStyleData(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                    horizontal:
-                                                                        16)),
-                                                  ),
-                                                )
-                                              : Container(
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      vertical: Dimensions
-                                                          .paddingSizeSmall),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius
-                                                          .circular(Dimensions
-                                                              .paddingSizeSmall),
-                                                      color: Theme.of(context)
-                                                          .cardColor,
-                                                      border: Border.all(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .hintColor
-                                                                  .withOpacity(
-                                                                      .5))),
-                                                  child: CodePickerWidget(
-                                                    fromCountryList: true,
-                                                    padding: const EdgeInsets
-                                                        .only(
-                                                        left: Dimensions
-                                                            .paddingSizeSmall),
-                                                    flagWidth: 25,
-                                                    onChanged: (val) {
-                                                      _countryCodeController
-                                                          .text = val.name!;
-                                                      log("==ccc===>${val.flagUri}");
-                                                    },
-                                                    initialSelection:
-                                                        _countryCodeController
-                                                            .text,
-                                                    showDropDownButton: true,
-                                                    showCountryOnly: false,
-                                                    showOnlyCountryWhenClosed:
-                                                        true,
-                                                    showFlagDialog: true,
-                                                    hideMainText: false,
-                                                    showFlagMain: false,
-                                                    dialogBackgroundColor:
-                                                        Theme.of(context)
-                                                            .cardColor,
-                                                    barrierColor:
-                                                        Provider.of<ThemeController>(
-                                                                    context)
-                                                                .darkTheme
-                                                            ? Colors.black
-                                                                .withOpacity(
-                                                                    0.4)
-                                                            : null,
-                                                    textStyle:
-                                                        textRegular.copyWith(
-                                                      fontSize: Dimensions
-                                                          .fontSizeLarge,
-                                                      color: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyLarge!
-                                                          .color,
-                                                    ),
-                                                  ),
-                                                ),
-                                        ]);
-                                  })),
-                            ],
-                            const SizedBox(
-                                height: Dimensions.paddingSizeDefaultAddress),
-                            CustomTextFieldWidget(
-                              labelText: getTranslated('city', context),
-                              hintText: getTranslated('city', context),
-                              inputType: TextInputType.streetAddress,
-                              inputAction: TextInputAction.next,
-                              focusNode: _cityNode,
-                              required: true,
-                              nextFocus: _zipNode,
-                              prefixIcon: Images.city,
-                              controller: _cityController,
-                              validator: (value) =>
-                                  ValidateCheck.validateEmptyText(
-                                      value, 'city_is_required'),
+                            const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
+                            UniDropDown<String>(
+                              label: getTranslated('country', context)!, 
+                              hint: _countryCodeController.text, 
+                              value: _countryCodeController.text,
+                              image: Images.country,
+                              validator:(val) => ValidateCheck.validateEmptyText(val?.toString(), 'country_is_required'),
+                              onChanged: (value) {
+                                _countryCodeController.text = value!;
+                              },
+                              items: addressController
+                                  .restrictedCountryList
+                                  .map((item) => DropdownMenuItem<
+                                          String>(
+                                      value: item,
+                                      child: Text(item,
+                                          style: textRegular
+                                              .copyWith(
+                                                  fontSize:
+                                                      Dimensions.fontSizeSmall)))).toList()
                             ),
-                            const SizedBox(
-                                height: Dimensions.paddingSizeDefaultAddress),
-                            Provider.of<SplashController>(context,
-                                            listen: false)
-                                        .configModel!
-                                        .deliveryZipCodeAreaRestriction ==
-                                    0
-                                ? CustomTextFieldWidget(
-                                    labelText: getTranslated('zip', context),
-                                    hintText: getTranslated('zip', context),
-                                    inputAction: TextInputAction.done,
-                                    focusNode: _zipNode,
-                                    required: true,
-                                    prefixIcon: Images.city,
-                                    controller: _zipCodeController,
-                                    validator: (value) =>
-                                        ValidateCheck.validateEmptyText(
-                                            value, 'zip_code_is_required'),
-                                  )
-                                : Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                        color: Theme.of(context).cardColor,
-                                        borderRadius: BorderRadius.circular(5),
-                                        border: Border.all(
-                                            width: .1,
-                                            color: Theme.of(context)
-                                                .hintColor
-                                                .withOpacity(0.1))),
-                                    child: DropdownButtonFormField2<String>(
-                                      isExpanded: true,
-                                      isDense: true,
-                                      decoration: InputDecoration(
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                  vertical: 0),
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5))),
-                                      hint: Row(
-                                        children: [
-                                          Image.asset(Images.city),
-                                          const SizedBox(
-                                            width: Dimensions.paddingSizeSmall,
-                                          ),
-                                          Text(_zipCodeController.text,
-                                              style: textRegular.copyWith(
-                                                  fontSize: Dimensions
-                                                      .fontSizeDefault,
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge!
-                                                      .color)),
-                                        ],
-                                      ),
-                                      items: addressController.restrictedZipList
-                                          .map((item) => DropdownMenuItem<
-                                                  String>(
-                                              value: item.zipcode,
-                                              child: Text(item.zipcode!,
-                                                  style: textRegular.copyWith(
-                                                      fontSize: Dimensions
-                                                          .fontSizeSmall))))
-                                          .toList(),
-                                      onChanged: (value) {
-                                        _zipCodeController.text = value!;
-                                      },
-                                      buttonStyleData: const ButtonStyleData(
-                                        padding: EdgeInsets.only(right: 8),
-                                      ),
-                                      iconStyleData: IconStyleData(
-                                          icon: Icon(Icons.arrow_drop_down,
-                                              color:
-                                                  Theme.of(context).hintColor),
-                                          iconSize: 24),
-                                      dropdownStyleData: DropdownStyleData(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5))),
-                                      menuItemStyleData:
-                                          const MenuItemStyleData(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 16)),
-                                    ),
-                                  ),
-                            const SizedBox(
-                                height: Dimensions.paddingSizeDefaultAddress),
+                            const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
+                            UniDropDown<RestrictedZipModel>(
+                              label: getTranslated('governorate', context)!,
+                              hint: _zipCodeController.text,
+                              value: selectedGovernorate,
+                              image: Images.city,
+                              validator:(val) => ValidateCheck.validateEmptyText(val?.id?.toString(), 'governorate_is_required'),
+                              onChanged: (value) {
+                                _zipCodeController.text = value!.zipcode!;
+                                selectedGovernorate = value;
+                                cities = addressController.cities(value.id);
+                                _cityController.text = getTranslated('city', context)!;
+                                selectedCity = null;
+                                setState(() {
+                                  
+                                });
+                              },
+                              items: addressController.restrictedZipList.map(
+                                (item) => DropdownMenuItem<RestrictedZipModel>(
+                                  value: item,
+                                  child: Text(item.zipcode!,style: textRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                                ),
+                              ).toList(),
+                            ),
+                            const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
+                            UniDropDown<ShippingMethodModel>(
+                              label: getTranslated('city', context)!,
+                              hint: _cityController.text,
+                              image: Images.city,
+                              value: selectedCity,
+                              validator:(val) => ValidateCheck.validateEmptyText(val?.id?.toString(), 'city_is_required'),
+                              onChanged: (value) {
+                                _cityController.text = value!.title!;
+                                selectedCity = value;
+                                setState(() {
+                                  
+                                });
+                                // cities = addressController.cities(value.id);
+                              },
+                              items: cities.map(
+                                (item) => DropdownMenuItem<ShippingMethodModel>(
+                                  value: item,
+                                  child: Text(item.title!,style: textRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                                ),
+                              ).toList(),
+                            ),
+                            const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
                             Container(
                               height: 50.0,
                               margin: const EdgeInsets.all(
@@ -859,78 +663,37 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                 onTap: locationController.loading
                                     ? null
                                     : () {
-                                        if (_addressFormKey.currentState
-                                                ?.validate() ??
-                                            false) {
-                                          AddressModel addressModel =
-                                              AddressModel(
-                                            addressType: addressController
-                                                .addressTypeList[
-                                                    addressController
-                                                        .selectAddressIndex]
-                                                .title,
-                                            contactPersonName:
-                                                _contactPersonNameController
-                                                    .text,
-                                            phone:
-                                                '${Provider.of<AuthController>(context, listen: false).countryDialCode}${_contactPersonNumberController.text.trim()}',
-                                            email: _contactPersonEmailController
-                                                .text
-                                                .trim(),
-                                            city: _cityController.text,
+                                        if (_addressFormKey.currentState?.validate() ?? false) {
+                                          AddressModel addressModel = AddressModel(
+                                            addressType: addressController.addressTypeList[addressController.selectAddressIndex].title,
+                                            contactPersonName:_contactPersonNameController.text,
+                                            phone: '${Provider.of<AuthController>(context, listen: false).countryDialCode}${_contactPersonNumberController.text.trim()}',
+                                            email: _contactPersonEmailController.text.trim(),
+                                            city: selectedCity?.id?.toString(),
                                             zip: _zipCodeController.text,
-                                            country:
-                                                _countryCodeController.text,
-                                            guestId:
-                                                Provider.of<AuthController>(
-                                                        context,
-                                                        listen: false)
-                                                    .getGuestToken(),
-                                            isBilling:
-                                                _address == Address.billing,
-                                            address: locationController
-                                                .locationController.text,
+                                            country: _countryCodeController.text,
+                                            guestId:Provider.of<AuthController>(context,listen: false).getGuestToken(),
+                                            isBilling: _address == Address.billing,
+                                            address: locationController.locationController.text,
                                             latitude: widget.isEnableUpdate
-                                                ? locationController
-                                                    .position.latitude
-                                                    .toString()
-                                                : locationController
-                                                    .position.latitude
-                                                    .toString(),
+                                                ? locationController.position.latitude.toString()
+                                                : locationController.position.latitude.toString(),
                                             longitude: widget.isEnableUpdate
-                                                ? locationController
-                                                    .position.longitude
-                                                    .toString()
-                                                : locationController
-                                                    .position.longitude
-                                                    .toString(),
+                                                ? locationController.position.longitude.toString()
+                                                : locationController.position.longitude.toString(),
                                           );
 
                                           if (widget.isEnableUpdate) {
-                                            addressModel.id =
-                                                widget.address!.id;
-                                            addressController.updateAddress(
-                                                context,
-                                                addressModel: addressModel,
-                                                addressId: addressModel.id);
-                                          } else if (_countryCodeController.text
-                                              .trim()
-                                              .isEmpty) {
-                                            showCustomSnackBar(
-                                                '${getTranslated('country_is_required', context)}',
-                                                context);
+                                            addressModel.id =widget.address!.id;
+                                            addressController.updateAddress(context,addressModel: addressModel,addressId: addressModel.id);
+                                          } else if (_countryCodeController.text.trim().isEmpty) {
+                                            showCustomSnackBar('${getTranslated('country_is_required', context)}',context);
                                           } else {
-                                            addressController
-                                                .addAddress(addressModel)
-                                                .then((value) {
-                                              if (value.response?.statusCode ==
-                                                  200) {
+                                            addressController.addAddress(addressModel).then((value) {
+                                              if (value.response?.statusCode ==200) {
                                                 Navigator.pop(context);
                                                 if (widget.fromCheckout) {
-                                                  Provider.of<CheckoutController>(
-                                                          context,
-                                                          listen: false)
-                                                      .setAddressIndex(0);
+                                                  Provider.of<CheckoutController>(context,listen: false).setAddressIndex(0);
                                                 }
                                               }
                                             });
@@ -986,3 +749,86 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
 }
 
 enum Address { shipping, billing }
+
+
+class UniDropDown<T> extends StatelessWidget {
+  const UniDropDown({
+    super.key, 
+    required this.label,
+    required this.hint, 
+    this.items, 
+    this.onChanged, 
+    required this.image, 
+    this.validator, 
+    this.value,
+  });
+  final String label;
+  final String hint;
+  final String image;
+  final T? value;
+  final String? Function(T?)? validator;
+  final List<DropdownMenuItem<T>>? items;
+  final void Function(T?)? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          label,
+          style: textRegular.copyWith(
+            color: Theme.of(context).hintColor,
+            fontSize: Dimensions.fontSizeSmall,
+          )
+        ),
+        const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+        Container(
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(
+                  width: .1,
+                  color: Theme.of(context).hintColor.withValues(alpha: 0.1),
+              ),
+          ),
+          child: DropdownButtonFormField2<T>(
+            isExpanded: true,
+            isDense: true,
+            
+            autovalidateMode: AutovalidateMode.onUnfocus,
+            validator: validator,
+            value: value,
+            decoration: InputDecoration(
+                contentPadding: EdgeInsets.zero,
+                enabledBorder: border(),
+                border: border(),
+            ),
+            hint: Row(
+              children: [
+                Image.asset(image, color: Theme.of(context).primaryColor.withValues(alpha: 0.5)),
+                const SizedBox(width: Dimensions.paddingSizeSmall),
+                Text(
+                  hint,
+                  style: textRegular.copyWith(
+                    fontSize: Dimensions.fontSizeDefault,
+                    color: Theme.of(context).textTheme.bodyLarge!.color,
+                  ),
+                ),
+              ],
+            ),
+            items: items,
+            onChanged: onChanged,
+            buttonStyleData: const ButtonStyleData(padding: EdgeInsetsDirectional.only(end: 8)),
+            iconStyleData: IconStyleData(icon: Icon(Icons.arrow_drop_down, color:Theme.of(context).hintColor), iconSize: 24),
+            dropdownStyleData: DropdownStyleData(decoration: BoxDecoration(borderRadius: BorderRadius.circular(5))),
+            menuItemStyleData: const MenuItemStyleData(padding: EdgeInsets.symmetric(horizontal: 16)),
+          ),
+        ),
+      ],
+    );
+  }
+
+}
+  OutlineInputBorder border() => OutlineInputBorder(borderSide: const BorderSide(color: Color(0xFFBFBFBF)), borderRadius:BorderRadius.circular(5));

@@ -21,7 +21,7 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakba
 import 'package:flutter_sixvalley_ecommerce/features/cart/widgets/cart_page_shimmer_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/widgets/cart_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/screens/checkout_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/shipping/widgets/shipping_method_bottom_sheet_widget.dart';
+// import 'package:flutter_sixvalley_ecommerce/features/shipping/widgets/shipping_method_bottom_sheet_widget.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
@@ -49,8 +49,7 @@ class CartScreenState extends State<CartScreen> {
             .configModel!
             .shippingMethod !=
         'sellerwise_shipping') {
-      Provider.of<ShippingController>(Get.context!, listen: false)
-          .getAdminShippingMethodList(Get.context!);
+      Provider.of<ShippingController>(Get.context!, listen: false).getAdminShippingMethodList(Get.context!);
     }
   }
 
@@ -90,7 +89,6 @@ class CartScreenState extends State<CartScreen> {
           builder: (context, shippingController, _) {
         return Consumer<CartController>(builder: (context, cart, child) {
           double amount = 0.0;
-          double shippingAmount = 0.0;
           double discount = 0.0;
           double tax = 0.0;
           int totalQuantity = 0;
@@ -162,9 +160,7 @@ class CartScreenState extends State<CartScreen> {
             }
           }
 
-          if (cart.getData &&
-              configProvider.configModel!.shippingMethod ==
-                  'sellerwise_shipping') {
+          if (cart.getData) {
             shippingController.getShippingMethod(context, cartProductList);
           }
 
@@ -183,22 +179,22 @@ class CartScreenState extends State<CartScreen> {
               }
             }
           }
-          for (int i = 0;
-              i < shippingController.chosenShippingList.length;
-              i++) {
-            if (shippingController.chosenShippingList[i].isCheckItemExist ==
-                    1 &&
-                !onlyDigital) {
-              shippingAmount +=
-                  shippingController.chosenShippingList[i].shippingCost!;
-            }
-          }
+          // for (int i = 0;
+          //     i < shippingController.chosenShippingList.length;
+          //     i++) {
+          //   if (shippingController.chosenShippingList[i].isCheckItemExist ==
+          //           1 &&
+          //       !onlyDigital) {
+          //     shippingAmount +=
+          //         shippingController.chosenShippingList[i].shippingCost!;
+          //   }
+          // }
 
-          for (int j = 0; j < cartList.length; j++) {
-            if (cartList[j].isChecked!) {
-              shippingAmount += cart.cartList[j].shippingCost ?? 0;
-            }
-          }
+          // for (int j = 0; j < cartList.length; j++) {
+          //   if (cartList[j].isChecked!) {
+          //     shippingAmount += cart.cartList[j].shippingCost ?? 0;
+          //   }
+          // }
 
           return Scaffold(
             bottomNavigationBar: (!cart.cartLoading && cartList.isNotEmpty)
@@ -250,10 +246,7 @@ class CartScreenState extends State<CartScreen> {
                                           Text(
                                               PriceConverter.convertPrice(
                                                   context,
-                                                  amount +
-                                                      tax +
-                                                      shippingAmount -
-                                                      freeDeliveryAmountDiscount),
+                                                  amount + tax),
                                               style: titilliumSemiBold.copyWith(
                                                   color:
                                                       Provider.of<ThemeController>(
@@ -270,7 +263,7 @@ class CartScreenState extends State<CartScreen> {
                                 Flexible(
                                   child: InkWell(
                                     onTap: () {
-                                      bool hasNull = false;
+                                      // bool hasNull = false;
                                       bool minimum = false;
                                       bool stockOutProduct = false;
                                       bool closeShop = false;
@@ -291,37 +284,37 @@ class CartScreenState extends State<CartScreen> {
                                       if (configProvider
                                               .configModel!.shippingMethod ==
                                           'sellerwise_shipping') {
-                                        for (int index = 0;
-                                            index < sellerGroupList.length;
-                                            index++) {
-                                          bool hasPhysical = false;
-                                          for (CartModel cart
-                                              in cartProductList[index]) {
-                                            if (cart.productType ==
-                                                'physical') {
-                                              hasPhysical = true;
-                                              break;
-                                            }
-                                          }
+                                        // for (int index = 0;
+                                        //     index < sellerGroupList.length;
+                                        //     index++) {
+                                          // bool hasPhysical = false;
+                                          // for (CartModel cart
+                                          //     in cartProductList[index]) {
+                                          //   if (cart.productType ==
+                                          //       'physical') {
+                                          //     hasPhysical = true;
+                                          //     break;
+                                          //   }
+                                          // }
 
-                                          if (hasPhysical &&
-                                              sellerGroupList[index]
-                                                  .isGroupItemChecked! &&
-                                              sellerGroupList[index]
-                                                      .shippingType ==
-                                                  'order_wise' &&
-                                              Provider.of<ShippingController>(
-                                                          context,
-                                                          listen: false)
-                                                      .shippingList![index]
-                                                      .shippingIndex ==
-                                                  -1 &&
-                                              sellerGroupList[index]
-                                                  .isGroupItemChecked!) {
-                                            hasNull = true;
-                                            break;
-                                          }
-                                        }
+                                          // if (hasPhysical &&
+                                          //     sellerGroupList[index]
+                                          //         .isGroupItemChecked! &&
+                                          //     sellerGroupList[index]
+                                          //             .shippingType ==
+                                          //         'order_wise' &&
+                                          //     Provider.of<ShippingController>(
+                                          //                 context,
+                                          //                 listen: false)
+                                          //             .shippingList![index]
+                                          //             .shippingIndex ==
+                                          //         -1 &&
+                                          //     sellerGroupList[index]
+                                          //         .isGroupItemChecked!) {
+                                          //   hasNull = true;
+                                          //   break;
+                                          // }
+                                        // }
                                       }
 
                                       for (int index = 0;
@@ -431,7 +424,8 @@ class CartScreenState extends State<CartScreen> {
                                                 'unavailable_shop_product_in_your_cart',
                                                 context),
                                             context);
-                                      } else if (hasNull &&
+                                      } 
+                                      else if (
                                           configProvider.configModel!
                                                   .shippingMethod ==
                                               'sellerwise_shipping' &&
@@ -442,21 +436,24 @@ class CartScreenState extends State<CartScreen> {
                                                 'select_all_shipping_method',
                                                 context),
                                             context);
-                                      } else if (shippingController
-                                              .chosenShippingList.isEmpty &&
-                                          configProvider.configModel!
-                                                  .shippingMethod !=
-                                              'sellerwise_shipping' &&
-                                          configProvider.configModel!
-                                                  .inhouseSelectedShippingType ==
-                                              'order_wise' &&
-                                          !onlyDigital) {
-                                        showCustomSnackBar(
-                                            getTranslated(
-                                                'select_all_shipping_method',
-                                                context),
-                                            context);
-                                      } else if (minimum) {
+                                      } 
+                                      
+                                      // else if (shippingController
+                                      //         .chosenShippingList.isEmpty &&
+                                      //     configProvider.configModel!
+                                      //             .shippingMethod !=
+                                      //         'sellerwise_shipping' &&
+                                      //     configProvider.configModel!
+                                      //             .inhouseSelectedShippingType ==
+                                      //         'order_wise' &&
+                                      //     !onlyDigital) {
+                                      //   showCustomSnackBar(
+                                      //       getTranslated(
+                                      //           'select_all_shipping_method',
+                                      //           context),
+                                      //       context);
+                                      // } 
+                                      else if (minimum) {
                                         changeColor();
                                         showCustomSnackBar(
                                             getTranslated(
@@ -485,10 +482,10 @@ class CartScreenState extends State<CartScreen> {
                                                     quantity: totalQuantity,
                                                     cartList: cartList,
                                                     totalOrderAmount: amount,
-                                                    shippingFee: shippingAmount -
-                                                        freeDeliveryAmountDiscount,
+                                                    //shippingFee: 0,// shippingAmount - freeDeliveryAmountDiscount,
                                                     discount: discount,
                                                     tax: tax,
+                                                    sellerGroupList: sellerGroupList,
                                                     onlyDigital:
                                                         sellerGroupLenght !=
                                                             totalPhysical,
@@ -619,14 +616,7 @@ class CartScreenState extends State<CartScreen> {
                                                         'sellerwise_shipping' &&
                                                     sellerGroupList[index]
                                                             .shippingType ==
-                                                        'order_wise' &&
-                                                    Provider.of<ShippingController>(
-                                                                context,
-                                                                listen: false)
-                                                            .shippingList![
-                                                                index]
-                                                            .shippingIndex ==
-                                                        -1 &&
+                                                        'order_wise'  &&
                                                     sellerGroupList[index]
                                                             .isGroupItemChecked ==
                                                         true))
@@ -721,69 +711,69 @@ class CartScreenState extends State<CartScreen> {
                                                                               ),
                                                                             )
                                                                         ]))),
-                                                            SizedBox(
-                                                              width: 200,
-                                                              child: configProvider
-                                                                              .configModel!
-                                                                              .shippingMethod ==
-                                                                          'sellerwise_shipping' &&
-                                                                      sellerGroupList[index]
-                                                                              .shippingType ==
-                                                                          'order_wise' &&
-                                                                      hasPhysical
-                                                                  ? Padding(
-                                                                      padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                          horizontal:
-                                                                              Dimensions.paddingSizeDefault),
-                                                                      child:
-                                                                          InkWell(
-                                                                        onTap:
-                                                                            () {
-                                                                          showModalBottomSheet(
-                                                                            context:
-                                                                                context,
-                                                                            isScrollControlled:
-                                                                                true,
-                                                                            backgroundColor:
-                                                                                Colors.transparent,
-                                                                            builder: (context) => ShippingMethodBottomSheetWidget(
-                                                                                groupId: sellerGroupList[index].cartGroupId,
-                                                                                sellerIndex: index,
-                                                                                sellerId: sellerGroupList[index].id),
-                                                                          );
-                                                                        },
-                                                                        child:
-                                                                            Container(
-                                                                          decoration: BoxDecoration(
-                                                                              border: Border.all(width: 0.5, color: Colors.grey),
-                                                                              borderRadius: const BorderRadius.all(Radius.circular(10))),
-                                                                          child:
-                                                                              Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.all(8.0),
-                                                                            child:
-                                                                                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                                                              if (shippingController.shippingList == null || shippingController.shippingList!.isEmpty || shippingController.shippingList?[index].shippingMethodList == null || shippingController.chosenShippingList.isEmpty || shippingController.shippingList![index].shippingIndex == -1)
-                                                                                Row(children: [
-                                                                                  SizedBox(width: 15, height: 15, child: Image.asset(Images.delivery, color: Theme.of(context).textTheme.bodyLarge?.color)),
-                                                                                  const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                                                                                  Text(
-                                                                                    getTranslated('choose_shipping', context)!,
-                                                                                    style: textRegular,
-                                                                                    overflow: TextOverflow.ellipsis,
-                                                                                    maxLines: 1,
-                                                                                  ),
-                                                                                ]),
-                                                                              Flexible(child: Text((shippingController.shippingList == null || shippingController.shippingList![index].shippingMethodList == null || shippingController.chosenShippingList.isEmpty || shippingController.shippingList![index].shippingIndex == -1) ? '' : shippingController.shippingList![index].shippingMethodList![shippingController.shippingList![index].shippingIndex!].title.toString(), style: titilliumSemiBold.copyWith(color: Theme.of(context).hintColor), maxLines: 1, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end)),
-                                                                              Icon(Icons.keyboard_arrow_down, color: Theme.of(context).primaryColor),
-                                                                            ]),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    )
-                                                                  : const SizedBox(),
-                                                            )
+                                                            // SizedBox(
+                                                            //   width: 200,
+                                                            //   child: configProvider
+                                                            //                   .configModel!
+                                                            //                   .shippingMethod ==
+                                                            //               'sellerwise_shipping' &&
+                                                            //           sellerGroupList[index]
+                                                            //                   .shippingType ==
+                                                            //               'order_wise' &&
+                                                            //           hasPhysical
+                                                            //       ? Padding(
+                                                            //           padding: const EdgeInsets
+                                                            //               .symmetric(
+                                                            //               horizontal:
+                                                            //                   Dimensions.paddingSizeDefault),
+                                                            //           child:
+                                                            //               InkWell(
+                                                            //             onTap:
+                                                            //                 () {
+                                                            //               showModalBottomSheet(
+                                                            //                 context:
+                                                            //                     context,
+                                                            //                 isScrollControlled:
+                                                            //                     true,
+                                                            //                 backgroundColor:
+                                                            //                     Colors.transparent,
+                                                            //                 builder: (context) => ShippingMethodBottomSheetWidget(
+                                                            //                     groupId: sellerGroupList[index].cartGroupId,
+                                                            //                     sellerIndex: index,
+                                                            //                     sellerId: sellerGroupList[index].id),
+                                                            //               );
+                                                            //             },
+                                                            //             child:
+                                                            //                 Container(
+                                                            //               decoration: BoxDecoration(
+                                                            //                   border: Border.all(width: 0.5, color: Colors.grey),
+                                                            //                   borderRadius: const BorderRadius.all(Radius.circular(10))),
+                                                            //               child:
+                                                            //                   Padding(
+                                                            //                 padding:
+                                                            //                     const EdgeInsets.all(8.0),
+                                                            //                 child:
+                                                            //                     Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                                            //                   if (shippingController.shippingList == null || shippingController.shippingList!.isEmpty || shippingController.shippingList?[index].shippingMethodList == null || shippingController.chosenShippingList.isEmpty || shippingController.shippingList![index].shippingIndex == -1)
+                                                            //                     Row(children: [
+                                                            //                       SizedBox(width: 15, height: 15, child: Image.asset(Images.delivery, color: Theme.of(context).textTheme.bodyLarge?.color)),
+                                                            //                       const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                                                            //                       Text(
+                                                            //                         getTranslated('choose_shipping', context)!,
+                                                            //                         style: textRegular,
+                                                            //                         overflow: TextOverflow.ellipsis,
+                                                            //                         maxLines: 1,
+                                                            //                       ),
+                                                            //                     ]),
+                                                            //                   Flexible(child: Text((shippingController.shippingList == null || shippingController.shippingList![index].shippingMethodList == null || shippingController.chosenShippingList.isEmpty || shippingController.shippingList![index].shippingIndex == -1) ? '' : shippingController.shippingList![index].shippingMethodList![shippingController.shippingList![index].shippingIndex!].title.toString(), style: titilliumSemiBold.copyWith(color: Theme.of(context).hintColor), maxLines: 1, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end)),
+                                                            //                   Icon(Icons.keyboard_arrow_down, color: Theme.of(context).primaryColor),
+                                                            //                 ]),
+                                                            //               ),
+                                                            //             ),
+                                                            //           ),
+                                                            //         )
+                                                            //       : const SizedBox(),
+                                                            // )
                                                           ],
                                                         ),
                                                       )
@@ -809,112 +799,112 @@ class CartScreenState extends State<CartScreen> {
                                                                   .error),
                                                     ),
                                                   ),
-                                                if (configProvider.configModel!
-                                                            .shippingMethod ==
-                                                        'sellerwise_shipping' &&
-                                                    sellerGroupList[index]
-                                                            .shippingType ==
-                                                        'order_wise' &&
-                                                    hasPhysical)
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: Dimensions
-                                                            .paddingSizeSmall),
-                                                    child: (shippingController
-                                                                    .shippingList ==
-                                                                null ||
-                                                            shippingController
-                                                                    .shippingList![
-                                                                        index]
-                                                                    .shippingMethodList ==
-                                                                null ||
-                                                            shippingController
-                                                                .chosenShippingList
-                                                                .isEmpty ||
-                                                            shippingController
-                                                                    .shippingList![
-                                                                        index]
-                                                                    .shippingIndex ==
-                                                                -1)
-                                                        ? const SizedBox()
-                                                        : Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Row(
-                                                                children: [
-                                                                  Text(
-                                                                    (shippingController.shippingList == null ||
-                                                                            shippingController.shippingList![index].shippingMethodList ==
-                                                                                null ||
-                                                                            shippingController
-                                                                                .chosenShippingList.isEmpty ||
-                                                                            shippingController.shippingList![index].shippingIndex ==
-                                                                                -1)
-                                                                        ? ''
-                                                                        : '${getTranslated('shipping_cost', context) ?? ''} : ',
-                                                                    style:
-                                                                        textRegular,
-                                                                  ),
-                                                                  Text((shippingController.shippingList == null || shippingController.shippingList![index].shippingMethodList == null || shippingController.chosenShippingList.isEmpty || shippingController.shippingList![index].shippingIndex == -1) ? '' : PriceConverter.convertPrice(context, shippingController.shippingList![index].shippingMethodList![shippingController.shippingList![index].shippingIndex!].cost),
-                                                                      style: textBold
-                                                                          .copyWith(),
-                                                                      maxLines:
-                                                                          1,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .end),
-                                                                ],
-                                                              ),
-                                                              const SizedBox(
-                                                                  height: Dimensions
-                                                                      .paddingSizeExtraSmall),
-                                                              Row(
-                                                                children: [
-                                                                  Text(
-                                                                    (shippingController.shippingList == null ||
-                                                                            shippingController.shippingList![index].shippingMethodList ==
-                                                                                null ||
-                                                                            shippingController
-                                                                                .chosenShippingList.isEmpty ||
-                                                                            shippingController.shippingList![index].shippingIndex ==
-                                                                                -1)
-                                                                        ? ''
-                                                                        : '${getTranslated('shipping_time', context) ?? ''} : ',
-                                                                    style:
-                                                                        textRegular,
-                                                                  ),
-                                                                  Text(
-                                                                      (shippingController.shippingList == null ||
-                                                                              shippingController.shippingList![index].shippingMethodList ==
-                                                                                  null ||
-                                                                              shippingController
-                                                                                  .chosenShippingList.isEmpty ||
-                                                                              shippingController.shippingList![index].shippingIndex ==
-                                                                                  -1)
-                                                                          ? ''
-                                                                          : '${shippingController.shippingList![index].shippingMethodList![shippingController.shippingList![index].shippingIndex!].duration.toString()} '
-                                                                              '${getTranslated('days', context)}',
-                                                                      style: textBold
-                                                                          .copyWith(),
-                                                                      maxLines:
-                                                                          1,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .end)
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          ),
-                                                  ),
+                                                // if (configProvider.configModel!
+                                                //             .shippingMethod ==
+                                                //         'sellerwise_shipping' &&
+                                                //     sellerGroupList[index]
+                                                //             .shippingType ==
+                                                //         'order_wise' &&
+                                                //     hasPhysical)
+                                                //   Padding(
+                                                //     padding: const EdgeInsets
+                                                //         .symmetric(
+                                                //         horizontal: Dimensions
+                                                //             .paddingSizeSmall),
+                                                //     child: (shippingController
+                                                //                     .shippingList ==
+                                                //                 null ||
+                                                //             shippingController
+                                                //                     .shippingList![
+                                                //                         index]
+                                                //                     .shippingMethodList ==
+                                                //                 null ||
+                                                //             shippingController
+                                                //                 .chosenShippingList
+                                                //                 .isEmpty ||
+                                                //             shippingController
+                                                //                     .shippingList![
+                                                //                         index]
+                                                //                     .shippingIndex ==
+                                                //                 -1)
+                                                //         ? const SizedBox()
+                                                //         : Column(
+                                                //             crossAxisAlignment:
+                                                //                 CrossAxisAlignment
+                                                //                     .start,
+                                                //             children: [
+                                                //               Row(
+                                                //                 children: [
+                                                //                   Text(
+                                                //                     (shippingController.shippingList == null ||
+                                                //                             shippingController.shippingList![index].shippingMethodList ==
+                                                //                                 null ||
+                                                //                             shippingController
+                                                //                                 .chosenShippingList.isEmpty ||
+                                                //                             shippingController.shippingList![index].shippingIndex ==
+                                                //                                 -1)
+                                                //                         ? ''
+                                                //                         : '${getTranslated('shipping_cost', context) ?? ''} : ',
+                                                //                     style:
+                                                //                         textRegular,
+                                                //                   ),
+                                                //                   Text((shippingController.shippingList == null || shippingController.shippingList![index].shippingMethodList == null || shippingController.chosenShippingList.isEmpty || shippingController.shippingList![index].shippingIndex == -1) ? '' : PriceConverter.convertPrice(context, shippingController.shippingList![index].shippingMethodList![shippingController.shippingList![index].shippingIndex!].cost),
+                                                //                       style: textBold
+                                                //                           .copyWith(),
+                                                //                       maxLines:
+                                                //                           1,
+                                                //                       overflow:
+                                                //                           TextOverflow
+                                                //                               .ellipsis,
+                                                //                       textAlign:
+                                                //                           TextAlign
+                                                //                               .end),
+                                                //                 ],
+                                                //               ),
+                                                //               const SizedBox(
+                                                //                   height: Dimensions
+                                                //                       .paddingSizeExtraSmall),
+                                                //               Row(
+                                                //                 children: [
+                                                //                   Text(
+                                                //                     (shippingController.shippingList == null ||
+                                                //                             shippingController.shippingList![index].shippingMethodList ==
+                                                //                                 null ||
+                                                //                             shippingController
+                                                //                                 .chosenShippingList.isEmpty ||
+                                                //                             shippingController.shippingList![index].shippingIndex ==
+                                                //                                 -1)
+                                                //                         ? ''
+                                                //                         : '${getTranslated('shipping_time', context) ?? ''} : ',
+                                                //                     style:
+                                                //                         textRegular,
+                                                //                   ),
+                                                //                   Text(
+                                                //                       (shippingController.shippingList == null ||
+                                                //                               shippingController.shippingList![index].shippingMethodList ==
+                                                //                                   null ||
+                                                //                               shippingController
+                                                //                                   .chosenShippingList.isEmpty ||
+                                                //                               shippingController.shippingList![index].shippingIndex ==
+                                                //                                   -1)
+                                                //                           ? ''
+                                                //                           : '${shippingController.shippingList![index].shippingMethodList![shippingController.shippingList![index].shippingIndex!].duration.toString()} '
+                                                //                               '${getTranslated('days', context)}',
+                                                //                       style: textBold
+                                                //                           .copyWith(),
+                                                //                       maxLines:
+                                                //                           1,
+                                                //                       overflow:
+                                                //                           TextOverflow
+                                                //                               .ellipsis,
+                                                //                       textAlign:
+                                                //                           TextAlign
+                                                //                               .end)
+                                                //                 ],
+                                                //               ),
+                                                //             ],
+                                                //           ),
+                                                //   ),
                                                 Card(
                                                   child: Container(
                                                       padding: const EdgeInsets
@@ -1113,130 +1103,130 @@ class CartScreenState extends State<CartScreen> {
                                   ),
                                 ),
                               ),
-                              (!onlyDigital &&
-                                      configProvider
-                                              .configModel!.shippingMethod !=
-                                          'sellerwise_shipping' &&
-                                      configProvider.configModel!
-                                              .inhouseSelectedShippingType ==
-                                          'order_wise')
-                                  ? InkWell(
-                                      onTap: () {
-                                        showModalBottomSheet(
-                                            context: context,
-                                            isScrollControlled: true,
-                                            backgroundColor: Colors.transparent,
-                                            builder: (context) =>
-                                                const ShippingMethodBottomSheetWidget(
-                                                    groupId: 'all_cart_group',
-                                                    sellerIndex: 0,
-                                                    sellerId: 1));
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            Dimensions.paddingSizeDefault,
-                                            0,
-                                            Dimensions.paddingSizeDefault,
-                                            Dimensions.paddingSizeDefault),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 0.5,
-                                                  color: Colors.grey),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(10))),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Row(children: [
-                                                    SizedBox(
-                                                        width: 15,
-                                                        height: 15,
-                                                        child: Image.asset(
-                                                            Images.delivery,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .bodyLarge
-                                                                ?.color)),
-                                                    const SizedBox(
-                                                        width: Dimensions
-                                                            .paddingSizeExtraSmall),
-                                                    Text(
-                                                      getTranslated(
-                                                          'choose_shipping',
-                                                          context)!,
-                                                      style: textRegular,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 1,
-                                                    ),
-                                                  ]),
-                                                  Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                      children: [
-                                                        Text(
-                                                          (shippingController
-                                                                          .shippingList ==
-                                                                      null ||
-                                                                  shippingController
-                                                                      .chosenShippingList
-                                                                      .isEmpty ||
-                                                                  shippingController
-                                                                      .shippingList!
-                                                                      .isEmpty ||
-                                                                  shippingController
-                                                                          .shippingList![
-                                                                              0]
-                                                                          .shippingMethodList ==
-                                                                      null ||
-                                                                  shippingController
-                                                                          .shippingList![
-                                                                              0]
-                                                                          .shippingIndex ==
-                                                                      -1)
-                                                              ? ''
-                                                              : shippingController
-                                                                  .shippingList![
-                                                                      0]
-                                                                  .shippingMethodList![
-                                                                      shippingController
-                                                                          .shippingList![
-                                                                              0]
-                                                                          .shippingIndex!]
-                                                                  .title
-                                                                  .toString(),
-                                                          style: titilliumSemiBold
-                                                              .copyWith(
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .hintColor),
-                                                          maxLines: 1,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                        const SizedBox(
-                                                            width: Dimensions
-                                                                .paddingSizeExtraSmall),
-                                                        Icon(
-                                                            Icons
-                                                                .keyboard_arrow_down,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .primaryColor),
-                                                      ]),
-                                                ]),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : const SizedBox(),
+                              // (!onlyDigital &&
+                              //         configProvider
+                              //                 .configModel!.shippingMethod !=
+                              //             'sellerwise_shipping' &&
+                              //         configProvider.configModel!
+                              //                 .inhouseSelectedShippingType ==
+                              //             'order_wise')
+                              //     ? InkWell(
+                              //         onTap: () {
+                              //           showModalBottomSheet(
+                              //               context: context,
+                              //               isScrollControlled: true,
+                              //               backgroundColor: Colors.transparent,
+                              //               builder: (context) =>
+                              //                   const ShippingMethodBottomSheetWidget(
+                              //                       groupId: 'all_cart_group',
+                              //                       sellerIndex: 0,
+                              //                       sellerId: 1));
+                              //         },
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.fromLTRB(
+                              //               Dimensions.paddingSizeDefault,
+                              //               0,
+                              //               Dimensions.paddingSizeDefault,
+                              //               Dimensions.paddingSizeDefault),
+                              //           child: Container(
+                              //             decoration: BoxDecoration(
+                              //                 border: Border.all(
+                              //                     width: 0.5,
+                              //                     color: Colors.grey),
+                              //                 borderRadius:
+                              //                     const BorderRadius.all(
+                              //                         Radius.circular(10))),
+                              //             child: Padding(
+                              //               padding: const EdgeInsets.all(8.0),
+                              //               child: Row(
+                              //                   mainAxisAlignment:
+                              //                       MainAxisAlignment
+                              //                           .spaceBetween,
+                              //                   children: [
+                              //                     Row(children: [
+                              //                       SizedBox(
+                              //                           width: 15,
+                              //                           height: 15,
+                              //                           child: Image.asset(
+                              //                               Images.delivery,
+                              //                               color: Theme.of(
+                              //                                       context)
+                              //                                   .textTheme
+                              //                                   .bodyLarge
+                              //                                   ?.color)),
+                              //                       const SizedBox(
+                              //                           width: Dimensions
+                              //                               .paddingSizeExtraSmall),
+                              //                       Text(
+                              //                         getTranslated(
+                              //                             'choose_shipping',
+                              //                             context)!,
+                              //                         style: textRegular,
+                              //                         overflow:
+                              //                             TextOverflow.ellipsis,
+                              //                         maxLines: 1,
+                              //                       ),
+                              //                     ]),
+                              //                     // Row(
+                              //                     //     mainAxisAlignment:
+                              //                     //         MainAxisAlignment.end,
+                              //                     //     children: [
+                              //                     //       Text(
+                              //                     //         (shippingController
+                              //                     //                         .shippingList ==
+                              //                     //                     null ||
+                              //                     //                 shippingController
+                              //                     //                     .chosenShippingList
+                              //                     //                     .isEmpty ||
+                              //                     //                 shippingController
+                              //                     //                     .shippingList!
+                              //                     //                     .isEmpty ||
+                              //                     //                 shippingController
+                              //                     //                         .shippingList![
+                              //                     //                             0]
+                              //                     //                         .shippingMethodList ==
+                              //                     //                     null ||
+                              //                     //                 shippingController
+                              //                     //                         .shippingList![
+                              //                     //                             0]
+                              //                     //                         .shippingIndex ==
+                              //                     //                     -1)
+                              //                     //             ? ''
+                              //                     //             : shippingController
+                              //                     //                 .shippingList![
+                              //                     //                     0]
+                              //                     //                 .shippingMethodList![
+                              //                     //                     shippingController
+                              //                     //                         .shippingList![
+                              //                     //                             0]
+                              //                     //                         .shippingIndex!]
+                              //                     //                 .title
+                              //                     //                 .toString(),
+                              //                     //         style: titilliumSemiBold
+                              //                     //             .copyWith(
+                              //                     //                 color: Theme.of(
+                              //                     //                         context)
+                              //                     //                     .hintColor),
+                              //                     //         maxLines: 1,
+                              //                     //         overflow: TextOverflow
+                              //                     //             .ellipsis,
+                              //                     //       ),
+                              //                     //       const SizedBox(
+                              //                     //           width: Dimensions
+                              //                     //               .paddingSizeExtraSmall),
+                              //                     //       Icon(
+                              //                     //           Icons
+                              //                     //               .keyboard_arrow_down,
+                              //                     //           color: Theme.of(
+                              //                     //                   context)
+                              //                     //               .primaryColor),
+                              //                     //     ]),
+                              //                   ]),
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       )
+                              //     : const SizedBox(),
                             ],
                           ),
                         )

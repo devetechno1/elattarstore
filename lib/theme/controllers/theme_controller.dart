@@ -22,13 +22,14 @@ class ThemeController with ChangeNotifier {
     notifyListeners();
   }
 
-  Color? selectedPrimaryColor;
-  Color? selectedSecondaryColor;
+  Color? _selectedPrimaryColor;
+  Color? _selectedSecondaryColor;
+  Color? get selectedPrimaryColor => _selectedPrimaryColor;
+  Color? get selectedSecondaryColor => _selectedSecondaryColor;
 
   void setThemeColor({Color? primaryColor, Color? secondaryColor}) {
-    selectedPrimaryColor = primaryColor;
-    selectedPrimaryColor = secondaryColor;
-
+    _selectedPrimaryColor = secondaryColor;
+    _selectedSecondaryColor = primaryColor;
     notifyListeners();
   }
 }

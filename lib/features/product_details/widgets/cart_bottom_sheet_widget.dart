@@ -9,14 +9,12 @@ import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/produ
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/color_selection_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/controllers/product_details_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/shipping_method_dialog.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shipping/domain/models/shipping_method_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/product_helper.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/features/cart/controllers/cart_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
@@ -865,12 +863,30 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
         shippingMethodList.add(ShippingMethodModel.fromJson(element));
       });
 
-      showDialog(
-          context: Get.context!,
-          builder: (context) => Dialog(
-              backgroundColor: Colors.transparent,
-              child: ChooseShippingMethodDialog(shippingMethodList, cart,
-                  choices, variationIndexes, _navigateToCheckoutScreen)));
+      // _navigateToCheckoutScreen(context,cart,double.tryParse(value.response?.data['cart_shipping_cost'])!);
+
+      Provider.of<CartController>(context,listen: false).addToCartAPI(
+        cart, 
+        context,
+          choices, variationIndexes,
+          buyNow: 1,
+          shippingMethodExist: 1,
+          shippingMethodId: -15)
+      .then((value) {
+    if (value.response!.statusCode == 200 && value.response?.data['status'] == 1) {
+      CartModel cart = CartModel.fromJson(value.response?.data['cart']);
+      _navigateToCheckoutScreen(context,cart,double.tryParse(value.response?.data['cart_shipping_cost'])!);
+    } else {
+      showCustomSnackBar(getTranslated(value.response?.data['message'],context)!,context,isError: true,isToaster: true);
+    }
+  });
+
+      // showDialog(
+      //     context: Get.context!,
+      //     builder: (context) => Dialog(
+      //         backgroundColor: Colors.transparent,
+      //         child: ChooseShippingMethodDialog(shippingMethodList, cart,
+      //             choices, variationIndexes, _navigateToCheckoutScreen)));
     }
   }
 
@@ -897,7 +913,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
             discount: discount,
             tax: tax,
             totalOrderAmount: amount,
-            shippingFee: shippingAmount,
+            sellerGroupList: const [],
             quantity: totalQuantity,
             onlyDigital: !hasPhysical,
             hasPhysical: hasPhysical)));

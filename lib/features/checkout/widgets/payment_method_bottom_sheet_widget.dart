@@ -61,12 +61,11 @@ class PaymentMethodBottomSheetWidgetState
                     children: [
                       Text(
                           getTranslated('choose_payment_method', context) ?? '',
-                          style: titilliumSemiBold.copyWith(
-                              fontSize: Dimensions.fontSizeDefault)),
+                          style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeDefault)),
                       Expanded(
                           child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: Dimensions.paddingSizeExtraSmall),
+                              padding: const EdgeInsetsDirectional.only(
+                                  start: Dimensions.paddingSizeExtraSmall),
                               child: Text(
                                   '${getTranslated('click_one_of_the_option_below', context)}',
                                   style: textRegular.copyWith(

@@ -104,8 +104,8 @@ class CartController extends ChangeNotifier {
         apiResponse.response!.statusCode == 200) {
       Navigator.of(Get.context!).pop();
       _addToCartLoading = false;
-      showCustomSnackBar(apiResponse.response!.data['message'], Get.context!,
-          isError: apiResponse.response!.data['status'] == 0, isToaster: true);
+      // showCustomSnackBar(apiResponse.response!.data['message'], Get.context!,
+      //     isError: apiResponse.response!.data['status'] == 0, isToaster: true);
       getCartData(Get.context!);
     } else {
       _addToCartLoading = false;

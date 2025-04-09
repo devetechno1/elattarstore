@@ -268,7 +268,8 @@ class LocationController with ChangeNotifier {
   }
 
   String placeMarkToAddress(Placemark placeMark) {
-    return '${placeMark.name ?? ''} ${placeMark.subAdministrativeArea ?? ''} ${placeMark.isoCountryCode ?? ''}';
+    String address = '${placeMark.name ?? ''} ${placeMark.subAdministrativeArea ?? ''} ${placeMark.isoCountryCode ?? ''}'.trim();
+    return address.isEmpty? _locationController.text : address;
   }
 
   void isBillingChanged(bool change) {

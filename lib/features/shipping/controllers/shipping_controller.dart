@@ -6,7 +6,7 @@ import 'package:flutter_sixvalley_ecommerce/features/cart/domain/models/cart_mod
 import 'package:flutter_sixvalley_ecommerce/features/shipping/domain/models/chosen_shipping_method.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shipping/domain/models/shipping_method_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shipping/domain/models/shipping_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/checkout/domain/models/selected_shipping_type.dart';
+// import 'package:flutter_sixvalley_ecommerce/features/checkout/domain/models/selected_shipping_type.dart';
 import 'package:flutter_sixvalley_ecommerce/features/shipping/domain/services/shipping_service_interface.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
@@ -21,20 +21,30 @@ class ShippingController extends ChangeNotifier {
   List<ChosenShippingMethodModel> get chosenShippingList => _chosenShippingList;
   List<ShippingModel>? _shippingList;
   List<ShippingModel>? get shippingList => _shippingList;
-  List<bool> isSelectedList = [];
-  double amount = 0.0;
-  bool isSelectAll = true;
+  // List<bool> isSelectedList = [];
+  // double amount = 0.0;
+  // bool isSelectAll = true;
   bool _isLoading = false;
-  CartModel? cart;
-  String? _updateQuantityErrorText;
-  String? get addOrderStatusErrorText => _updateQuantityErrorText;
+  // CartModel? cart;
+  // String? _updateQuantityErrorText;
+  // String? get addOrderStatusErrorText => _updateQuantityErrorText;
   bool get isLoading => _isLoading;
+
+  ShippingMethodModel? getMethodIndexInFirst(int cityId){
+    List<ShippingMethodModel> temp = _shippingList?[0].shippingMethodList ?? [];
+    for (int i = 0; i < temp.length ; i ++ ) {
+      if(temp[i].id == cityId){
+        setSelectedShippingMethod(i, 0);
+        return temp[i];
+      }
+    }
+    return null;
+  }
 
   final List<int> _chosenShippingMethodIndex = [];
   List<int> get chosenShippingMethodIndex => _chosenShippingMethodIndex;
 
-  Future<void> getShippingMethod(
-      BuildContext context, List<List<CartModel>> cartProdList) async {
+  Future<void> getShippingMethod(BuildContext context, List<List<CartModel>> cartProdList) async {
     _isLoading = true;
     Provider.of<CartController>(context, listen: false).getCartDataLoaded();
     List<int?> sellerIdList = [];
@@ -160,24 +170,29 @@ class ShippingController extends ChangeNotifier {
         await shippingServiceInterface.addShippingMethod(id, cartGroupId);
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {
-      Navigator.pop(Get.context!);
-      getChosenShippingMethod(Get.context!);
+      // Navigator.pop(Get.context!);
+      await getChosenShippingMethod(Get.context!);
       showCustomSnackBar(
           getTranslated('shipping_method_added_successfully', Get.context!),
           Get.context!,
           isError: false);
     } else {
-      Navigator.pop(Get.context!);
+      // Navigator.pop(Get.context!);
       ApiChecker.checkApi(apiResponse);
     }
     _isLoading = false;
     notifyListeners();
   }
 
-  String? _selectedShippingType;
-  String? get selectedShippingType => _selectedShippingType;
+  // String? _selectedShippingType;
+  // String? get selectedShippingType => _selectedShippingType;
 
-  final List<SelectedShippingType> _selectedShippingTypeList = [];
-  List<SelectedShippingType> get selectedShippingTypeList =>
-      _selectedShippingTypeList;
+  void setSelectedMethod(ChosenShippingMethodModel selectedMethod){
+    _chosenShippingList = [selectedMethod];
+    notifyListeners();
+  }
+
+  // final List<SelectedShippingType> _selectedShippingTypeList = [];
+  // List<SelectedShippingType> get selectedShippingTypeList =>
+  //     _selectedShippingTypeList;
 }

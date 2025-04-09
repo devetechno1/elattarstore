@@ -321,7 +321,7 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
                       triggerMode: TooltipTriggerMode.manual,
                       message: widget.toolTipMessage ?? '',
                       child: IconButton(
-                          onPressed: widget.suffixOnTap as void Function()?,
+                          onPressed: widget.suffixOnTap,
                           // widget.suffixOnTap,
                           icon: CustomAssetImageWidget(
                             widget.suffixIcon!,

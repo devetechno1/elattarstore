@@ -104,7 +104,7 @@ class _AddressListScreenState extends State<AddressListScreen> {
                                   ]),
                                   Row(children: [
                                     Text(
-                                      '${getTranslated('city', context)} : ${locationProvider.addressList?[index].city ?? ""}',
+                                      '${getTranslated('city', context)} : ${locationProvider.city(int.tryParse(locationProvider.addressList?[index].city ?? '-15') ?? -15)?.title ?? ""}',
                                       style: textRegular.copyWith(
                                           fontSize: Dimensions.fontSizeDefault),
                                     ),

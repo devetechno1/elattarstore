@@ -8,9 +8,13 @@ import 'package:flutter_sixvalley_ecommerce/features/address/domain/services/add
 import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
 import 'package:flutter_sixvalley_ecommerce/main.dart';
 
+import '../../shipping/domain/models/shipping_method_model.dart';
+import '../../shipping/domain/services/shipping_service_interface.dart';
+
 class AddressController with ChangeNotifier {
   final AddressServiceInterface addressServiceInterface;
-  AddressController({required this.addressServiceInterface});
+  final ShippingServiceInterface shippingServiceInterface;
+  AddressController({required this.shippingServiceInterface, required this.addressServiceInterface});
 
   List<String> _restrictedCountryList = [];
   List<String> get restrictedCountryList => _restrictedCountryList;
@@ -25,6 +29,16 @@ class AddressController with ChangeNotifier {
   TextEditingController get searchCountryController => _searchCountryController;
   List<AddressModel>? _addressList;
   List<AddressModel>? get addressList => _addressList;
+  List<ShippingMethodModel> _cities = [];
+  Iterable<ShippingMethodModel> cities (int? governorateId)=> _cities.where((e) => e.governorateId == governorateId);
+  ShippingMethodModel? city (int cityId){
+    for (ShippingMethodModel e in _cities) {
+      if(e.id == cityId){
+        return e;
+      }
+    }
+    return null;
+  }
 
   Future<void> getRestrictedDeliveryCountryList() async {
     ApiResponse apiResponse =
@@ -91,6 +105,7 @@ class AddressController with ChangeNotifier {
       bool isShipping = false,
       bool isBilling = false,
       bool all = false}) async {
+        getCities();
     _addressList = await addressServiceInterface.getList(
         isShipping: isShipping,
         isBilling: isBilling,
@@ -124,6 +139,8 @@ class AddressController with ChangeNotifier {
       showCustomSnackBar(apiResponse.response!.data["message"], Get.context!,
           isError: false);
       getAddressList();
+    }else{
+      showCustomSnackBar(apiResponse.error.toString(), Get.context!, isError: true);
     }
     print("====>>${apiResponse.response?.data}");
     notifyListeners();
@@ -177,5 +194,24 @@ class AddressController with ChangeNotifier {
       addressTypeList = addressServiceInterface.getAddressType();
     }
     return addressTypeList;
+  }
+
+
+  Future<void> getCities() async {
+    
+    ApiResponse apiResponse = await shippingServiceInterface.getShippingMethod(1, 'admin');
+
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
+      List<ShippingMethodModel> shippingMethodList = [];
+      apiResponse.response!.data.forEach((shipping) => shippingMethodList.add(ShippingMethodModel.fromJson(shipping)));
+
+      _cities = [];
+      _cities.addAll(shippingMethodList);
+      notifyListeners();
+    } else {
+      ApiChecker.checkApi(apiResponse);
+    }
+    
   }
 }
