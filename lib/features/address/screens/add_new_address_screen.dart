@@ -185,9 +185,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
       if (Provider.of<ProfileController>(context, listen: false)
               .userInfoModel !=
           null) {
-        _contactPersonNameController.text =
-            '${Provider.of<ProfileController>(context, listen: false).userInfoModel!.fName ?? ''}'
-            ' ${Provider.of<ProfileController>(context, listen: false).userInfoModel!.lName ?? ''}';
+        _contactPersonNameController.text = Provider.of<ProfileController>(context, listen: false).userInfoModel!.fName ?? '';
 
         String countryCode = CountryCodeHelper.getCountryCode(
             Provider.of<ProfileController>(context, listen: false)
@@ -651,7 +649,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                 ),
                               ).toList(),
                             ),
-                            const SizedBox(height: Dimensions.paddingSizeDefaultAddress),
+                            const SizedBox(height: Dimensions.paddingSizeOverLarge),
                             Container(
                               height: 50.0,
                               margin: const EdgeInsets.all(
@@ -703,6 +701,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                       },
                               ),
                             ),
+                            const SizedBox(height: Dimensions.paddingSizeOverLarge),
                           ]),
                     ),
                   );

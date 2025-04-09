@@ -43,7 +43,7 @@ class CartScreen extends StatefulWidget {
 class CartScreenState extends State<CartScreen> {
   Future<void> _loadData() async {
     await Provider.of<CartController>(Get.context!, listen: false)
-        .getCartData(Get.context!);
+        .getCartData();
     Provider.of<CartController>(Get.context!, listen: false).setCartData();
     if (Provider.of<SplashController>(Get.context!, listen: false)
             .configModel!
@@ -544,7 +544,7 @@ class CartScreenState extends State<CartScreen> {
                                         .isLoggedIn()) {
                                       await Provider.of<CartController>(context,
                                               listen: false)
-                                          .getCartData(context);
+                                          .getCartData();
                                     }
                                   },
                                   child: ListView.builder(

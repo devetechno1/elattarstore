@@ -81,7 +81,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
     Provider.of<AddressController>(context, listen: false).getAddressList();    
     Provider.of<CouponController>(context, listen: false)
         .removePrevCouponData();
-    Provider.of<CartController>(context, listen: false).getCartData(context);
+    Provider.of<CartController>(context, listen: false).getCartData();
     Provider.of<CheckoutController>(context, listen: false)
         .resetPaymentMethod();
     Provider.of<ShippingController>(context, listen: false)

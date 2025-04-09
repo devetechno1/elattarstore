@@ -260,7 +260,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                                             size: 18))))
                           ])),
                       Text(
-                          '${profile.userInfoModel!.fName} ${profile.userInfoModel!.lName ?? ''}',
+                          '${profile.userInfoModel!.fName}',
                           style: textBold.copyWith(
                               color: ColorResources.white,
                               fontSize: Dimensions.fontSizeLarge))

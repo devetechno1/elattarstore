@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/profile/screens/profile_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/screens/profile_screen1.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
@@ -98,7 +97,7 @@ class ProfileInfoSectionWidget extends StatelessWidget {
                     children: [
                       Text(
                           !isGuestMode
-                              ? '${profile.userInfoModel?.fName ?? ''} ${profile.userInfoModel?.lName ?? ''}'
+                              ? profile.userInfoModel?.fName ?? ''
                               : 'Guest',
                           style: textMedium.copyWith(
                               color: ColorResources.white,

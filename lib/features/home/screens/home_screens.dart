@@ -72,7 +72,7 @@ class HomePage extends StatefulWidget {
     Provider.of<AddressController>(Get.context!, listen: false)
         .getAddressList();
     await Provider.of<CartController>(Get.context!, listen: false)
-        .getCartData(Get.context!);
+        .getCartData();
 
     await Provider.of<ProductController>(Get.context!, listen: false)
         .getHomeCategoryProductList(reload);

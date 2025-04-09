@@ -36,8 +36,7 @@ class CartController extends ChangeNotifier {
     _getData = false;
   }
 
-  Future<ApiResponse> getCartData(BuildContext context,
-      {bool reload = true}) async {
+  Future<ApiResponse> getCartData({bool reload = true}) async {
     if (reload) {
       _cartLoading = true;
     }
@@ -77,7 +76,7 @@ class CartController extends ChangeNotifier {
       cartList[index].decrement = false;
       String message = apiResponse.response!.data['message'].toString();
       showCustomSnackBar(message, Get.context!, isError: false);
-      await getCartData(Get.context!, reload: false);
+      await getCartData(reload: false);
     } else {
       cartList[index].increment = false;
       cartList[index].decrement = false;
@@ -106,7 +105,7 @@ class CartController extends ChangeNotifier {
       _addToCartLoading = false;
       // showCustomSnackBar(apiResponse.response!.data['message'], Get.context!,
       //     isError: apiResponse.response!.data['status'] == 0, isToaster: true);
-      getCartData(Get.context!);
+      getCartData();
     } else {
       _addToCartLoading = false;
       ApiChecker.checkApi(apiResponse);
@@ -122,7 +121,7 @@ class CartController extends ChangeNotifier {
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {
       cartList[index].decrement = false;
-      getCartData(Get.context!, reload: false);
+      getCartData(reload: false);
     } else {
       cartList[index].decrement = false;
       ApiChecker.checkApi(apiResponse);
@@ -143,7 +142,7 @@ class CartController extends ChangeNotifier {
       await Future.wait([
         Provider.of<ShippingController>(Get.context!, listen: false)
             .getChosenShippingMethod(Get.context!),
-        getCartData(Get.context!, reload: false),
+        getCartData(reload: false),
       ]);
     } else {
       ApiChecker.checkApi(apiResponse);

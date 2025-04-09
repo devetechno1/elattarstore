@@ -62,7 +62,7 @@ class AsterThemeHomeScreen extends StatefulWidget {
     await Provider.of<FlashDealController>(Get.context!, listen: false)
         .getFlashDealList(true, false);
     await Provider.of<CartController>(Get.context!, listen: false)
-        .getCartData(Get.context!);
+        .getCartData();
     await Provider.of<BannerController>(Get.context!, listen: false)
         .getBannerList(reload);
     await Provider.of<CategoryController>(Get.context!, listen: false)
