@@ -1,4 +1,3 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
@@ -28,12 +27,8 @@ class ForgetPasswordScreen extends StatefulWidget {
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   TextEditingController? _userInputController;
-  String? _countryCode;
 
-  final TextEditingController _controller = TextEditingController();
   final GlobalKey<ScaffoldMessengerState> _key = GlobalKey();
-  final TextEditingController _numberController = TextEditingController();
-  final FocusNode _numberFocus = FocusNode();
 
   final GlobalKey<FormState> forgetFormKey = GlobalKey<FormState>();
 
@@ -46,12 +41,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     authProvider.clearVerificationMessage();
     authProvider.setIsLoading = false;
     authProvider.setIsPhoneVerificationButttonLoading = false;
-    // authProvider.toggleIsNumberLogin(value: false, isUpdate: false);
-    _countryCode = CountryCode.fromCountryCode(
-            Provider.of<SplashController>(context, listen: false)
-                .configModel!
-                .countryCode!)
-        .dialCode;
     super.initState();
   }
 
@@ -111,17 +100,11 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
                   // splashProvider.configModel!.forgotPasswordVerification == "phone"?
                   CustomTextFieldWidget(
-                    countryDialCode: _countryCode,
-                    showCodePicker: true,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    inputType: TextInputType.phone,
-                    onCountryChanged: (CountryCode value) {
-                      _countryCode = value.dialCode;
-                    },
+                    inputType: TextInputType.emailAddress,
                     hintText: '',
                     isShowBorder: true,
                     controller: _userInputController,
-                    labelText: getTranslated('email/phone', context),
+                    labelText: getTranslated('email', context),
                   ),
 
                   const SizedBox(height: 100),
@@ -140,15 +123,13 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                           String userInput =
                               _userInputController!.text.removeZerosInFirst;
 
-                          userInput = _countryCode! + userInput;
-
                           ResponseModel? response =
                               await authProvider.forgetPassword(
                                   config: configModel,
                                   phoneOrEmail: userInput,
-                                  type: 'phone');
+                                  type: 'email');
                           if (response != null && response.isSuccess) {
-                            if (!authProvider.sendToEmail) {
+                            if (authProvider.sendToEmail) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

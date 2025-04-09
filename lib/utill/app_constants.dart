@@ -239,7 +239,7 @@ class AppConstants {
   static const String userAddress = 'user_address';
 
   // * settings
-  static const bool useUserEmail = false;
+  static const bool useUserEmail = true;
   static const bool isCategoriesGrid = true;
   static const bool isSubCategoriesGrid = false;
   static const bool inboxReplacedByBlog = true;
