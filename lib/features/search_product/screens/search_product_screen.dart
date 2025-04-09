@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/brand/controllers/brand_controller.dart';
@@ -16,7 +18,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/product_shimmer_wi
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({super.key, this.categories = const []});
+  final List<int> categories;
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -55,6 +58,13 @@ class _SearchScreenState extends State<SearchScreen> {
     Provider.of<SearchProductController>(context, listen: false)
         .selectedAuthorIds
         .clear();
+    
+    initFilter(
+      searchProvider: Provider.of<SearchProductController>(context, listen: false), 
+      categoryProvider: Provider.of<CategoryController>(context, listen: false),
+      categories: widget.categories,
+    );
+    
     // Provider.of<SearchProductController>(context, listen: false).resetChecked(null, false);
     super.initState();
   }
@@ -98,7 +108,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                         null &&
                                     searchProvider
                                         .searchedProduct!.products!.isNotEmpty)
-                                ? const SearchProductWidget()
+                                ? SearchProductWidget(categoriesIds: widget.categories)
                                 : const NoInternetOrDataScreenWidget(
                                     isNoInternet: false)
                             : Column(
@@ -286,6 +296,33 @@ class _SearchScreenState extends State<SearchScreen> {
           )
         ],
       ),
+    );
+  }
+
+  void initFilter({
+    required SearchProductController searchProvider,
+    required CategoryController categoryProvider,
+    required List<int> categories,
+  }){
+    if(categories.isEmpty) return;
+    
+    for (int i = 0; i < categoryProvider.categoryList.length; i++) {
+      if(categories.contains(categoryProvider.categoryList[i].id)){
+        categoryProvider.makeSelectCategory(i);
+        categoryProvider.changeSelectedIndex(i);
+      }
+    }
+    searchProvider.setFilterApply(isFiltered: true);
+    searchProvider.searchProduct(
+      query: searchProvider.searchController.text.toString(),
+      offset: 1,
+      brandIds: '[]',
+      categoryIds: jsonEncode(categories),
+      authorIds: '[]',
+      publishingIds: '[]',
+      sort: searchProvider.sortText,
+      priceMin: searchProvider.minPriceForFilter.toString(),
+      priceMax: searchProvider.maxPriceForFilter.toString(),
     );
   }
 }

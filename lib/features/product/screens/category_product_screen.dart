@@ -15,6 +15,7 @@ import '../../../localization/language_constrants.dart';
 import '../../../utill/color_resources.dart';
 import '../../../utill/custom_themes.dart';
 import '../../category/domain/models/category_model.dart';
+import '../../search_product/screens/search_product_screen.dart';
 import '../controllers/category_product_controller.dart';
 
 class CategoryProductScreen extends StatelessWidget {
@@ -76,7 +77,20 @@ class _CategoryProductScreenState extends State<_CategoryProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: widget.category.name),
+      appBar: CustomAppBar(
+        title: widget.category.name, 
+        // centerTitle: false,
+        showResetIcon: true,
+        reset: Padding(
+          padding: const EdgeInsetsDirectional.only(end: 8),
+          child: IconButton(
+            onPressed: (){
+              Navigator.push(context,MaterialPageRoute(builder: (_) => SearchScreen(categories: [widget.category.id ?? -15])));
+            }, 
+            icon: const Icon(Icons.search_rounded),
+          ),
+        ),
+      ),
       body: Consumer<CategoryProductController>(
         builder: (context, controller, child) {
           if (AppConstants.isSubCategoriesGrid) {

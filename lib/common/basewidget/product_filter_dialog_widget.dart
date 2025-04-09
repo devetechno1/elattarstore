@@ -21,7 +21,8 @@ import 'package:provider/provider.dart';
 class ProductFilterDialog extends StatefulWidget {
   final int? sellerId;
   final bool fromShop;
-  const ProductFilterDialog({super.key, this.sellerId, this.fromShop = true});
+  final List<int> categoriesIds;
+  const ProductFilterDialog({super.key, this.sellerId, this.fromShop = true, this.categoriesIds = const []});
 
   @override
   ProductFilterDialogState createState() => ProductFilterDialogState();
@@ -34,6 +35,19 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final CategoryController categoryProvider = Provider.of<CategoryController>(context, listen: false);
+      Future.delayed(Duration.zero,() {
+        for (int i = 0; i < categoryProvider.categoryList.length; i++) {
+        if(widget.categoriesIds.contains(categoryProvider.categoryList[i].id)){
+          categoryProvider.makeSelectCategory(i);
+          setState(() {
+            
+          });
+        }
+      }
+      },);
+    },);
   }
 
   @override
@@ -59,13 +73,13 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
                 .publishingHouseList;
 
         if (authorList!.isNotEmpty) {
-          for (int i = 0; i < authorList!.length; i++) {
+          for (int i = 0; i < authorList.length; i++) {
             authors.add(i);
           }
         }
 
         if (publishingHouse!.isNotEmpty) {
-          for (int i = 0; i < publishingHouse!.length; i++) {
+          for (int i = 0; i < publishingHouse.length; i++) {
             publishingHouses.add(i);
           }
         }
@@ -287,29 +301,20 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
                                         categoryProvider.categoryList.length,
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
+                                      final CategoryModel cat = categoryProvider.categoryList[index];
                                       return Column(
                                         children: [
                                           CategoryFilterItem(
-                                              title: categoryProvider
-                                                  .categoryList[index].name,
-                                              checked: categoryProvider
-                                                  .categoryList[index]
-                                                  .isSelected!,
-                                              onTap: () => categoryProvider
-                                                  .checkedToggleCategory(
-                                                      index)),
-                                          if (categoryProvider
-                                              .categoryList[index].isSelected!)
+                                              title: cat.name,
+                                              checked: cat.isSelected! ,
+                                              onTap: () => categoryProvider.checkedToggleCategory(index)),
+                                          if (cat.isSelected!)
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   left: Dimensions
                                                       .paddingSizeExtraLarge),
                                               child: ListView.builder(
-                                                  itemCount: categoryProvider
-                                                          .categoryList[index]
-                                                          .childes
-                                                          ?.length ??
-                                                      0,
+                                                  itemCount: cat.childes?.length ?? 0,
                                                   shrinkWrap: true,
                                                   padding: EdgeInsets.zero,
                                                   physics:
@@ -317,17 +322,8 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
                                                   itemBuilder:
                                                       (context, subIndex) {
                                                     return CategoryFilterItem(
-                                                        title: categoryProvider
-                                                            .categoryList[index]
-                                                            .childes![subIndex]
-                                                            .name,
-                                                        checked:
-                                                            categoryProvider
-                                                                .categoryList[
-                                                                    index]
-                                                                .childes![
-                                                                    subIndex]
-                                                                .isSelected!,
+                                                        title: cat.childes![subIndex].name,
+                                                        checked:cat.childes![subIndex].isSelected!,
                                                         onTap: () =>
                                                             categoryProvider
                                                                 .checkedToggleSubCategory(
@@ -380,8 +376,7 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
                             ],
 
                             //Author
-                            if ((authorList != null &&
-                                        authorList!.isNotEmpty) &&
+                            if ((authorList.isNotEmpty) &&
                                     searchProvider.productTypeIndex == 0 ||
                                 searchProvider.productTypeIndex == 2) ...[
                               const SizedBox(
@@ -400,7 +395,7 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
                                     return const Iterable<int>.empty();
                                   } else {
                                     return authors.where((author) =>
-                                        authorList![author]
+                                        authorList[author]
                                             .name!
                                             .toLowerCase()
                                             .contains(
@@ -444,13 +439,13 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
                                   );
                                 },
                                 displayStringForOption: (value) =>
-                                    authorList![value].name!,
+                                    authorList[value].name!,
                                 onSelected: (int value) {
                                   searchProvider.checkedToggleAuthors(
                                       value, widget.fromShop);
                                 },
                               ),
-                              if (authorList != null && authorList!.isNotEmpty)
+                              if (authorList.isNotEmpty)
                                 ConstrainedBox(
                                   constraints: const BoxConstraints(
                                     minHeight: 40.0,
@@ -458,15 +453,15 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
                                   ),
                                   child: SizedBox(
                                     child: ListView.builder(
-                                        itemCount: authorList?.length,
+                                        itemCount: authorList.length,
                                         shrinkWrap: true,
                                         itemBuilder: (context, index) {
                                           return Column(
                                             children: [
                                               CategoryFilterItem(
                                                   title:
-                                                      authorList![index].name,
-                                                  checked: authorList![index]
+                                                      authorList[index].name,
+                                                  checked: authorList[index]
                                                       .isChecked!,
                                                   onTap: () => searchProvider
                                                       .checkedToggleAuthors(
@@ -480,8 +475,7 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
                             ],
 
                             //Publishing House
-                            if ((publishingHouse != null &&
-                                        publishingHouse!.isNotEmpty) &&
+                            if ((publishingHouse.isNotEmpty) &&
                                     searchProvider.productTypeIndex == 0 ||
                                 searchProvider.productTypeIndex == 2) ...[
                               const SizedBox(
@@ -499,7 +493,7 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
                                     return const Iterable<int>.empty();
                                   } else {
                                     return publishingHouses.where((author) =>
-                                        publishingHouse![author]
+                                        publishingHouse[author]
                                             .name!
                                             .toLowerCase()
                                             .contains(
@@ -544,14 +538,13 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
                                   );
                                 },
                                 displayStringForOption: (value) =>
-                                    publishingHouse![value].name!,
+                                    publishingHouse[value].name!,
                                 onSelected: (int value) {
                                   searchProvider.checkedTogglePublishingHouse(
                                       value, widget.fromShop);
                                 },
                               ),
-                              if (publishingHouse != null &&
-                                  publishingHouse!.isNotEmpty)
+                              if (publishingHouse.isNotEmpty)
                                 ConstrainedBox(
                                   constraints: const BoxConstraints(
                                     minHeight: 40.0,
@@ -559,16 +552,16 @@ class ProductFilterDialogState extends State<ProductFilterDialog> {
                                   ),
                                   child: SizedBox(
                                     child: ListView.builder(
-                                        itemCount: publishingHouse?.length,
+                                        itemCount: publishingHouse.length,
                                         shrinkWrap: true,
                                         itemBuilder: (context, index) {
                                           return Column(
                                             children: [
                                               CategoryFilterItem(
-                                                  title: publishingHouse![index]
+                                                  title: publishingHouse[index]
                                                       .name,
                                                   checked:
-                                                      publishingHouse![index]
+                                                      publishingHouse[index]
                                                           .isChecked!,
                                                   onTap: () => searchProvider
                                                       .checkedTogglePublishingHouse(

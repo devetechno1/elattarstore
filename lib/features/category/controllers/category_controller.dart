@@ -23,7 +23,7 @@ class CategoryController extends ChangeNotifier {
   List<CategoryModel> _categoryList = [];
   int? _categorySelectedIndex;
 
-  List<CategoryModel> get categoryList => _categoryList;
+  List<CategoryModel> get categoryList => [..._categoryList];
   int? get categorySelectedIndex => _categorySelectedIndex;
 
   Future<void> getCategoryList(bool reload) async {
@@ -74,6 +74,15 @@ class CategoryController extends ChangeNotifier {
       }
     } else {
       _selectedCategoryIds.remove(index);
+    }
+    notifyListeners();
+  }
+
+  void makeSelectCategory(int index) {
+    _categoryList[index].isSelected = true;
+
+    if (!_selectedCategoryIds.contains(index)) {
+      _selectedCategoryIds.add(index);
     }
     notifyListeners();
   }

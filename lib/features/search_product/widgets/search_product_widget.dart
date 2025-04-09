@@ -15,8 +15,9 @@ import 'package:provider/provider.dart';
 
 class SearchProductWidget extends StatefulWidget {
   const SearchProductWidget({
-    super.key,
+    super.key, required this.categoriesIds,
   });
+  final List<int> categoriesIds;
 
   @override
   State<SearchProductWidget> createState() => _SearchProductWidgetState();
@@ -83,8 +84,7 @@ class _SearchProductWidgetState extends State<SearchProductWidget> {
                           context: context,
                           isScrollControlled: true,
                           backgroundColor: Colors.transparent,
-                          builder: (c) =>
-                              const ProductFilterDialog(fromShop: false)),
+                          builder: (c) => ProductFilterDialog(fromShop: false,categoriesIds: widget.categoriesIds,)),
                       child: Stack(
                         children: [
                           Container(
