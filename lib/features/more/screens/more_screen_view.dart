@@ -31,6 +31,7 @@ import 'package:flutter_sixvalley_ecommerce/features/setting/screens/settings_sc
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../data/model/social_media_model/social_media_model.dart';
+import '../../../main.dart';
 import '../../auth/screens/auth_screen.dart';
 import '../../blog/screens/blog_screen.dart';
 import '../../profile/widgets/delete_account_bottom_sheet_widget.dart';
@@ -90,6 +91,7 @@ class _MoreScreenState extends State<MoreScreen> {
     ConfigModel? configModel =
         Provider.of<SplashController>(context, listen: false).configModel;
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(

@@ -6,11 +6,14 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_wid
 import 'package:flutter_sixvalley_ecommerce/features/deal/widgets/featured_deal_list_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class FeaturedDealScreenView extends StatelessWidget {
   const FeaturedDealScreenView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
         body: Column(children: [
       CustomAppBar(title: getTranslated('featured_deals', context)),
       Expanded(

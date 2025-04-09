@@ -10,6 +10,7 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widg
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_widget.dart';
 import 'package:provider/provider.dart';
+import '../../../main.dart';
 import '../widgets/code_picker_widget.dart';
 // import 'otp_verification_screen.dart';
 
@@ -44,6 +45,7 @@ class MobileVerificationScreenState extends State<MobileVerificationScreen> {
     final number = ModalRoute.of(context)!.settings.arguments ?? '';
     _numberController?.text = number as String;
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),

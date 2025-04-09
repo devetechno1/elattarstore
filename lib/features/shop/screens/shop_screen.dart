@@ -129,6 +129,7 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen>
             .getCategoryList(true);
       },
       child: Scaffold(
+      floatingActionButton: whatsappButton(context),
           resizeToAvoidBottomInset: false,
           //appBar: CustomAppBar(title: widget.name),
           body: Consumer<ShopController>(builder: (context, sellerProvider, _) {

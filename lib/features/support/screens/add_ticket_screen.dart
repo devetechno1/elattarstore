@@ -15,6 +15,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakba
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class AddTicketScreen extends StatefulWidget {
   final TicketModel ticketModel;
   final String type;
@@ -57,6 +59,7 @@ class AddTicketScreenState extends State<AddTicketScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(
         title: getTranslated('add_new_ticket', context),
         isBackButtonExist: widget.isBackButtonExist,

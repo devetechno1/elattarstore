@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../common/basewidget/custom_app_bar_widget.dart';
 import '../../../di_container.dart';
 import '../../../localization/language_constrants.dart';
+import '../../../main.dart';
 import '../../../utill/custom_themes.dart';
 import '../../../utill/dimensions.dart';
 import '../../product_details/widgets/product_specification_widget.dart';
@@ -31,6 +32,7 @@ class _PostDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(title: getTranslated('post_details', context)),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),

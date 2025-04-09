@@ -6,6 +6,7 @@ import 'package:flutter_sixvalley_ecommerce/features/loyaltyPoint/widget/loyalty
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
@@ -148,22 +149,29 @@ class _LoyaltyPointScreenState extends State<LoyaltyPointScreen> {
           ),
         ),
         floatingActionButton: Padding(
-            padding: const EdgeInsets.only(left: 30),
-            child: Consumer<ProfileController>(builder: (context, profile, _) {
-              return CustomButton(
-                  leftIcon: Images.dollarIcon,
-                  buttonText:
-                      '${getTranslated('convert_to_currency', context)}',
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) => Dialog(
-                            insetPadding: EdgeInsets.zero,
-                            backgroundColor: Colors.transparent,
-                            child: LoyaltyPointConverterDialogueWidget(
-                                myPoint:
-                                    profile.userInfoModel!.loyaltyPoint ?? 0)));
-                  });
-            })));
+            padding: const EdgeInsetsDirectional.only(start: 30),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                whatsappButton(context) ?? const SizedBox(),
+                const SizedBox(height: Dimensions.paddingSizeDefault),
+                Consumer<ProfileController>(builder: (context, profile, _) {
+                  return CustomButton(
+                      leftIcon: Images.dollarIcon,
+                      buttonText:
+                          '${getTranslated('convert_to_currency', context)}',
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => Dialog(
+                                insetPadding: EdgeInsets.zero,
+                                backgroundColor: Colors.transparent,
+                                child: LoyaltyPointConverterDialogueWidget(
+                                    myPoint:
+                                        profile.userInfoModel!.loyaltyPoint ?? 0)));
+                      });
+                }),
+              ],
+            )));
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/response_model.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/domain/models/config_model.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/number_checker_helper.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/string_helper.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/auth_controller.dart';
@@ -18,6 +17,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_w
 import 'package:flutter_sixvalley_ecommerce/features/auth/screens/otp_verification_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/enums/from_page.dart';
+
+import '../../../main.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -59,6 +60,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     final ConfigModel configModel =
         Provider.of<SplashController>(context, listen: false).configModel!;
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       key: _key,
       appBar: CustomAppBar(title: getTranslated('forget_password', context)),
       body: Consumer<AuthController>(builder: (context, authProvider, _) {

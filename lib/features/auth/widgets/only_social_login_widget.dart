@@ -122,6 +122,7 @@ class _OnlySocialLoginWidgetState extends State<OnlySocialLoginWidget> {
         });
       },
       child: Scaffold(
+      floatingActionButton: whatsappButton(context),
         body: Column(children: [
           SizedBox(
             height: size.height * 0.08,

@@ -15,6 +15,8 @@ import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../main.dart';
+
 class ReferAndEarnScreen extends StatefulWidget {
   const ReferAndEarnScreen({super.key});
 
@@ -35,6 +37,7 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
       '${getTranslated('you_made_your_earning', context)}'
     ];
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar:
           CustomAppBar(title: '${getTranslated('refer_and_earn', context)}'),
       body: Stack(

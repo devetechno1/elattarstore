@@ -14,6 +14,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widg
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({super.key});
 
@@ -44,6 +46,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(
           centerTitle: true, title: '${getTranslated('contact_us', context)}'),
       body: Consumer<AuthController>(builder: (context, authProvider, _) {

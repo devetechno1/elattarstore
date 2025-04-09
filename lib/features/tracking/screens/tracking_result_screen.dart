@@ -8,6 +8,8 @@ import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class TrackingResultScreen extends StatefulWidget {
   final String orderID;
   const TrackingResultScreen({super.key, required this.orderID});
@@ -35,6 +37,7 @@ class _TrackingResultScreenState extends State<TrackingResultScreen> {
     ];
 
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(title: getTranslated('TRACK_ORDER', context)),
       body: Column(
         children: [

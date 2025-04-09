@@ -210,6 +210,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(
           title: widget.isEnableUpdate
               ? getTranslated('update_address', context)

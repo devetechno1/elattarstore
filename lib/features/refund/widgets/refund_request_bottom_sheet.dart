@@ -14,6 +14,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_w
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class RefundBottomSheet extends StatefulWidget {
   final Product? product;
   final int orderDetailsId;
@@ -40,6 +42,7 @@ class RefundBottomSheetState extends State<RefundBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(title: getTranslated('refund_request', context)),
       body: SingleChildScrollView(
         child: Consumer<RefundController>(builder: (context, refundReq, _) {

@@ -114,6 +114,7 @@ class _FashionThemeHomePageState extends State<FashionThemeHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: RefreshIndicator(

@@ -15,6 +15,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_wid
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/image_diaglog_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class RefundDetailsWidget extends StatefulWidget {
   final Product? product;
   final int? orderDetailsId;
@@ -41,6 +43,7 @@ class RefundDetailsWidgetState extends State<RefundDetailsWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(
           title: getTranslated('refund_request_details', context),
           showActionButton: true,

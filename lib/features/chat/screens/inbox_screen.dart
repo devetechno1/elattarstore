@@ -15,6 +15,8 @@ import 'package:flutter_sixvalley_ecommerce/features/chat/widgets/search_inbox_w
 import 'package:flutter_sixvalley_ecommerce/features/dashboard/screens/dashboard_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class InboxScreen extends StatefulWidget {
   final bool isBackButtonExist;
   final bool fromNotification;
@@ -72,6 +74,7 @@ class _InboxScreenState extends State<InboxScreen>
         }
       },
       child: Scaffold(
+      floatingActionButton: whatsappButton(context),
         appBar: CustomAppBar(
             title: getTranslated('inbox', context),
             isBackButtonExist: widget.isBackButtonExist,

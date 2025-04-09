@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../../../common/basewidget/custom_image_widget.dart';
 import '../../../di_container.dart';
 import '../../../localization/language_constrants.dart';
+import '../../../main.dart';
 import '../../../utill/color_resources.dart';
 import '../../../utill/custom_themes.dart';
 import '../../category/domain/models/category_model.dart';
@@ -77,6 +78,7 @@ class _CategoryProductScreenState extends State<_CategoryProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(
         title: widget.category.name, 
         // centerTitle: false,

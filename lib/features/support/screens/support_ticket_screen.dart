@@ -13,6 +13,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/not_loggedin_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class SupportTicketScreen extends StatefulWidget {
   const SupportTicketScreen(
       {super.key,
@@ -48,6 +50,7 @@ class _SupportTicketScreenState extends State<SupportTicketScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(
           title: getTranslated('support_ticket', context),
           isBackButtonExist: widget.showBackButton),

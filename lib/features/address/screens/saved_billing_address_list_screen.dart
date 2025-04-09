@@ -10,6 +10,7 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_wid
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/widgets/address_type_widget.dart';
 import 'package:provider/provider.dart';
+import '../../../main.dart';
 import 'add_new_address_screen.dart';
 
 class SavedBillingAddressListScreen extends StatefulWidget {
@@ -30,12 +31,19 @@ class _SavedBillingAddressListScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  const AddNewAddressScreen(isBilling: true))),
-          backgroundColor: ColorResources.getPrimary(context),
-          child: Icon(Icons.add, color: Theme.of(context).highlightColor)),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          whatsappButton(context) ?? const SizedBox(),
+          const SizedBox(height: Dimensions.paddingSizeDefault),
+          FloatingActionButton(
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      const AddNewAddressScreen(isBilling: true))),
+              backgroundColor: ColorResources.getPrimary(context),
+              child: Icon(Icons.add, color: Theme.of(context).highlightColor)),
+        ],
+      ),
       appBar: CustomAppBar(
         title: getTranslated('BILLING_ADDRESS_LIST', context),
       ),

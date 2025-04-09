@@ -11,6 +11,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
 import '../../product/screens/category_product_screen.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -63,6 +64,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(
           title: getTranslated('CATEGORY', context),
           isBackButtonExist: widget.showBackButton),

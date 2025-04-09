@@ -25,6 +25,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakba
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class VerificationScreen extends StatefulWidget {
   final String? userInput;
   final FromPage fromPage;
@@ -93,6 +95,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         config.customerVerification?.firebase == 1;
 
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(
         title: getTranslated('otp_verification', context),
         isBackButtonExist: true,

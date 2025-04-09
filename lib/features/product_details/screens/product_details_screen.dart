@@ -24,6 +24,8 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/title_row_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class ProductDetails extends StatefulWidget {
   final int? productId;
   final String? slug;
@@ -75,6 +77,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(title: getTranslated('product_details', context)),
       body: RefreshIndicator(
         onRefresh: () async => _loadData(context),

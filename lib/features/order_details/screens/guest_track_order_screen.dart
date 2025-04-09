@@ -3,6 +3,7 @@ import 'package:flutter_sixvalley_ecommerce/features/order_details/controllers/o
 import 'package:flutter_sixvalley_ecommerce/features/order_details/screens/order_details_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/velidate_check.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
+import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
@@ -26,6 +27,7 @@ class _GuestTrackOrderScreenState extends State<GuestTrackOrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
         appBar: CustomAppBar(title: getTranslated('TRACK_ORDER', context)),
         body: Consumer<OrderDetailsController>(
             builder: (context, orderTrackingProvider, _) {

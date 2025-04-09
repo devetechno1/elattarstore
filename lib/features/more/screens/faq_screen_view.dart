@@ -7,6 +7,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class FaqScreen extends StatefulWidget {
   final String? title;
   const FaqScreen({super.key, required this.title});
@@ -22,6 +24,7 @@ class FaqScreenState extends State<FaqScreen> {
     var splashController =
         Provider.of<SplashController>(context, listen: false);
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       body: Column(
         children: [
           CustomAppBar(title: widget.title),

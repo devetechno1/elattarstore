@@ -61,6 +61,7 @@ class PaymentScreenState extends State<AddFundToWalletScreen> {
       canPop: false,
       onPopInvoked: (val) => _exitApp(context),
       child: Scaffold(
+      floatingActionButton: whatsappButton(context),
           appBar: AppBar(
               title: const Text(''),
               backgroundColor: Theme.of(context).cardColor),

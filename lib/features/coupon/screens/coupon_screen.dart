@@ -11,6 +11,8 @@ import 'package:flutter_sixvalley_ecommerce/features/coupon/widgets/coupon_item_
 import 'package:flutter_sixvalley_ecommerce/features/order/widgets/order_shimmer_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class CouponList extends StatefulWidget {
   const CouponList({super.key});
 
@@ -31,6 +33,7 @@ class _CouponListState extends State<CouponList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(title: getTranslated('coupons', context)),
       body: Provider.of<AuthController>(context, listen: false).isLoggedIn()
           ? Consumer<CouponController>(builder: (context, couponProvider, _) {

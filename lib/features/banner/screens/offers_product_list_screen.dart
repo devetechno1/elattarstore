@@ -11,6 +11,8 @@ import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class OfferProductListScreen extends StatefulWidget {
   const OfferProductListScreen({super.key});
 
@@ -31,6 +33,7 @@ class _OfferProductListScreenState extends State<OfferProductListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(
         title: '${getTranslated('offers', context)}',
       ),

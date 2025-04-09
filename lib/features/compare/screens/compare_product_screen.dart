@@ -15,6 +15,8 @@ import 'package:flutter_sixvalley_ecommerce/features/compare/widgets/remove_comp
 import 'package:flutter_sixvalley_ecommerce/features/compare/widgets/custom_top_sheet_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class CompareProductScreen extends StatefulWidget {
   const CompareProductScreen({super.key});
 
@@ -33,6 +35,7 @@ class _CompareProductScreenState extends State<CompareProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(title: '${getTranslated('compare_list', context)}'),
       body: Consumer<CompareController>(builder: (context, compareProvider, _) {

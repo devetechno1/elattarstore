@@ -18,6 +18,8 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class OtpLoginScreen extends StatefulWidget {
   final bool fromLogout;
   const OtpLoginScreen({super.key, this.fromLogout = false});
@@ -83,6 +85,7 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
         });
       },
       child: Scaffold(
+      floatingActionButton: whatsappButton(context),
         body: SafeArea(
           child: Stack(
             children: [

@@ -12,6 +12,8 @@ import 'package:flutter_sixvalley_ecommerce/features/address/widgets/remove_addr
 import 'package:flutter_sixvalley_ecommerce/features/address/screens/add_new_address_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class AddressListScreen extends StatefulWidget {
   const AddressListScreen({super.key});
   @override
@@ -30,13 +32,20 @@ class _AddressListScreenState extends State<AddressListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: getTranslated('addresses', context)),
-      floatingActionButton: FloatingActionButton(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-          onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (_) => const AddNewAddressScreen(isBilling: false))),
-          backgroundColor: ColorResources.getPrimary(context),
-          child: Icon(Icons.add, color: Theme.of(context).highlightColor)),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          whatsappButton(context) ?? const SizedBox(),
+          const SizedBox(height: Dimensions.paddingSizeDefault),
+          FloatingActionButton(
+              shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => const AddNewAddressScreen(isBilling: false))),
+              backgroundColor: ColorResources.getPrimary(context),
+              child: Icon(Icons.add, color: Theme.of(context).highlightColor)),
+        ],
+      ),
       body: Consumer<AddressController>(
         builder: (context, locationProvider, child) {
           return locationProvider.addressList != null

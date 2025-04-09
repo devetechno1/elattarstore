@@ -97,6 +97,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         }
       },
       child: Scaffold(
+      floatingActionButton: whatsappButton(context),
           appBar: AppBar(
               elevation: 1,
               backgroundColor: Theme.of(context).cardColor,

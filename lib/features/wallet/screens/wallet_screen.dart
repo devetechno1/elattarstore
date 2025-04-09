@@ -70,6 +70,7 @@ class _WalletScreenState extends State<WalletScreen> {
         }
       },
       child: Scaffold(
+      floatingActionButton: whatsappButton(context),
           resizeToAvoidBottomInset: false,
           body: RefreshIndicator(
             color: Theme.of(context).cardColor,

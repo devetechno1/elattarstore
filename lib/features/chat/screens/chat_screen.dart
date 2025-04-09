@@ -22,6 +22,8 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/foundation.dart' as foundation;
 
+import '../../../main.dart';
+
 class ChatScreen extends StatefulWidget {
   final int? id;
   final String? name;
@@ -74,6 +76,7 @@ class _ChatScreenState extends State<ChatScreen> {
         loadDaa();
       },
       child: Scaffold(
+      floatingActionButton: whatsappButton(context),
         appBar: AppBar(
             backgroundColor: Theme.of(context).cardColor,
             titleSpacing: 0,

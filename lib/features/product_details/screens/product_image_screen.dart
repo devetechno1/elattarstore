@@ -6,6 +6,8 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class ProductImageScreen extends StatefulWidget {
   final String? title;
   final List<ImageFullUrl>? imageList;
@@ -31,6 +33,7 @@ class ProductImageScreenState extends State<ProductImageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       body: Column(children: [
         CustomAppBar(title: widget.title),
         Expanded(

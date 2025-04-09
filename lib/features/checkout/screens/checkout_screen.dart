@@ -125,6 +125,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
           setState(() {});
         }
         return Scaffold(
+      floatingActionButton: whatsappButton(context),
           resizeToAvoidBottomInset: true,
           key: _scaffoldKey,
           bottomNavigationBar:

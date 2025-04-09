@@ -11,6 +11,7 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen
 import 'package:flutter_sixvalley_ecommerce/features/address/widgets/address_type_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
 import 'add_new_address_screen.dart';
 
 class SavedAddressListScreen extends StatefulWidget {
@@ -31,11 +32,18 @@ class _SavedAddressListScreenState extends State<SavedAddressListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (_) => const AddNewAddressScreen(isBilling: false))),
-          backgroundColor: ColorResources.getPrimary(context),
-          child: Icon(Icons.add, color: Theme.of(context).highlightColor)),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          whatsappButton(context) ?? const SizedBox(),
+          const SizedBox(height: Dimensions.paddingSizeDefault),
+          FloatingActionButton(
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => const AddNewAddressScreen(isBilling: false))),
+              backgroundColor: ColorResources.getPrimary(context),
+              child: Icon(Icons.add, color: Theme.of(context).highlightColor)),
+        ],
+      ),
       appBar: CustomAppBar(
           title: widget.fromGuest
               ? getTranslated('ADDRESS_LIST', context)

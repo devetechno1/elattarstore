@@ -3,6 +3,8 @@ import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../main.dart';
+
 class VideoPreview extends StatefulWidget {
   final String url;
   final String fileName;
@@ -160,11 +162,18 @@ class FullScreenVideoPlayer extends StatelessWidget {
           child: VideoPlayer(controller),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).cardColor,
-        onPressed: () => Navigator.pop(context),
-        child:
-            Icon(Icons.fullscreen_exit, color: Theme.of(context).primaryColor),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          whatsappButton(context) ?? const SizedBox(),
+          const SizedBox(height: Dimensions.paddingSizeDefault),
+          FloatingActionButton(
+            backgroundColor: Theme.of(context).cardColor,
+            onPressed: () => Navigator.pop(context),
+            child:
+                Icon(Icons.fullscreen_exit, color: Theme.of(context).primaryColor),
+          ),
+        ],
       ),
     );
   }

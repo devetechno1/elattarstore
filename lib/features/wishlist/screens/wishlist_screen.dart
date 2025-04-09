@@ -10,6 +10,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/not_loggedin_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class WishListScreen extends StatefulWidget {
   const WishListScreen({super.key});
   @override
@@ -28,6 +30,7 @@ class _WishListScreenState extends State<WishListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(title: getTranslated('wishList', context)),
       resizeToAvoidBottomInset: true,
       body: Column(

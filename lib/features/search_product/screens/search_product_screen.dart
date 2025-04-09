@@ -17,6 +17,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_wid
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/product_shimmer_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key, this.categories = const []});
   final List<int> categories;
@@ -72,6 +74,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(title: getTranslated('search_product', context)),
       body: CustomScrollView(
         slivers: [

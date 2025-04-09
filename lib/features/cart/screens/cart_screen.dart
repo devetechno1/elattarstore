@@ -197,6 +197,7 @@ class CartScreenState extends State<CartScreen> {
           // }
 
           return Scaffold(
+      floatingActionButton: whatsappButton(context),
             bottomNavigationBar: (!cart.cartLoading && cartList.isNotEmpty)
                 ? Consumer<SplashController>(
                     builder: (context, configProvider, _) {

@@ -64,6 +64,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen>
         return;
       },
       child: Scaffold(
+      floatingActionButton: whatsappButton(context),
         body: Padding(
           padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.025),
           child: Center(

@@ -6,6 +6,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_wid
 import 'package:flutter_sixvalley_ecommerce/features/home/widgets/aster_theme/more_store_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class MoreStoreViewListView extends StatefulWidget {
   final String? title;
   const MoreStoreViewListView({super.key, this.title});
@@ -17,6 +19,7 @@ class _MoreStoreViewListViewState extends State<MoreStoreViewListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(
         title: widget.title ?? getTranslated('other_store', context),
       ),

@@ -7,6 +7,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_wid
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_widget.dart';
 
+import '../../../main.dart';
+
 class GuestUserContactInformationWidget extends StatefulWidget {
   const GuestUserContactInformationWidget({super.key});
 
@@ -23,6 +25,7 @@ class _GuestUserContactInformationWidgetState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(
         title: getTranslated('contact_information', context),
       ),

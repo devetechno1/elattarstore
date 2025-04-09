@@ -9,6 +9,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_w
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class ResetPasswordScreen extends StatefulWidget {
   final String mobileNumber;
   final String otp;
@@ -55,6 +57,7 @@ class ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       body: Center(
         child: Form(
           key: _formKeyReset,

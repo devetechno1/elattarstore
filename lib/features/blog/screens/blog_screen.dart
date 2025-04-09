@@ -5,6 +5,7 @@ import 'package:flutter_sixvalley_ecommerce/features/dashboard/screens/dashboard
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
 import '../controllers/blog_controller.dart';
 
 class BlogScreen extends StatefulWidget {
@@ -36,6 +37,7 @@ class _BlogScreenState extends State<BlogScreen>
         }
       },
       child: Scaffold(
+        floatingActionButton: whatsappButton(context),
         appBar: CustomAppBar(
             title: getTranslated('compatibility', context),
             isBackButtonExist: widget.isBackButtonExist,

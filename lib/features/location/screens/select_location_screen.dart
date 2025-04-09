@@ -3,6 +3,7 @@ import 'package:flutter_sixvalley_ecommerce/features/location/controllers/locati
 import 'package:flutter_sixvalley_ecommerce/features/location/widgets/location_search_dialog_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
+import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
@@ -50,6 +51,7 @@ class SelectLocationScreenState extends State<SelectLocationScreen> {
         '${Provider.of<LocationController>(context).address.isoCountryCode ?? ''}';
 
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(
           title: getTranslated('select_delivery_address', context)),
       body: Consumer<LocationController>(

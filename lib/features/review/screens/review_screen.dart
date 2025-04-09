@@ -6,6 +6,8 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/features/review/widgets/review_widget.dart';
 
+import '../../../main.dart';
+
 class ReviewScreen extends StatelessWidget {
   final List<ReviewModel>? reviewList;
   const ReviewScreen({super.key, this.reviewList});
@@ -13,6 +15,7 @@ class ReviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         CustomAppBar(title: getTranslated('reviews', context)),
         Padding(

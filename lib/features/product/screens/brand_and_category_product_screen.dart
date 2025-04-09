@@ -9,6 +9,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/product_widget.dar
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class BrandAndCategoryProductScreen extends StatefulWidget {
   final bool isBrand;
   final String id;
@@ -38,6 +40,7 @@ class _BrandAndCategoryProductScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(title: widget.name),
       body: Consumer<ProductController>(
         builder: (context, productController, child) {

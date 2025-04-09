@@ -193,6 +193,7 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       backgroundColor: Theme.of(context).primaryColor,
       key: _globalKey,
       body: Provider.of<SplashController>(context).hasConnection

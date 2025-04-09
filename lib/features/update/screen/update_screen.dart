@@ -18,6 +18,7 @@ class UpdateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),

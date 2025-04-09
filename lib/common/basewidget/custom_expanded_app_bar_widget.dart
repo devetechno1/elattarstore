@@ -10,6 +10,8 @@ import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/not_loggedin_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../main.dart';
+
 class CustomExpandedAppBarWidget extends StatelessWidget {
   final String? title;
   final Widget child;
@@ -28,11 +30,18 @@ class CustomExpandedAppBarWidget extends StatelessWidget {
         !Provider.of<AuthController>(context, listen: false).isLoggedIn();
 
     return Scaffold(
-      floatingActionButton: isGuestCheck
-          ? isGuestMode
-              ? null
-              : bottomChild
-          : bottomChild,
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          whatsappButton(context) ?? const SizedBox(),
+          const SizedBox(height: Dimensions.paddingSizeDefault),
+          (isGuestCheck
+              ? isGuestMode
+                  ? null
+                  : bottomChild
+              : bottomChild) ?? const SizedBox(),
+        ],
+      ),
       body: Stack(children: [
         // Background
         Image.asset(

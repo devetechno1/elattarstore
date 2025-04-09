@@ -40,6 +40,7 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(
           title: getTranslated('order', context),
           isBackButtonExist: widget.isBacButtonExist),

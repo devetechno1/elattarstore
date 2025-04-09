@@ -9,6 +9,8 @@ import 'package:flutter_sixvalley_ecommerce/features/shop/widgets/top_seller_vie
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class AllTopSellerScreen extends StatefulWidget {
   final String title;
   const AllTopSellerScreen({super.key, required this.title});
@@ -23,6 +25,7 @@ class _AllTopSellerScreenState extends State<AllTopSellerScreen> {
   Widget build(BuildContext context) {
     return Consumer<ShopController>(builder: (context, shopController, _) {
       return Scaffold(
+      floatingActionButton: whatsappButton(context),
           backgroundColor: ColorResources.getIconBg(context),
           appBar: CustomAppBar(
             title: '${getTranslated(shopController.sellerTypeTitle, context)}',

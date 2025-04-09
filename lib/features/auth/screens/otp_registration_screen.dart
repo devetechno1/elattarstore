@@ -18,6 +18,8 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class OtpRegistrationScreen extends StatefulWidget {
   final String tempToken;
   final String userInput;
@@ -70,6 +72,7 @@ class _OtpRegistrationScreenState extends State<OtpRegistrationScreen> {
     print("====isNumber===>>${isNumber}");
 
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       body: SafeArea(
         child: Center(
           child: CustomScrollView(

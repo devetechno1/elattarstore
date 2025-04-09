@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../../di_container.dart';
 import '../../../localization/language_constrants.dart';
+import '../../../main.dart';
 import '../../../utill/color_resources.dart';
 import '../../../utill/custom_themes.dart';
 import '../../product/screens/category_product_screen.dart';
@@ -72,6 +73,7 @@ class _BlogPostsScreenState extends State<_BlogPostsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(
         title: widget.blog.name,
         showResetIcon: true,

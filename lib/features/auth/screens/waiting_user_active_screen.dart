@@ -15,6 +15,7 @@ class WaitingUserActiveScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (d, r) => goLogin(),
       child: Scaffold(
+      floatingActionButton: whatsappButton(context),
         body: SafeArea(
           child: ListView(
             children: [

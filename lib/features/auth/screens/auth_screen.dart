@@ -11,6 +11,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/widgets/sign_up_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
 import '../../splash/controllers/splash_controller.dart';
 import '../../splash/domain/models/config_model.dart';
 import '../widgets/only_social_login_widget.dart';
@@ -74,6 +75,7 @@ class _AuthScreenState extends State<AuthScreen>
         });
       },
       child: Scaffold(
+      floatingActionButton: whatsappButton(context),
         body: Consumer<AuthController>(builder: (context, authProvider, _) {
           return Column(
             children: [

@@ -9,12 +9,15 @@ import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/features/brand/widgets/brand_list_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class BrandsView extends StatelessWidget {
   const BrandsView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: AppBar(
           elevation: 0.75,
           centerTitle: true,

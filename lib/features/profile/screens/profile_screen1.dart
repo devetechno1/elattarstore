@@ -25,6 +25,8 @@ import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class ProfileScreen1 extends StatefulWidget {
   final bool formVerification;
   const ProfileScreen1({super.key, this.formVerification = false});
@@ -169,6 +171,7 @@ class _ProfileScreen1State extends State<ProfileScreen1> {
         }
       },
       child: Scaffold(
+      floatingActionButton: whatsappButton(context),
         appBar: CustomAppBar(
           title: getTranslated('profile', context),
           onBackPressed: () {

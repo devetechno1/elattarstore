@@ -5,6 +5,8 @@ import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../main.dart';
+
 class SpecificationScreen extends StatelessWidget {
   final String specification;
   const SpecificationScreen({super.key, required this.specification});
@@ -12,6 +14,7 @@ class SpecificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       body: Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: Dimensions.paddingSizeDefault),

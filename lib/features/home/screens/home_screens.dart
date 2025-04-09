@@ -128,6 +128,7 @@ class _HomePageState extends State<HomePage> {
     ];
 
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: RefreshIndicator(

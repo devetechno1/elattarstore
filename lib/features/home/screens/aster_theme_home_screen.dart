@@ -131,6 +131,7 @@ class _AsterThemeHomeScreenState extends State<AsterThemeHomeScreen> {
     ];
 
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: RefreshIndicator(

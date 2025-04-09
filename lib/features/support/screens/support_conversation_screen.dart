@@ -12,6 +12,8 @@ import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+
 class SupportConversationScreen extends StatefulWidget {
   final SupportTicketModel supportTicketModel;
   const SupportConversationScreen(
@@ -36,6 +38,7 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(
         title: widget.supportTicketModel.subject,
       ),
