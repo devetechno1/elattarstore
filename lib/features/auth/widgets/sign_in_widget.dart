@@ -178,7 +178,7 @@ class SignInWidgetState extends State<SignInWidget> {
                                   width: 18,
                                   height: 18,
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Theme.of(context).colorScheme.brightness == Brightness.light? Colors.white : Colors.black,
                                     border: Border.all(
                                         color: Theme.of(context).primaryColor),
                                     borderRadius: BorderRadius.circular(3),

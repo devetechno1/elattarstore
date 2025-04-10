@@ -20,6 +20,8 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_w
 import 'package:flutter_sixvalley_ecommerce/features/dashboard/screens/dashboard_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../address/screens/add_new_address_screen.dart';
+
 class SignUpWidget extends StatefulWidget {
   const SignUpWidget({super.key});
 
@@ -183,9 +185,11 @@ class SignUpWidgetState extends State<SignUpWidget> {
                           top: Dimensions.marginSizeSmall),
                       child: CustomTextFieldWidget(
                           hintText:
-                              getTranslated('enter_mobile_number', context),
+                              getTranslated('enter_whatsapp_linked_number', context),
                           labelText:
                               getTranslated('enter_mobile_number', context),
+
+                          helperText: getTranslated('enter_whatsapp_linked_number', context),
                           controller: _phoneController,
                           focusNode: _phoneFocus,
                           nextFocus: _passwordFocus,
@@ -297,14 +301,18 @@ class SignUpWidgetState extends State<SignUpWidget> {
                                     register.email = email;
                                     register.phone = phoneNumber;
                                     register.password = password;
-                                    register.referCode =
-                                        _referController.text.trim();
-                                    authProvider.registration(
-                                        register, route, config!);
+                                    register.referCode = _referController.text.trim();
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (_) => AddNewAddressScreen(
+                                        register: register,
+                                        isBilling: false,
+                                        signUpFn:()=> authProvider.registration(register, route, config!),
+                                      )),
+                                    );
                                   }
                                 }
                               : null,
-                          buttonText: getTranslated('sign_up', context),
+                          buttonText: getTranslated('continue', context),
                         ),
                       )),
                   if (!authProvider.isLoading)

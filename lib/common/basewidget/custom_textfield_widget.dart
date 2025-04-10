@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 class CustomTextFieldWidget extends StatefulWidget {
   final String? hintText;
+  final String? helperText;
   final String? titleText;
   final String? labelText;
   final TextAlign textAlign;
@@ -56,7 +57,8 @@ class CustomTextFieldWidget extends StatefulWidget {
 
   const CustomTextFieldWidget(
       {super.key,
-      this.hintText = 'Write something...',
+      this.hintText = '',
+      this.helperText,
       this.controller,
       this.focusNode,
       this.titleText,
@@ -238,6 +240,11 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
                           fontSize: Dimensions.fontSizeLarge))
               ])),
               hintText: widget.hintText,
+              helperText: widget.helperText,
+              helperStyle: textRegular.copyWith(
+                fontSize: Dimensions.fontSizeDefault,
+                color: Theme.of(context).hintColor,
+              ),
               hintStyle: widget.showLabelText
                   ? textRegular.copyWith(
                       fontSize: Dimensions.fontSizeDefault,

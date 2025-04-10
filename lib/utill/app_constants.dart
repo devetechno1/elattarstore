@@ -243,7 +243,7 @@ class AppConstants {
   static const bool isCategoriesGrid = true;
   static const bool isSubCategoriesGrid = false;
   static const bool inboxReplacedByBlog = true;
-  static bool shouldLoginFirst = false;
+  static bool shouldLoginFirst = true;
   static bool showBlog = false;
 
   static List<LanguageModel> languages = [

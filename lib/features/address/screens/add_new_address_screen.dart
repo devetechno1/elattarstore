@@ -28,6 +28,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../auth/domain/models/register_model.dart';
 import '../../shipping/domain/models/shipping_method_model.dart';
 import '../domain/models/restricted_zip_model.dart';
 
@@ -36,12 +37,16 @@ class AddNewAddressScreen extends StatefulWidget {
   final bool fromCheckout;
   final AddressModel? address;
   final bool? isBilling;
+  final RegisterModel? register;
+  final Future<void> Function()? signUpFn;
   const AddNewAddressScreen(
       {super.key,
       this.isEnableUpdate = false,
       this.address,
       this.fromCheckout = false,
+      this.register,
       this.isBilling,
+      this.signUpFn,
     });
 
   @override
@@ -77,6 +82,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
   @override
   void initState() {
     super.initState();
+    Provider.of<AddressController>(context, listen: false).getCities();
 
     config.DefaultLocation? dLocation =
         Provider.of<SplashController>(context, listen: false)
@@ -84,20 +90,22 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
             ?.defaultLocation;
     _defaut = LatLng(double.parse(dLocation?.lat ?? '0'),
         double.parse(dLocation?.lng ?? '0'));
+        
 
     if (widget.isBilling!) {
       _address = Address.billing;
     } else {
       _address = Address.shipping;
     }
-
+    if(widget.register == null){
     Provider.of<AuthController>(context, listen: false).setCountryCode(
-        CountryCode.fromCountryCode(
-                Provider.of<SplashController>(context, listen: false)
-                    .configModel!
-                    .countryCode!)
-            .dialCode!,
-        notify: false);
+      CountryCode.fromCountryCode(
+              Provider.of<SplashController>(context, listen: false)
+                  .configModel!
+                  .countryCode!)
+          .dialCode!,
+      notify: false);
+    }
     _countryCodeController.text = CountryCode.fromCountryCode(
                 Provider.of<SplashController>(context, listen: false)
                     .configModel!
@@ -182,13 +190,11 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
           countryCode, widget.address?.phone ?? '');
       _contactPersonNumberController.text = phoneNumberOnly;
     } else {
-      if (Provider.of<ProfileController>(context, listen: false)
-              .userInfoModel !=
-          null) {
+      if (Provider.of<ProfileController>(context, listen: false).userInfoModel != null && widget.register == null) {
         _contactPersonNameController.text = Provider.of<ProfileController>(context, listen: false).userInfoModel!.fName ?? '';
 
         String countryCode = CountryCodeHelper.getCountryCode(
-            Provider.of<ProfileController>(context, listen: false)
+            widget.register?.phone ??Provider.of<ProfileController>(context, listen: false)
                     .userInfoModel!
                     .phone ??
                 '')!;
@@ -196,12 +202,23 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
             .setCountryCode(countryCode);
         String phoneNumberOnly = CountryCodeHelper.extractPhoneNumber(
             countryCode,
-            Provider.of<ProfileController>(context, listen: false)
+            widget.register?.phone ?? Provider.of<ProfileController>(context, listen: false)
                     .userInfoModel!
                     .phone ??
                 '');
         _contactPersonNumberController.text = phoneNumberOnly;
       }
+    }
+
+    if(widget.register != null){
+      _contactPersonNumberController.text = CountryCodeHelper.extractPhoneNumber(
+        Provider.of<AuthController>(context, listen: false).countryDialCode,
+        widget.register?.phone ??'',
+      );
+
+      _contactPersonNameController.text = widget.register!.fName ?? '';
+
+      _contactPersonEmailController.text = widget.register!.email ?? '';
     }
   }
 
@@ -661,8 +678,11 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                     : getTranslated('save_location', context),
                                 onTap: locationController.loading
                                     ? null
-                                    : () {
+                                    : () async{
                                         if (_addressFormKey.currentState?.validate() ?? false) {
+                                          if(widget.register != null){
+                                            await widget.signUpFn?.call();
+                                          }
                                           AddressModel addressModel = AddressModel(
                                             addressType: addressController.addressTypeList[addressController.selectAddressIndex].title,
                                             contactPersonName:_contactPersonNameController.text,
@@ -690,7 +710,13 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                           } else {
                                             addressController.addAddress(addressModel).then((value) {
                                               if (value.response?.statusCode ==200) {
-                                                Navigator.pop(context);
+                                                if(widget.register != null){
+                                                  Provider.of<AuthController>(context,listen: false).clearSharedData();
+                                                  Provider.of<ProfileController>(context,listen: false) .clearProfileData();
+                                                  Provider.of<AuthController>(context,listen: false).getGuestIdUrl();
+                                                }else{
+                                                  Navigator.pop(context);
+                                                }
                                                 if (widget.fromCheckout) {
                                                   Provider.of<CheckoutController>(context,listen: false).setAddressIndex(0);
                                                 }

@@ -19,39 +19,50 @@ class ConditionCheckBox extends StatelessWidget {
       padding:
           const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
       child: Consumer<AuthController>(builder: (ctx, authController, _) {
-        return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          SizedBox(
-            width: 24.0,
-            child: Checkbox(
-              activeColor: Theme.of(context).colorScheme.primary,
-              value: authController.isAcceptTerms,
-              onChanged: (bool? isChecked) => authController.toggleTermsCheck(),
+        return GestureDetector(
+          onTap: authController.toggleTermsCheck,
+          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Container(
+              width: 18,
+              height: 18,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.brightness == Brightness.light? Colors.white : Colors.black,
+                border: Border.all(
+                    color: Theme.of(context).primaryColor),
+                borderRadius: BorderRadius.circular(3),
+              ),
+              child: authController.isAcceptTerms
+                  ? Icon(Icons.done,
+                      color: Theme.of(context).primaryColor,
+                      size: 14)
+                  : const SizedBox.shrink(),
             ),
-          ),
-          Text(getTranslated('i_agree_with_the', context)!,
-              style: textMedium.copyWith(
-                fontSize: Dimensions.fontSizeSmall,
-                color: Theme.of(context).colorScheme.primary,
-              )),
-          InkWell(
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => HtmlViewScreen(
-                          title: getTranslated('terms_condition', context),
-                          url: splashController.configModel?.termsConditions,
-                        ))),
-            child: Padding(
-              padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-              child: Text(getTranslated('terms_condition', context)!,
-                  style: textBold.copyWith(
-                    fontSize: Dimensions.fontSizeSmall,
-                    color: Theme.of(context).colorScheme.primary,
-                    decoration: TextDecoration.underline,
-                  )),
+            const SizedBox(width: Dimensions.paddingSizeSmall),
+            Text(getTranslated('i_agree_with_the', context)!,
+                style: textMedium.copyWith(
+                  fontSize: Dimensions.fontSizeSmall,
+                  color: Theme.of(context).colorScheme.primary,
+                )),
+            InkWell(
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => HtmlViewScreen(
+                            title: getTranslated('terms_condition', context),
+                            url: splashController.configModel?.termsConditions,
+                          ))),
+              child: Padding(
+                padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                child: Text(getTranslated('terms_condition', context)!,
+                    style: textBold.copyWith(
+                      fontSize: Dimensions.fontSizeSmall,
+                      color: Theme.of(context).colorScheme.primary,
+                      decoration: TextDecoration.underline,
+                    )),
+              ),
             ),
-          ),
-        ]);
+          ]),
+        );
       }),
     );
   }

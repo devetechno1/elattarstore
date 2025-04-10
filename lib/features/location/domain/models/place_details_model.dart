@@ -164,8 +164,8 @@ class Location {
   Location({this.lat, this.lng});
 
   Location.fromJson(Map<String, dynamic> json) {
-    lat = json['lat'];
-    lng = json['lng'];
+    lat = double.tryParse("${json['lat']}");
+    lng = double.tryParse("${json['lng']}");
   }
 
   Map<String, dynamic> toJson() {

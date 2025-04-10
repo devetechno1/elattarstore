@@ -114,7 +114,7 @@ class _AuthScreenState extends State<AuthScreen>
                         icon: const Icon(Icons.arrow_back_ios,
                             size: 30, color: Colors.white),
                         onPressed: () {
-                          if (widget.fromLogout) {
+                          if (widget.fromLogout || !Navigator.of(context).canPop()) {
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
