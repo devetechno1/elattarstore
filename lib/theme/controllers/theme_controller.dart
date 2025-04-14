@@ -28,8 +28,8 @@ class ThemeController with ChangeNotifier {
   Color? get selectedSecondaryColor => _selectedSecondaryColor;
 
   void setThemeColor({Color? primaryColor, Color? secondaryColor}) {
-    _selectedPrimaryColor = secondaryColor;
-    _selectedSecondaryColor = primaryColor;
+    _selectedPrimaryColor = primaryColor;
+    _selectedSecondaryColor = secondaryColor;
     notifyListeners();
   }
 }

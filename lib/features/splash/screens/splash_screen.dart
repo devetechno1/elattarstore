@@ -194,7 +194,7 @@ class SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: whatsappButton(context),
-      backgroundColor: Theme.of(context).primaryColor,
+      // backgroundColor: Theme.of(context).primaryColor,
       key: _globalKey,
       body: Provider.of<SplashController>(context).hasConnection
           ? Container(
