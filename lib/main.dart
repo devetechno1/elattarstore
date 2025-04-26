@@ -73,7 +73,7 @@ Future<void> main() async {
               apiKey: "AIzaSyBDiRmBeQC3flcxrJCa-BfpoApmYZ1aB5I",
               projectId: "elattarstore-42806",
               messagingSenderId: "1017821707786",
-              appId: "1:1017821707786:android:a58580daa334934f09e9f3"));
+              appId: "1:1017821707786:android:54ef2dd382f15f0c09e9f3"));
     } else {
       await Firebase.initializeApp();
     }
