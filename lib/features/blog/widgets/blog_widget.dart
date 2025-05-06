@@ -20,12 +20,12 @@ class BlogWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+      padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall, horizontal: Dimensions.paddingSizeSmall),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            height: MediaQuery.of(context).size.width / 6.5,
-            width: MediaQuery.of(context).size.width / 6.5,
+            margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
             decoration: BoxDecoration(
               border: Border.all(
                 color: Theme.of(context).primaryColor.withOpacity(.125),
@@ -40,18 +40,15 @@ class BlogWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-          Center(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width / 5,
-              child: Text(
-                blog.name ?? '',
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: textRegular.copyWith(
-                  fontSize: Dimensions.fontSizeSmall,
-                  color: ColorResources.getTextTitle(context),
-                ),
+          Flexible(
+            child: Text(
+              blog.name ?? '',
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: textRegular.copyWith(
+                fontSize: Dimensions.fontSizeLarge,
+                color: ColorResources.getTextTitle(context),
               ),
             ),
           ),
