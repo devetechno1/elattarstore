@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 ThemeData get dark {
-  const Color primary = Color(0xFF06166C);
+  const Color primary = Color(0xFF0052A3);
   const Color secondary = Color(0xFFFDB228);
   return ThemeData(
     fontFamily: 'Alexandria',
@@ -18,7 +18,7 @@ ThemeData get dark {
       tertiary: Color(0xFF865C0A),
       tertiaryContainer: Color(0xFF6C7A8E),
       surface: Color(0xFF2D2D2D),
-      onPrimary: Color(0xFFFEAA00),
+      onPrimary: Color(0xFFF2F2F2),
       onTertiaryContainer: Color(0xFF0F5835),
       primaryContainer: Color(0xFF208458),
       onSecondaryContainer: Color(0x912A2A2A),
