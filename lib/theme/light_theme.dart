@@ -4,8 +4,8 @@ ThemeData light({
   Color? primaryColor,
   Color? secondaryColor,
 }) {
-  primaryColor ??= const Color(0xFF003366);
-  secondaryColor ??= const Color(0xFFffcc66);
+  primaryColor ??= const Color(0xFF06166C);
+  secondaryColor ??= const Color(0xFFFDB228);
 
   return ThemeData(
     fontFamily: 'Alexandria',
