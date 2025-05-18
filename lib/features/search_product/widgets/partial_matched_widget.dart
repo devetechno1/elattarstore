@@ -147,6 +147,10 @@ class _SearchSuggestionState extends State<SearchSuggestion> {
                   tag: 'search',
                   child: Material(
                     child: TextFormField(
+                     onTapOutside: (_) {
+                        // FocusManager.instance.primaryFocus?.unfocus();
+                        FocusScope.of(context).unfocus();
+                      },
                       controller: controller,
                       focusNode: searchProvider.searchFocusNode,
                       textInputAction: TextInputAction.search,

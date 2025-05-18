@@ -153,6 +153,10 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
               ])),
         if (widget.titleText != null) const SizedBox(height: 8),
         TextFormField(
+            onTapOutside: (_) {
+              // FocusManager.instance.primaryFocus?.unfocus();
+              FocusScope.of(context).unfocus();
+            },
             maxLines: widget.maxLines,
             controller: widget.controller,
             focusNode: widget.focusNode,
