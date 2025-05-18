@@ -27,6 +27,7 @@ class SupportTicketController extends ChangeNotifier {
   bool get isLoading => _isLoading;
 
   Future<http.StreamedResponse> createSupportTicket(
+
       SupportTicketBody supportTicketBody) async {
     _isLoading = true;
     notifyListeners();
@@ -37,7 +38,7 @@ class SupportTicketController extends ChangeNotifier {
           '${getTranslated('support_ticket_created_successfully', Get.context!)}',
           Get.context!,
           isError: false);
-      Navigator.pop(Get.context!);
+      Navigator.maybePop(Get.context!);
       getSupportTicketList();
       _pickedImageFiles = [];
       pickedImageFileStored = [];

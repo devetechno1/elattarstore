@@ -126,6 +126,7 @@ class AddTicketScreenState extends State<AddTicketScreen> {
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: textRegular.copyWith(
+                                          color: supportTicketProvider.selectedPriorityIndex == -1? Theme.of(context).disabledColor : null,
                                             fontSize:
                                                 Dimensions.fontSizeLarge))),
                                 const Icon(Icons.arrow_drop_down)
@@ -294,7 +295,17 @@ class AddTicketScreenState extends State<AddTicketScreen> {
                   child: CustomButton(
                       buttonText: getTranslated('submit', context),
                       onTap: () {
-                        if (_subjectController.text.isEmpty) {
+                        if (supportTicketProvider.selectedPriorityIndex == -1) {
+                          if(widget.type == 'info_inquiry'){
+                            showCustomSnackBar(
+                              getTranslated('select_sale_purchase_required', context),
+                              context);
+                          }else{
+                            showCustomSnackBar(
+                            getTranslated('priority_is_required', context),
+                            context);
+                          }
+                        }else if (_subjectController.text.isEmpty) {
                           showCustomSnackBar(
                               getTranslated('item_name_is_required', context),
                               context);
@@ -309,12 +320,6 @@ class AddTicketScreenState extends State<AddTicketScreen> {
                         } else if (_descriptionController.text.isEmpty) {
                           showCustomSnackBar(
                               getTranslated('description_is_required', context),
-                              context);
-                        } else if (supportTicketProvider
-                                .selectedPriorityIndex ==
-                            -1) {
-                          showCustomSnackBar(
-                              getTranslated('priority_is_required', context),
                               context);
                         } else {
                           final String description =
