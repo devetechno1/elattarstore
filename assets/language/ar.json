@@ -711,6 +711,7 @@
   "low": "قليل",
   "select_priority": "حدد الأولوية",
   "select_sale_purchase": "حدد بيع او شراء",
+  "select_sale_purchase_required": "تحديد بيع او شراء مطلوب",
   "purchase": "شراء",
   "sale": "بيع",
   "description_is_required": "الوصف مطلوب",

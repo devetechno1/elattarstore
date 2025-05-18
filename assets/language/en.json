@@ -710,6 +710,7 @@
   "low": "Low",
   "select_priority": "Select Priority",
   "select_sale_purchase": "Select Sale or Purchase",
+  "select_sale_purchase_required": "Selecting Sale or Purchase is required",
   "purchase": "Purchase",
   "sale": "Sale",
   "description_is_required": "Description is required",
