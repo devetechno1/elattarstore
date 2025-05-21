@@ -45,6 +45,25 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1017821707786:android:1a775b3efd541d5409e9f3",
+        "android_client_info": {
+          "package_name": "com.elattarstore.elattarpro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDiRmBeQC3flcxrJCa-BfpoApmYZ1aB5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1017821707786:android:a45e4aa260272e3109e9f3",
         "android_client_info": {
           "package_name": "com.elattarstore.elattarstore"
