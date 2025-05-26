@@ -30,6 +30,7 @@ class SocialMediaModel {
       'fa fa-linkedin': FontAwesomeIcons.linkedin,
       'fa fa-google-plus-square': FontAwesomeIcons.squareGooglePlus,
       'fa fa-pinterest': FontAwesomeIcons.pinterest,
+      'fa-brands fa-tiktok': FontAwesomeIcons.tiktok,
       'fa fa-instagram': FontAwesomeIcons.squareInstagram,
       'fa fa-facebook': FontAwesomeIcons.facebook,
     };
