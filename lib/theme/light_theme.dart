@@ -20,7 +20,7 @@ ThemeData light({
       tertiary: const Color(0xFFF9D4A8),
       tertiaryContainer: const Color(0xFFE0C99B),
       onTertiaryContainer: const Color(0xFF33AF74),
-      onPrimary: const Color.fromARGB(255, 138, 152, 231),
+      onPrimary: const Color(0xFF026EDB),
       surface: const Color(0xFFF4F8FF),
       onSecondary: const Color(0xFFF88030),
       error: const Color(0xFFFF5555),
@@ -31,8 +31,8 @@ ThemeData light({
       secondaryContainer: const Color(0xFFF2F2F2),
     ),
     pageTransitionsTheme: const PageTransitionsTheme(builders: {
-      TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-      TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+      TargetPlatform.android: ZoomPageTransitionsBuilder(),
+      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
       TargetPlatform.fuchsia: ZoomPageTransitionsBuilder(),
     }),
   );

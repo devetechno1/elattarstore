@@ -6,7 +6,6 @@ import 'package:flutter_sixvalley_ecommerce/features/dashboard/screens/dashboard
 import 'package:flutter_sixvalley_ecommerce/features/onboarding/controllers/onboarding_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
@@ -35,7 +34,6 @@ class OnBoardingScreen extends StatelessWidget {
         MediaQuery.sizeOf(context).width - Dimensions.paddingSizeDefault;
 
     return Scaffold(
-      floatingActionButton: whatsappButton(context),
       body: Center(
         child: SizedBox(
           width: MediaQuery.sizeOf(context).shortestSide,
