@@ -75,7 +75,7 @@ class WaitingUserActiveScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    foregroundColor: Colors.white,
                   ),
                   child: Text(getTranslated('backToLogIn', context)!),
                 ),
