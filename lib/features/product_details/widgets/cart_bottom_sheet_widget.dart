@@ -24,6 +24,9 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widge
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../main.dart';
+import '../../cart/screens/cart_screen.dart';
+
 class CartBottomSheetWidget extends StatefulWidget {
   final ProductDetailsModel? product;
   final Function? callback;
@@ -865,21 +868,27 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
 
       // _navigateToCheckoutScreen(context,cart,double.tryParse(value.response?.data['cart_shipping_cost'])!);
 
-      Provider.of<CartController>(context,listen: false).addToCartAPI(
-        cart, 
-        context,
-          choices, variationIndexes,
-          buyNow: 1,
-          shippingMethodExist: 1,
-          shippingMethodId: -15)
-      .then((value) {
-    if (value.response!.statusCode == 200 && value.response?.data['status'] == 1) {
-      CartModel cart = CartModel.fromJson(value.response?.data['cart']);
-      _navigateToCheckoutScreen(context,cart,double.tryParse(value.response?.data['cart_shipping_cost'])!);
-    } else {
-      showCustomSnackBar(getTranslated(value.response?.data['message'],context)!,context,isError: true,isToaster: true);
-    }
-  });
+      // final value = await Provider.of<CartController>(context,listen: false).addToCartAPI(
+      //   cart, 
+      //   context,
+      //     choices, variationIndexes,
+      //     buyNow: 1,
+      //     shippingMethodExist: 1,
+      //     shippingMethodId: -15);
+
+      // print("11111 $value 11111");
+
+      // .then((value) {
+
+      //   print("11111 $value 11111");
+      if (response.statusCode == 200) {
+        Navigator.of(Get.context!).push(MaterialPageRoute(builder: (context) => const CartScreen()));
+        // CartModel cart = CartModel.fromJson(response.data['cart']);
+        // _navigateToCheckoutScreen(context,cart,double.tryParse(response.data['cart_shipping_cost'])!);
+      } else {
+        showCustomSnackBar(getTranslated(response.data['message'],context)!,context,isError: true,isToaster: true);
+      }
+  // });
 
       // showDialog(
       //     context: Get.context!,

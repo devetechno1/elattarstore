@@ -83,7 +83,7 @@ class CustomButton extends StatelessWidget {
                 children: [
                   if (leftIcon != null)
                     Padding(
-                      padding: const EdgeInsets.only(right: 5),
+                      padding: const EdgeInsetsDirectional.only(end: 5),
                       child: SizedBox(
                           width: 30,
                           child: Padding(
@@ -94,6 +94,7 @@ class CustomButton extends StatelessWidget {
                     ),
                   Flexible(
                     child: Text(buttonText ?? "",
+                        textAlign: TextAlign.center,
                         style: titilliumSemiBold.copyWith(
                           fontSize: fontSize ?? 16,
                           color: textColor ??
