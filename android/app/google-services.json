@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1017821707786:android:42d7b701994ab7f909e9f3",
+        "android_client_info": {
+          "package_name": "com.alattarpro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDiRmBeQC3flcxrJCa-BfpoApmYZ1aB5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1017821707786:android:4bb3e07c162a629c09e9f3",
         "android_client_info": {
           "package_name": "com.elattarstore"
