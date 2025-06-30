@@ -253,12 +253,12 @@ class AppConstants {
       countryCode: 'EG',
       languageCode: 'ar',
     ),
-    LanguageModel(
-      imageUrl: Images.en,
-      languageName: 'English',
-      countryCode: 'US',
-      languageCode: 'en',
-    ),
+    // LanguageModel(
+    //   imageUrl: Images.en,
+    //   languageName: 'English',
+    //   countryCode: 'US',
+    //   languageCode: 'en',
+    // ),
   ];
 
   static const double maxSizeOfASingleFile = 10;
