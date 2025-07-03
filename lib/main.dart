@@ -52,6 +52,8 @@ import 'package:flutter_sixvalley_ecommerce/theme/light_theme.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:no_screenshot/no_screenshot.dart';
+
 import 'di_container.dart' as di;
 import 'features/blog/controllers/posts_search_controller.dart';
 import 'helper/custom_delegate.dart';
@@ -65,6 +67,11 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
   if (kDebugMode) HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await NoScreenshot.instance.screenshotOff();
+  } catch (e) {
+    print("Error in NoScreenshot e:- $e");
+  }
 
   if (Firebase.apps.isEmpty) {
     if (Platform.isAndroid) {
