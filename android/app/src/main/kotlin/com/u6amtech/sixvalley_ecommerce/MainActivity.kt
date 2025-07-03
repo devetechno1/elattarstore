@@ -1,4 +1,4 @@
-package com.alattarpro
+package com.deve.alattar
 
 import io.flutter.embedding.android.FlutterActivity
 
