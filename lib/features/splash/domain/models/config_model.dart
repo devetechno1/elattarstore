@@ -5,6 +5,7 @@ import 'package:flutter_sixvalley_ecommerce/helper/color_helper.dart';
 import '../../../../data/model/social_media_model/social_media_model.dart';
 
 class ConfigModel {
+  ImagePath? sellBanner;
   Color? primaryColor;
   Color? secondaryColor;
   String? brandSetting;
@@ -86,7 +87,9 @@ class ConfigModel {
   bool? shouldLogin;
   List<SocialMediaModel>? socialMedias;
   ConfigModel(
-      {this.brandSetting,
+      {
+        this.sellBanner,
+        this.brandSetting,
       this.primaryColor,
       this.socialMedias,
       this.showBlog,
@@ -180,8 +183,9 @@ class ConfigModel {
     primaryColor = ColorHelper.hexCodeToColor(json['primary_color'] as String?);
     secondaryColor =
         ColorHelper.hexCodeToColor(json['secondary_color'] as String?);
-
+    
     brandSetting = json['brand_setting'];
+    print("brandSetting value: $brandSetting");
     digitalProductSetting = json['digital_product_setting'];
     systemDefaultCurrency = json['system_default_currency'];
     digitalPayment = json['digital_payment'];
@@ -193,6 +197,12 @@ class ConfigModel {
     companyLogo = json['company_cover_image'] != null
         ? ImageFullUrl.fromJson(json['company_cover_image'])
         : null;
+        
+         
+  
+
+
+
     companyCoverImage = json['company_logo'] != null
         ? ImageFullUrl.fromJson(json['company_logo'])
         : null;
@@ -370,6 +380,13 @@ class ConfigModel {
     companyFavIcon = json['company_fav_icon'] != null
         ? ImageFullUrl.fromJson(json['company_fav_icon'])
         : null;
+        print("companyFavIcon path: ${json['company_fav_icon']}");
+        sellBanner = json['sell_bunner'] != null
+        ? ImagePath.fromJson(json['sell_bunner'])
+        : null;
+        print("sellBanner path: ${json['sell_bunner']}");
+
+
     primaryColorCode = json['primary_color'];
     secondaryColorCode = json['secondary_color'];
     maintenanceModeData = json['maintenance_mode'] != null
