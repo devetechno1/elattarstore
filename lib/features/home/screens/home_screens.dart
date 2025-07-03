@@ -329,7 +329,7 @@ class _HomePageState extends State<HomePage> {
                           },
                           child: CustomImageWidget(
                             image: configModel?.sellBanner?.imageName != null
-                                ? '${AppConstants.baseUrl}/storage/app/public/company/${configModel!.sellBanner!.imageName}'
+                                ? '${AppConstants.imagesStorage}/${configModel!.sellBanner!.imageName}'
                                 : '',
                           )),
                     ),

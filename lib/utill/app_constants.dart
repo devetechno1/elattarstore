@@ -9,6 +9,9 @@ class AppConstants {
   static const String baseUrl = 'https://elattarstore.com';
   static const String userId = 'userId';
   static const String name = 'name';
+
+  static const String imagesStorage = '$baseUrl/storage/app/public/company';
+
   static const String blogsUri = '/api/v1/blog/categories';
   static const String categoriesUri = '/api/v1/categories?guest_id=1';
   static const String brandUri = '/api/v1/brands?guest_id=1';
