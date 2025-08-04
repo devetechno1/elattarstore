@@ -63,35 +63,39 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 
   static Future<void> loadData(bool reload) async {
-    await Provider.of<FlashDealController>(Get.context!, listen: false)
-        .getFlashDealList(reload, false);
-    await Provider.of<ShopController>(Get.context!, listen: false)
-        .getTopSellerList(reload, 1, type: "top");
-    Provider.of<BannerController>(Get.context!, listen: false)
-        .getBannerList(reload);
-    Provider.of<CategoryController>(Get.context!, listen: false)
-        .getCategoryList(reload);
-    Provider.of<AddressController>(Get.context!, listen: false)
-        .getAddressList();
-    await Provider.of<CartController>(Get.context!, listen: false)
-        .getCartData();
+    Future.wait(
+      [
+        Provider.of<FlashDealController>(Get.context!, listen: false)
+        .getFlashDealList(reload, false),
+        Provider.of<ShopController>(Get.context!, listen: false)
+            .getTopSellerList(reload, 1, type: "top"),
+        Provider.of<BannerController>(Get.context!, listen: false)
+            .getBannerList(reload),
+        Provider.of<CategoryController>(Get.context!, listen: false)
+            .getCategoryList(reload),
+        Provider.of<AddressController>(Get.context!, listen: false)
+            .getAddressList(),
+        Provider.of<CartController>(Get.context!, listen: false)
+            .getCartData(),
 
-    await Provider.of<ProductController>(Get.context!, listen: false)
-        .getHomeCategoryProductList(reload);
-    await Provider.of<BrandController>(Get.context!, listen: false)
-        .getBrandList(reload);
-    await Provider.of<ProductController>(Get.context!, listen: false)
-        .getLatestProductList(1, reload: reload);
-    await Provider.of<ProductController>(Get.context!, listen: false)
-        .getFeaturedProductList('1', reload: reload);
-    await Provider.of<FeaturedDealController>(Get.context!, listen: false)
-        .getFeaturedDealList(reload);
-    await Provider.of<ProductController>(Get.context!, listen: false)
-        .getLProductList('1', reload: reload);
-    await Provider.of<ProductController>(Get.context!, listen: false)
-        .getRecommendedProduct();
-    await Provider.of<NotificationController>(Get.context!, listen: false)
-        .getNotificationList(1);
+        Provider.of<ProductController>(Get.context!, listen: false)
+            .getHomeCategoryProductList(reload),
+        Provider.of<BrandController>(Get.context!, listen: false)
+            .getBrandList(reload),
+        Provider.of<ProductController>(Get.context!, listen: false)
+            .getLatestProductList(1, reload: reload),
+        Provider.of<ProductController>(Get.context!, listen: false)
+            .getFeaturedProductList('1', reload: reload),
+        Provider.of<FeaturedDealController>(Get.context!, listen: false)
+            .getFeaturedDealList(reload),
+        Provider.of<ProductController>(Get.context!, listen: false)
+            .getLProductList('1', reload: reload),
+        Provider.of<ProductController>(Get.context!, listen: false)
+            .getRecommendedProduct(),
+        Provider.of<NotificationController>(Get.context!, listen: false)
+            .getNotificationList(1),
+          ]
+        );
     if (Provider.of<AuthController>(Get.context!, listen: false).isLoggedIn()) {
       await Provider.of<ProfileController>(Get.context!, listen: false)
           .getUserInfo(Get.context!);
