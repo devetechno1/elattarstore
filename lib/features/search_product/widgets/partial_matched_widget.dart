@@ -13,7 +13,8 @@ import 'package:substring_highlight/substring_highlight.dart';
 class SearchSuggestion extends StatefulWidget {
   final bool fromCompare;
   final int? id;
-  const SearchSuggestion({super.key, this.fromCompare = false, this.id});
+  final void Function(String query)? onSearch;
+  const SearchSuggestion({super.key, this.fromCompare = false, this.id, this.onSearch});
   @override
   State<SearchSuggestion> createState() => _SearchSuggestionState();
 }
@@ -140,7 +141,7 @@ class _SearchSuggestionState extends State<SearchSuggestion> {
               },
               fieldViewBuilder:
                   (context, controller, focusNode, onEditingComplete) {
-                searchProvider.searchController = controller;
+                searchProvider.searchController.text = controller.text;
                 searchProvider.searchFocusNode = focusNode;
 
                 return Hero(
@@ -166,6 +167,7 @@ class _SearchSuggestionState extends State<SearchSuggestion> {
                               .saveSearchAddress(controller.text.toString());
                           searchProvider.searchProduct(
                               query: controller.text.toString(), offset: 1);
+                          widget.onSearch?.call(controller.text);
                         } else {
                           showCustomSnackBar(
                               getTranslated('enter_somethings', context),
@@ -203,6 +205,7 @@ class _SearchSuggestionState extends State<SearchSuggestion> {
                                           searchProvider.cleanSearchProduct(
                                               notify: true);
                                         });
+                                        widget.onSearch?.call('');
                                       },
                                       child: const Icon(
                                         Icons.clear,
@@ -217,6 +220,7 @@ class _SearchSuggestionState extends State<SearchSuggestion> {
                                       searchProvider.searchProduct(
                                           query: controller.text.toString(),
                                           offset: 1);
+                                      widget.onSearch?.call(controller.text);
                                     } else {
                                       showCustomSnackBar(
                                           getTranslated(

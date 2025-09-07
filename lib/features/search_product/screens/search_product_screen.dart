@@ -29,6 +29,9 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   ScrollController scrollController = ScrollController();
+  int page = 1;
+  String query = '';
+  bool isLoadingMore = false;
   @override
   void initState() {
     Provider.of<SearchProductController>(context, listen: false)
@@ -68,6 +71,25 @@ class _SearchScreenState extends State<SearchScreen> {
     );
     
     // Provider.of<SearchProductController>(context, listen: false).resetChecked(null, false);
+
+    final SearchProductController searchProvider = Provider.of<SearchProductController>(context, listen: false);
+
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        scrollController.addListener(
+          () async {
+            if(scrollController.position.atEdge && !isLoadingMore && query.trim().isNotEmpty && (searchProvider.searchedProduct?.totalSize ?? 0) > (searchProvider.searchedProduct?.products?.length ?? 0)){
+              isLoadingMore = true;
+              setState(() {});
+              await searchProvider.searchProduct(query: query, offset: ++page);
+              isLoadingMore = false;
+              setState(() {});
+            }
+          },
+        );
+      },
+    );
+    
     super.initState();
   }
 
@@ -77,11 +99,12 @@ class _SearchScreenState extends State<SearchScreen> {
       floatingActionButton: whatsappButton(context),
       appBar: CustomAppBar(title: getTranslated('search_product', context)),
       body: CustomScrollView(
+        controller: scrollController,
+        physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
-          SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
                 Container(
                     padding:
                         const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
@@ -95,7 +118,13 @@ class _SearchScreenState extends State<SearchScreen> {
                             offset: const Offset(0, 1),
                           )
                         ]),
-                    child: const SearchSuggestion()),
+                    child: SearchSuggestion(
+                      onSearch: (query) {
+                        page = 1;
+                        isLoadingMore = false;
+                        this.query = query;
+                      },
+                    )),
                 const SizedBox(height: Dimensions.paddingSizeDefault),
                 Consumer<SearchProductController>(
                   builder: (context, searchProvider, child) {
@@ -193,7 +222,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                                               horizontal: Dimensions.paddingSizeSmall),
                                                           margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
                                                           child: InkWell(
-                                                              onTap: () => searchProvider.searchProduct(query: searchProvider.historyList[index], offset: 1),
+                                                              onTap: (){
+                                                                page = 1;
+                                                                isLoadingMore = false;
+                                                                query = searchProvider.historyList[index];
+                                                                searchProvider.searchProduct(query: query, offset: page);
+                                                              },
                                                               child: ConstrainedBox(
                                                                   constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.85),
                                                                   child: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -276,7 +310,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                                             horizontal: Dimensions.paddingSizeSmall),
                                                         margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
                                                         child: InkWell(
-                                                            onTap: () => Provider.of<SearchProductController>(context, listen: false).searchProduct(query: popularTagProvider.configModel!.popularTags![index].tag ?? '', offset: 1),
+                                                            onTap: (){ 
+                                                              page = 1;
+                                                              isLoadingMore = false;
+                                                              query = popularTagProvider.configModel!.popularTags![index].tag ?? '';
+                                                              searchProvider.searchProduct(query: query, offset: page);
+                                                            },
                                                             child: ConstrainedBox(
                                                                 constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.85),
                                                                 child: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -294,9 +333,15 @@ class _SearchScreenState extends State<SearchScreen> {
                               );
                   },
                 ),
+                if(isLoadingMore) 
+                  Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                    child: const CircularProgressIndicator.adaptive(),
+                  ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -316,9 +361,12 @@ class _SearchScreenState extends State<SearchScreen> {
       }
     }
     searchProvider.setFilterApply(isFiltered: true);
+    page = 1;
+    isLoadingMore = false;
+    query = searchProvider.searchController.text;
     searchProvider.searchProduct(
-      query: searchProvider.searchController.text.toString(),
-      offset: 1,
+      query: query,
+      offset: page,
       brandIds: '[]',
       categoryIds: jsonEncode(categories),
       authorIds: '[]',
