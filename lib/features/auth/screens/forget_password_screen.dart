@@ -100,6 +100,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
                   // splashProvider.configModel!.forgotPasswordVerification == "phone"?
                   CustomTextFieldWidget(
+                    textDirection: TextDirection.ltr,
                     inputType: TextInputType.emailAddress,
                     hintText: '',
                     isShowBorder: true,

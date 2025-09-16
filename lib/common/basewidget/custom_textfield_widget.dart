@@ -54,11 +54,13 @@ class CustomTextFieldWidget extends StatefulWidget {
   final bool isToolTipSuffix;
   final String? toolTipMessage;
   final GlobalKey? toolTipKey;
+  final TextDirection? textDirection;
 
   const CustomTextFieldWidget(
       {super.key,
       this.hintText = '',
       this.helperText,
+      this.textDirection,
       this.controller,
       this.focusNode,
       this.titleText,
@@ -261,7 +263,7 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
                       onTap: widget.prefixOnTap,
                       child: Container(
                           width: widget.prefixHeight,
-                          padding: const EdgeInsets.all(1),
+                          padding: const EdgeInsetsDirectional.all(1),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(widget.borderRadius),
@@ -280,15 +282,15 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
                     )
                   : widget.showCodePicker
                       ? Padding(
-                          padding: EdgeInsets.only(
-                              left: widget.isShowBorder == true ? 10 : 0),
+                          padding: EdgeInsetsDirectional.only(
+                              start: widget.isShowBorder == true ? 10 : 0),
                           child: SizedBox(
                               width: ResponsiveHelper.isTab(context) ? 120 : 90,
                               child: Row(
                                 children: [
                                   CodePickerWidget(
-                                    padding: const EdgeInsets.only(
-                                        left: Dimensions.paddingSizeSmall),
+                                    padding: const EdgeInsetsDirectional.only(
+                                        start: Dimensions.paddingSizeSmall),
                                     flagWidth: 25,
                                     onChanged: widget.onCountryChanged,
                                     initialSelection: widget.countryDialCode,
@@ -327,7 +329,7 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
                   ? Tooltip(
                       key: widget.toolTipKey,
                       preferBelow: false,
-                      margin: const EdgeInsets.only(
+                      margin: const EdgeInsetsDirectional.only(
                           top: Dimensions.paddingSizeSmall),
                       triggerMode: TooltipTriggerMode.manual,
                       message: widget.toolTipMessage ?? '',
@@ -340,7 +342,7 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
                             height: 25,
                           )),
                     )
-                  : InkWell(
+                  : widget.suffixIcon2 != null || widget.isPassword || widget.suffixIcon != null? InkWell(
                       onTap: () {
                         print("===Hello==2==");
                       },
@@ -352,7 +354,7 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
                                   width: 30,
                                   height: 30,
                                   child: Padding(
-                                      padding: const EdgeInsets.all(
+                                      padding: const EdgeInsetsDirectional.all(
                                           Dimensions.paddingSizeExtraSmall),
                                       child: InkWell(
                                         onTap: widget.suffix2OnTap,
@@ -379,14 +381,14 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
                                             width: 35,
                                             height: 35,
                                             child: Padding(
-                                              padding: const EdgeInsets.only(
+                                              padding: const EdgeInsetsDirectional.only(
                                                 top: Dimensions
                                                     .paddingSizeExtraExtraSmall,
-                                                left: Dimensions
+                                                start: Dimensions
                                                     .paddingSizeExtraExtraSmall,
                                                 bottom: Dimensions
                                                     .paddingSizeExtraExtraSmall,
-                                                right:
+                                                end:
                                                     Dimensions.paddingSizeSmall,
                                               ),
                                               child: InkWell(
@@ -406,7 +408,7 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
                                   : const SizedBox.shrink(),
                         ],
                       ),
-                    ),
+                    ) : null,
             ),
             onFieldSubmitted: (text) => widget.nextFocus != null
                 ? FocusScope.of(context).requestFocus(widget.nextFocus)
@@ -415,7 +417,9 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
               if (widget.onChanged != null) {
                 widget.onChanged!(value);
               }
-            }),
+            },
+          textDirection: widget.textDirection,
+        ),
       ],
     );
   }

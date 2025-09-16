@@ -150,34 +150,37 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: Dimensions.paddingSizeDefault,
                           vertical: 35),
-                      child: PinCodeTextField(
-                        length: 6,
-                        appContext: context,
-                        obscureText: false,
-                        showCursor: true,
-                        keyboardType: TextInputType.number,
-                        animationType: AnimationType.fade,
-                        pinTheme: PinTheme(
-                          shape: PinCodeFieldShape.box,
-                          fieldHeight: 45,
-                          fieldWidth: 45,
-                          borderWidth: 1,
-                          borderRadius: BorderRadius.circular(10),
-                          selectedColor: ColorResources.colorMap[200],
-                          selectedFillColor: Colors.white,
-                          inactiveFillColor:
-                              ColorResources.getSearchBg(context),
-                          inactiveColor: ColorResources.colorMap[200],
-                          activeColor: ColorResources.colorMap[400],
-                          activeFillColor: ColorResources.getSearchBg(context),
+                      child: Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: PinCodeTextField(
+                          length: 6,
+                          appContext: context,
+                          obscureText: false,
+                          showCursor: true,
+                          keyboardType: TextInputType.number,
+                          animationType: AnimationType.fade,
+                          pinTheme: PinTheme(
+                            shape: PinCodeFieldShape.box,
+                            fieldHeight: 45,
+                            fieldWidth: 45,
+                            borderWidth: 1,
+                            borderRadius: BorderRadius.circular(10),
+                            selectedColor: ColorResources.colorMap[200],
+                            selectedFillColor: Colors.white,
+                            inactiveFillColor:
+                                ColorResources.getSearchBg(context),
+                            inactiveColor: ColorResources.colorMap[200],
+                            activeColor: ColorResources.colorMap[400],
+                            activeFillColor: ColorResources.getSearchBg(context),
+                          ),
+                          animationDuration: const Duration(milliseconds: 300),
+                          backgroundColor: Colors.transparent,
+                          enableActiveFill: true,
+                          onChanged: authProvider.updateVerificationCode,
+                          beforeTextPaste: (text) {
+                            return true;
+                          },
                         ),
-                        animationDuration: const Duration(milliseconds: 300),
-                        backgroundColor: Colors.transparent,
-                        enableActiveFill: true,
-                        onChanged: authProvider.updateVerificationCode,
-                        beforeTextPaste: (text) {
-                          return true;
-                        },
                       ),
                     ),
                     if (widget.fromDigitalProduct)
