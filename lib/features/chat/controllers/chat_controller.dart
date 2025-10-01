@@ -18,7 +18,7 @@ import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:open_file_plus/open_file_plus.dart';
+import 'package:open_filex/open_filex.dart';
 
 enum SenderType { customer, seller, admin, deliveryMan, unknown }
 
@@ -563,7 +563,7 @@ class ChatController extends ChangeNotifier {
     );
 
     if (task != null) {
-      await OpenFile.open(openFileUrl);
+      await OpenFilex.open(openFileUrl);
     }
   }
 
