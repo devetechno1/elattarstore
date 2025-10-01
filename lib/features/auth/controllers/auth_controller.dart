@@ -1043,8 +1043,10 @@ class AuthController with ChangeNotifier {
     _resendButtonLoading = false;
     _isForgotPasswordLoading = false;
     notifyListeners();
-
+   print("===response===>>${apiResponse.response?.data}");
+   print("model ${responseModel.message}");
     return responseModel;
+    
   }
 
   void isSentToMail(bool value) {

@@ -155,11 +155,13 @@ class _CouponItemWidgetState extends State<CouponItemWidget> {
                       child: Column(
                         children: [
                           DottedBorder(
-                              color: Provider.of<ThemeController>(context, listen: false).darkTheme
+                            options: RoundedRectDottedBorderOptions(
+                             color: Provider.of<ThemeController>(context, listen: false).darkTheme
                                   ? Theme.of(context).hintColor.withOpacity(.75)
                                   : Theme.of(context).primaryColor,
-                              borderType: BorderType.RRect,
-                              radius: const Radius.circular(5),
+                              radius: const Radius.circular(Dimensions.radiusDefault),
+                            ),
+                              
                               child: Container(
                                   width: 120,
                                   alignment: Alignment.center,

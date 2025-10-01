@@ -85,9 +85,9 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
                   height: Dimensions.paddingSizeLarge,
                 ),
                 DottedBorder(
-                    padding: const EdgeInsets.all(3),
-                    borderType: BorderType.RRect,
+                  options: RoundedRectDottedBorderOptions(
                     radius: const Radius.circular(20),
+                    padding: const EdgeInsets.all(3),                    
                     dashPattern: const [5, 5],
                     color: Provider.of<ThemeController>(context, listen: false)
                             .darkTheme
@@ -97,6 +97,8 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
                             .primary
                             .withOpacity(0.5),
                     strokeWidth: 1,
+                  ),
+                    
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

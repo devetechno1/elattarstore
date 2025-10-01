@@ -226,13 +226,13 @@ class _ReviewDialogState extends State<ReviewDialog> {
                                                 .pickImage(false,
                                                     fromReview: true),
                                             child: DottedBorder(
-                                              strokeWidth: 2,
+                                              options: RoundedRectDottedBorderOptions(
+                                                     strokeWidth: 2,
                                               dashPattern: const [10, 5],
                                               color:
                                                   Theme.of(context).hintColor,
-                                              borderType: BorderType.RRect,
-                                              radius: const Radius.circular(
-                                                  Dimensions.paddingSizeSmall),
+                                                radius: const Radius.circular(
+                                                  Dimensions.paddingSizeSmall),),                       
                                               child: Stack(
                                                 children: [
                                                   ClipRRect(

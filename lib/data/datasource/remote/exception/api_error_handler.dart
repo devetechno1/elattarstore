@@ -71,6 +71,7 @@ class ApiErrorHandler {
                   } else {
                     errorDescription =
                         "Failed to load data - status code: ${error.response!.statusCode}";
+                        
                   }
               }
               break;

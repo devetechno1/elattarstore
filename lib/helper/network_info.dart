@@ -66,12 +66,12 @@ class NetworkInfo {
   NetworkInfo(this.connectivity);
 
   Future<bool> get isConnected async {
-    ConnectivityResult result = await connectivity.checkConnectivity();
-    return result != ConnectivityResult.none;
+    final List<ConnectivityResult> result = await connectivity.checkConnectivity();
+    return result.any((r) => r != ConnectivityResult.none);
   }
 
   static void checkConnectivity(BuildContext context) {
-    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+    Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> result) {
       if (Provider.of<SplashController>(context, listen: false)
           .firstTimeConnectionCheck) {
         Provider.of<SplashController>(context, listen: false)

@@ -185,12 +185,14 @@ class AddTicketScreenState extends State<AddTicketScreen> {
                                   false,
                                 ),
                             child: DottedBorder(
-                                strokeWidth: 2,
+                                options: RoundedRectDottedBorderOptions(
+                                  strokeWidth: 2,
                                 dashPattern: const [10, 5],
                                 color: Theme.of(context).hintColor,
-                                borderType: BorderType.RRect,
-                                radius: const Radius.circular(
+                                  radius: const Radius.circular(
                                     Dimensions.paddingSizeSmall),
+
+                                ),                                
                                 child: Stack(children: [
                                   ClipRRect(
                                       borderRadius: BorderRadius.circular(

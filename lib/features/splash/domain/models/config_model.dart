@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/data/model/image_full_url.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/color_helper.dart';
@@ -171,6 +173,7 @@ class ConfigModel {
       this.otpResendTime});
 
   ConfigModel.fromJson(Map<String, dynamic> json) {
+    log(json.toString());
     if (json['social_medias'] != null) {
       socialMedias = [];
       for (Map<String, dynamic> e in json['social_medias'] as List) {

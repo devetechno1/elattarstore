@@ -68,7 +68,7 @@ Future<void> main() async {
   if (kDebugMode) HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    await NoScreenshot.instance.screenshotOff();
+    // await NoScreenshot.instance.screenshotOff();
   } catch (e) {
     print("Error in NoScreenshot e:- $e");
   }
